@@ -1,0 +1,2 @@
+print("asdf")
+assert False
