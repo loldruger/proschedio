@@ -1,2 +1,2 @@
 # vultr_py
-[WIP] Vultr API wrapper for Infrastructre as Code
+[WIP] Vultr API v2 Fully Documented, Typed and Async Wrapper for Infrastructre as Code 
