@@ -75,6 +75,7 @@ class Request:
                 return await response.json()
     
 
+URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")
 
 URL_APPLICATIONS: Final[Url] = Url(Provider.VULTR).uri("applications")
@@ -84,13 +85,3 @@ URL_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("backups")
 URL_BARE_METAL_IP4: Final[Url] = Url(Provider.VULTR).uri("bare-metal/{baremetal-id}/ipv4")
 URL_BARE_METAL_IP6: Final[Url] = Url(Provider.VULTR).uri("bare-metal/{baremetal-id}/ipv6")
 
-URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
-
-REQUEST_ACCOUNT: Final[Request] = Request(URL_ACCOUNT)\
-    .set_method(HTTPMethod.GET)\
-    .add_header("Authorization", "Bearer {token}")\
-    .add_header("Content-Type", "application/json")\
-    .set_body({
-        "key": "value"
-    })\
-    .request()
