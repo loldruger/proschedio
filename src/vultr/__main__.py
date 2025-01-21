@@ -2,7 +2,7 @@ from http import HTTPMethod
 import asyncio
 import os
 
-from _core import composer
+from proschedio import composer
 from vultr import set_key, get_key
 from vultr import const
 

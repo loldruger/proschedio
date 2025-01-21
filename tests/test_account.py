@@ -3,7 +3,7 @@ import logging
 
 from http import HTTPMethod
 
-from _core import composer
+from proschedio import composer
 from vultr import const
 
 logger = logging.getLogger(__name__)

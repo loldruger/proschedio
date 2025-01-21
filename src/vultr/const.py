@@ -1,6 +1,6 @@
 from typing import Final
 
-from _core.composer import Provider, Url
+from proschedio.composer import Provider, Url
 
 URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")

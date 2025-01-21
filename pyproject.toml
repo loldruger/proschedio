@@ -1,11 +1,12 @@
 [project]
-name = "vultr-py"
+name = "proschedio"
 version = "0.1.0"
 description = ""
 authors = [
     {name = "Siyoung September",email = "loldruger@gmail.com"}
 ]
 packages = [
+    { include = "proschedio", from = "src" },
     { include = "vultr", from = "src" },
     { include = "aws", from = "src" }
 ]
