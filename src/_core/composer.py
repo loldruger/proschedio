@@ -1,6 +1,5 @@
 import aiohttp
 
-from typing import Final
 from enum import IntEnum, auto
 from http import HTTPMethod
 
@@ -72,16 +71,10 @@ class Request:
                 params=self._params,
                 json=self._body
             ) as response:
-                return await response.json()
+                status = response.status
+                data = await response.json()
+                return {
+                    "status": status,
+                    "data": data
+                }
     
-
-URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
-URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")
-
-URL_APPLICATIONS: Final[Url] = Url(Provider.VULTR).uri("applications")
-
-URL_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("backups")
-
-URL_BARE_METAL_IP4: Final[Url] = Url(Provider.VULTR).uri("bare-metal/{baremetal-id}/ipv4")
-URL_BARE_METAL_IP6: Final[Url] = Url(Provider.VULTR).uri("bare-metal/{baremetal-id}/ipv6")
-

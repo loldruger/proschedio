@@ -9,7 +9,7 @@
 			"name": "Python Debugger: Module",
 			"type": "debugpy",
 			"request": "launch",
-			"module": "vultr_py"
+			"module": "vultr"
 		}
 	]
 }
