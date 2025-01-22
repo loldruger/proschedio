@@ -24,8 +24,8 @@ URL_BACKUPS_ID: Final[Url] = Url(Provider.VULTR).uri("backups/{backup-id}")
 """
 URL_BARE_METAL: Final[Url] = Url(Provider.VULTR).uri("bare-metals")
 """
-GET: List all Bare Metal instances in your account.
-POST: Create a new Bare Metal instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
+[GET]: List all Bare Metal instances in your account.
+[POST]: Create a new Bare Metal instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
 
 * `os_id`
 * `snapshot_id`
@@ -37,87 +37,87 @@ Supply other attributes as desired.
 
 URL_BARE_METAL_ID: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}")
 """
-GET: Get information for a Bare Metal instance.
-PATCH: Update a Bare Metal instance. All attributes are optional. If not set, the attributes will retain their original values.
+[GET]: Get information for a Bare Metal instance.
+[PATCH]: Update a Bare Metal instance. All attributes are optional. If not set, the attributes will retain their original values.
 
 **Note:** Changing `os_id`, `app_id` or `image_id` may take a few extra seconds to complete.
-DELETE: Delete a Bare Metal instance.
+[DELETE]: Delete a Bare Metal instance.
 """
 
 URL_BARE_METAL_IPV4: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4")
-"""GET: Get the IPv4 information for the Bare Metal instance."""
+"""[GET]: Get the IPv4 information for the Bare Metal instance."""
 
 URL_BARE_METAL_IPV6: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6")
-"""GET: Get the IPv6 information for the Bare Metal instance."""
+"""[GET]: Get the IPv6 information for the Bare Metal instance."""
 
 URL_BARE_METAL_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4/reverse")
-"""POST: Create a reverse IPv4 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required."""
+"""[POST]: Create a reverse IPv4 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required."""
 
 URL_BARE_METAL_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6/reverse")
-"""POST: Create a reverse IPv6 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format."""
+"""[POST] Create a reverse IPv6 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format."""
 
 URL_BARE_METAL_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4/reverse/default")
-"""POST: Set a reverse DNS entry for an IPv4 address."""
+"""[POST] Set a reverse DNS entry for an IPv4 address."""
 
 URL_BARE_METAL_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6/reverse/{ipv6}")
-"""DELETE: Delete the reverse IPv6 for a Bare metal instance."""
+"""[DELETE] Delete the reverse IPv6 for a Bare metal instance."""
 
 URL_BARE_METAL_START: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/start")
-"""POST: Start the Bare Metal instance."""
+"""[POST] Start the Bare Metal instance."""
 
 URL_BARE_METAL_REBOOT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/reboot")
-"""POST: Reboot the Bare Metal instance."""
+"""[POST] Reboot the Bare Metal instance."""
 
 URL_BARE_METAL_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/reinstall")
-"""POST: Reinstall the Bare Metal instance using an optional `hostname`.
+"""[POST] Reinstall the Bare Metal instance using an optional `hostname`.
 
 **Note:** This action may take some time to complete.
 """
 
 URL_BARE_METAL_HALT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/halt")
-"""POST: Halt the Bare Metal instance."""
+"""[POST] Halt the Bare Metal instance."""
 
 URL_BARE_METAL_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/bandwidth")
-"""GET: Get bandwidth information for the Bare Metal instance.
+"""[GET] Get bandwidth information for the Bare Metal instance.
 
 The `bandwidth` object in a successful response contains objects representing a day in the month. The date is denoted by the nested object keys. Days begin and end in the UTC timezone. Bandwidth utilization data contained within the date object is refreshed periodically. We do not recommend using this endpoint to gather real-time metrics.
 """
 
 URL_BARE_METALS_HALT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/halt")
-"""POST: Halt Bare Metals."""
+"""[POST] Halt Bare Metals."""
 
 URL_BARE_METALS_REBOOT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/reboot")
-"""POST: Reboot Bare Metals."""
+"""[POST] Reboot Bare Metals."""
 
 URL_BARE_METALS_START: Final[Url] = Url(Provider.VULTR).uri("bare-metals/start")
-"""POST: Start Bare Metals."""
+"""[POST] Start Bare Metals."""
 
 URL_BARE_METALS_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/user-data")
-"""GET: Get the user-supplied, base64 encoded [user data] for a Bare Metal."""
+"""[GET] Get the user-supplied, base64 encoded [user data] for a Bare Metal."""
 
 URL_BARE_METALS_GET_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/upgrades")
-"""GET: Get available upgrades for a Bare Metal.""" # Description from JSON
+"""[GET] Get available upgrades for a Bare Metal.""" # Description from JSON
 
 URL_BARE_METALS_GET_VNC: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vnc")
-"""GET: Get the VNC URL for a Bare Metal.""" # Description from JSON
+"""[GET] Get the VNC URL for a Bare Metal.""" # Description from JSON
 
 URL_BARE_METALS_ATTACH_VPC_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs/attach")
-"""POST: Attach a VPC Network to a Bare Metal Instance.""" # Description from JSON
+"""[POST] Attach a VPC Network to a Bare Metal Instance.""" # Description from JSON
 
 URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs/detach")
-"""POST: Detach a VPC Network from an Bare Metal Instance.""" # Description from JSON
+"""[POST] Detach a VPC Network from an Bare Metal Instance.""" # Description from JSON
 
 URL_BARE_METALS_LIST_VPCS: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs")
-"""GET: List the VPC networks for a Bare Metal Instance.""" # Description from JSON
+"""[GET] List the VPC networks for a Bare Metal Instance.""" # Description from JSON
 
 URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2/attach")
-"""POST: Attach a VPC 2.0 Network to a Bare Metal Instance.""" # Description from JSON
+"""[POST] Attach a VPC 2.0 Network to a Bare Metal Instance.""" # Description from JSON
 
 URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2/detach")
-"""POST: Detach a VPC 2.0 Network from an Bare Metal Instance.""" # Description from JSON
+"""[POST] Detach a VPC 2.0 Network from an Bare Metal Instance.""" # Description from JSON
 
 URL_BARE_METALS_LIST_VPCS2: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2")
-"""GET: List the VPC 2.0 networks for a Bare Metal Instance.""" # Description from JSON
+"""[GET] List the VPC 2.0 networks for a Bare Metal Instance.""" # Description from JSON
 
 URL_BILLING_LIST_HISTORY: Final[Url] = Url(Provider.VULTR).uri("billing/history")
 """- [Get] Retrieve list of billing history."""
@@ -632,45 +632,160 @@ URL_OS: Final[Url] = Url(Provider.VULTR).uri("os")
 """[Get] List the OS images available for installation at Vultr."""
 
 URL_PLAN: Final[Url] = Url(Provider.VULTR).uri("plans")
+"""[Get] Get a list of all VPS plans at Vultr."""
+
 URL_PLAN_METAL: Final[Url] = Url(Provider.VULTR).uri("plans-metal")
+"""[Get] Get a list of all Bare Metal plans at Vultr."""
 
 URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
+"""[Get] List all Regions at Vultr."""
+
 URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-id}/availability")
+"""[Get] Get a list of the available plans in Region `region-id`. Not all plans are available in all regions."""
 
 URL_RESERVED_IP: Final[Url] = Url(Provider.VULTR).uri("reserved-ips")
+"""
+[Get] List all Reserved IPs in your account.
+[Post] Create a new Reserved IP. The `region` and `ip_type` attributes are required.
+"""
+
 URL_RESERVED_IP_ID: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}")
+"""
+[Get] Get information about a Reserved IP.
+[Patch] Update information on a Reserved IP.
+[Delete] Delete a Reserved IP.
+"""
+
 URL_RESERVED_IP_ATTACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/attach")
+"""[Post] Attach a Reserved IP to an compute instance or a baremetal instance - `instance_id`."""
+
 URL_RESERVED_IP_DETACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/detach")
+"""[Post] Detach a Reserved IP."""
+
 URL_RESERVED_IP_CONVERT: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/convert")
+"""[Post] Convert the `ip_address` of an existing instance into a Reserved IP."""
 
 URL_SNAPSHOT: Final[Url] = Url(Provider.VULTR).uri("snapshots")
+"""
+[Get] Get information about all Snapshots in your account.
+[Post] Create a new Snapshot for `instance_id`.
+"""
+
 URL_SNAPSHOT_ID: Final[Url] = Url(Provider.VULTR).uri("snapshots/{snapshot-id}")
+"""
+[Get] Get information about a Snapshot.
+[Put] Update the description for a Snapshot.
+[Delete] Delete a Snapshot.
+"""
+
 URL_SNAPSHOT_CREATE_FROM_URL: Final[Url] = Url(Provider.VULTR).uri("snapshots/create-from-url")
+"""[Post] Create a new Snapshot from a RAW image located at `url`."""
+
 
 URL_SSH_KEY_LIST: Final[Url] = Url(Provider.VULTR).uri("ssh-keys")
+"""
+[Get] List all SSH Keys in your account.
+[Post] Create a new SSH Key for use with future instances. This does not update any running instances.
+"""
+
 URL_SSH_KEY: Final[Url] = Url(Provider.VULTR).uri("ssh-keys/{ssh-key-id}")
+"""
+[Get] Get information about an SSH Key.
+[Patch] Update an SSH Key. The attributes `name` and `ssh_key` are optional. If not set, the attributes will retain their original values. New deployments will use the updated key, but this action does not update previously deployed instances.
+[Delete] Delete an SSH Key.
+"""
 
 URL_STARTUP_SCRIPT_LIST: Final[Url] = Url(Provider.VULTR).uri("startup-scripts")
+"""
+[Get] Get a list of all Startup Scripts.
+[Post] Create a new Startup Script. The `name` and `script` attributes are required, and scripts are base-64 encoded.
+"""
+
 URL_STARTUP_SCRIPT: Final[Url] = Url(Provider.VULTR).uri("startup-scripts/{startup-id}")
+"""
+[Get] Get information for a Startup Script.
+[Patch] Update a Startup Script. The attributes `name` and `script` are optional. If not set, the attributes will retain their original values. The `script` attribute is base-64 encoded. New deployments will use the updated script, but this action does not update previously deployed instances.
+[Delete] Delete a Startup Script.
+"""
 
 URL_SUB_ACCOUNT_LIST: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
-URL_SUB_ACCOUNT_CREATE: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
+"""
+[Get] Get information about all sub-accounts for your account.
+[Post] Create a new subaccount.
+"""
 
 URL_USER_LIST: Final[Url] = Url(Provider.VULTR).uri("users")
+"""
+[Get] Get a list of all Users in your account.
+[Post] Create a new User. The `email`, `name`, and `password` attributes are required.
+"""
+
 URL_USER: Final[Url] = Url(Provider.VULTR).uri("users/{user-id}")
+"""
+[Get] Get information about a User.
+[Patch] Update information for a User. All attributes are optional. If not set, the attributes will retain their original values.
+[Delete] Delete a User.
+"""
 
 URL_VPC_LIST: Final[Url] = Url(Provider.VULTR).uri("vpcs")
+"""[Get] Get a list of all VPCs in your account."""
+
 URL_VPC_GET: Final[Url] = Url(Provider.VULTR).uri("vpcs/{vpc-id}")
+"""
+[Get] Get information about a VPC.
+[Put] Update information for a VPC.
+[Delete] Delete a VPC.
+"""
 
 URL_VPC2_LIST: Final[Url] = Url(Provider.VULTR).uri("vpc2")
+"""
+[Get] Get a list of all VPC 2.0 networks in your account.
+[Post] Create a new VPC 2.0 network in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918):
+
+    10.0.0.0    - 10.255.255.255  (10/8 prefix)
+    172.16.0.0  - 172.31.255.255  (172.16/12 prefix)
+    192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+"""
+
 URL_VPC2_GET: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
+"""
+[Get] Get information about a VPC 2.0 network.
+[Put] Update information for a VPC 2.0 network.
+[Delete] Delete a VPC 2.0 network.
+"""
+
 URL_VPC2_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes")
+"""[Get] Get a list of nodes attached to a VPC 2.0 network."""
+
 URL_VPC2_ATTACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/attach")
+"""[Post] Attach nodes to a VPC 2.0 network."""
+
 URL_VPC2_DETACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/detach")
+"""[Post] Remove nodes from a VPC 2.0 network."""
+
 
 URL_VFS_REGIONS: Final[Url] = Url(Provider.VULTR).uri("vfs/regions")
+"""[Get] Retrieve a list of all regions where VFS can be deployed."""
+
 URL_VFS_LIST: Final[Url] = Url(Provider.VULTR).uri("vfs")
-URL_VFS_CREATE: Final[Url] = Url(Provider.VULTR).uri("vfs")
+"""
+[Get] Retrieve a list of all VFS subscriptions for the account.
+[Post] Create a new VFS subscription with the specified configuration.
+"""
+
 URL_VFS_GET: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
+"""
+[Get] Retrieve a specific VFS subscription by ID.
+[Put] Update a VFS subscription's label or storage size.
+[Delete] Delete a specific VFS subscription by ID.
+"""
+
 URL_VFS_ATTACHMENTS: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments")
+"""[Get] Retrieve a list of all attachments for a specific VFS subscription."""
+
 URL_VFS_ATTACHMENT: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments/{vps_id}")
+"""
+[Put] Attach a VPS instance to a VFS subscription.
+[Get] Retrieve details about a specific VFS-VPS attachment.
+[Delete] Detach a VPS instance from a VFS subscription.
+"""
