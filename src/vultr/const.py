@@ -1400,6 +1400,19 @@ URL_DOMAIN_LIST: Final[Url] = Url(Provider.VULTR).uri("domains")
 
 - `Get`: List all DNS Domains in your account.
 - `Post`: Create a DNS Domain for `domain`. If no `ip` address is supplied a domain with no records will be created.
+
+### Query parameters
+- `Get`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `Post`:
+{
+    "domain": "Your registered DNS Domain name.",
+    "ip": "The default IP address for your DNS Domain. If omitted an empty domain zone will be created.",
+    "dns_sec": "Enable or disable DNSSEC.\\n\\n* enabled\\n* disabled (default)"
+}
 """
 
 URL_DOMAIN: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}")
@@ -1409,6 +1422,15 @@ URL_DOMAIN: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}")
 - `Get`: Get information for the DNS Domain.
 - `Put`: Update the DNS Domain.
 - `Delete`: Delete the DNS Domain.
+
+### Path parameters
+- `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
+
+### Request Body Schema
+- `Put`:
+{
+    "dns_sec": "Enable or disable DNSSEC.\\n\\n* enabled\\n* disabled"
+}
 """
 
 URL_DOMAIN_SOA: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/soa")
@@ -1417,6 +1439,16 @@ URL_DOMAIN_SOA: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/soa")
 
 - `Get`: Get SOA information for the DNS Domain.
 - `Patch`: Update the SOA information for the DNS Domain. All attributes are optional. If not set, the attributes will retain their original values.
+
+### Path parameters
+- `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
+
+### Request Body Schema
+- `Patch`:
+{
+    "nsprimary": "Set the primary nameserver.",
+    "email": "Set the contact email address."
+}
 """
 
 URL_DOMAIN_DNSSEC: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/dnssec")
@@ -1424,6 +1456,9 @@ URL_DOMAIN_DNSSEC: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/dn
 ### Request Methods
 
 - `Get`: Get the DNSSEC information for the DNS Domain.
+
+### Path parameters
+- `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
 """
 
 URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/records")
@@ -1432,6 +1467,24 @@ URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/r
 
 - `Get`: Get the DNS records for the Domain.
 - `Post`: Create a DNS record.
+
+### Path parameters
+- `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
+
+### Query parameters
+- `Get`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `Post`:
+{
+    "name": "The hostname for this DNS record.",
+    "type": "The DNS record type.\\n\\n* A\\n* AAAA\\n* CNAME\\n* NS\\n* MX\\n* SRV\\n* TXT\\n* CAA\\n* SSHFP",
+    "data": "The DNS data for this record type.",
+    "ttl": "Time to Live in seconds.",
+    "priority": "DNS priority. Does not apply to all record types. (Only required for MX and SRV)"
+}
 """
 
 URL_DOMAIN_RECORD: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/records/{record-id}")
@@ -1441,6 +1494,19 @@ URL_DOMAIN_RECORD: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/re
 - `Get`: Get information for a DNS Record.
 - `Patch`: Update the information for a DNS record. All attributes are optional. If not set, the attributes will retain their original values.
 - `Delete`: Delete the DNS record.
+
+### Path parameters
+- `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
+- `record-id` - The [DNS Record id](#operation/list-dns-domain-records).
+
+### Request Body Schema
+- `Patch`:
+{
+    "name": "The hostname for this DNS record.",
+    "data": "The DNS data for this record type.",
+    "ttl": "Time to Live in seconds.",
+    "priority": "DNS priority. Does not apply to all record types."
+}
 """
 
 URL_FIREWALL_GROUP_LIST: Final[Url] = Url(Provider.VULTR).uri("firewalls")
@@ -1449,6 +1515,17 @@ URL_FIREWALL_GROUP_LIST: Final[Url] = Url(Provider.VULTR).uri("firewalls")
 
 - `Get`: Get a list of all Firewall Groups.
 - `Post`: Create a new Firewall Group.
+
+### Query parameters
+- `Get`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `Post`:
+{
+    "description": "User-supplied description of this Firewall Group."
+}
 """
 
 URL_FIREWALL_GROUP_GET: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}")
@@ -1458,6 +1535,15 @@ URL_FIREWALL_GROUP_GET: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewal
 - `Get`: Get information for a Firewall Group.
 - `Put`: Update information for a Firewall Group.
 - `Delete`: Delete a Firewall Group.
+
+### Path parameters
+- `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
+
+### Request Body Schema
+- `Put`:
+{
+    "description": "User-supplied description of this Firewall Group."
+}
 """
 
 URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules")
@@ -1466,6 +1552,26 @@ URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firew
 
 - `Get`: Get the Firewall Rules for a Firewall Group.
 - `Post`: Create a Firewall Rule for a Firewall Group. The attributes `ip_type`, `protocol`, `subnet`, and `subnet_size` are required.
+
+### Path parameters
+- `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
+
+### Query parameters
+- `Get`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `Post`:
+{
+    "ip_type": "The type of IP rule.\\n\\n* v4\\n* v6",
+    "protocol": "The protocol for this rule.\\n\\n* ICMP\\n* TCP\\n* UDP\\n* GRE\\n* ESP\\n* AH\\n",
+    "subnet": "IP address representing a subnet. The IP address format must match with the \"ip_type\" parameter value.",
+    "subnet_size": "The number of bits for the netmask in CIDR notation. Example: 32",
+    "port": "TCP/UDP only. This field can be a specific port or a colon separated port range.",
+    "source": "If the source string is given a value of \"cloudflare\" subnet and subnet_size will both be ignored.\\nPossible values:\\n\\n|   | Value | Description |\\n| - | ------ | ------------- |\\n|   | \"\" | Use the value from `subnet` and `subnet_size`. |\\n|   | cloudflare | Allow all of Cloudflare's IP space through the firewall |\\n|   | [Load Balancer id](#operation/list-load-balancers) | Provide a load balancer ID to use its IPs |\\n",
+    "notes": "User-supplied notes for this rule."
+}
 """
 
 URL_FIREWALL_GROUP_RULE: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules/{firewall-rule-id}")
@@ -1474,6 +1580,10 @@ URL_FIREWALL_GROUP_RULE: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewa
 
 - `Get`: Get a Firewall Rule.
 - `Delete`: Delete a Firewall Rule.
+
+### Path parameters
+- `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
+- `firewall-rule-id` - The [Firewall Rule id](#operation/list-firewall-group-rules).
 """
 
 URL_INFERENCE_LIST: Final[Url] = Url(Provider.VULTR).uri("inference")
@@ -1482,6 +1592,12 @@ URL_INFERENCE_LIST: Final[Url] = Url(Provider.VULTR).uri("inference")
 
 - `Get`: List all Serverless Inference subscriptions in your account.
 - `Post`: Create a new Serverless Inference subscription.
+
+### Request Body Schema
+- `Post`:
+{
+    "label": "A user-supplied label for this Serverless Inference subscription."
+}
 """
 
 URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}")
@@ -1491,6 +1607,15 @@ URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id
 - `Get`: Get information about a Serverless Inference subscription.
 - `Patch`: Update information for a Serverless Inference subscription.
 - `Delete`: Delete a Serverless Inference subscription.
+
+### Path parameters
+- `inference-id` - The [Inference ID](#operation/list-inference).
+
+### Request Body Schema
+- `Patch`:
+{
+    "label": "A user-supplied label for this Serverless Inference subscription."
+}
 """
 
 URL_INFERENCE_USAGE: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}/usage")
@@ -1498,6 +1623,9 @@ URL_INFERENCE_USAGE: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-
 ### Request Methods
 
 - `Get`: Get usage information for a Serverless Inference subscription.
+
+### Path parameters
+- `inference-id` - The [Inference ID](#operation/list-inference).
 """
 
 URL_INSTANCE_LIST: Final[Url] = Url(Provider.VULTR).uri("instances")
@@ -1505,6 +1633,17 @@ URL_INSTANCE_LIST: Final[Url] = Url(Provider.VULTR).uri("instances")
 ### Request Methods
 
 - `Get`: List all VPS instances in your account.
+
+### Query Parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+- `tag` - Filter by specific tag. (Deprecated)
+- `label` - Filter by label.
+- `main_ip` - Filter by main ip address.
+- `region` - Filter by [Region id](#operation/list-regions).
+- `firewall_group_id` - Filter by [Firewall group id](#operation/list-firewall-groups).
+- `hostname` - Filter by hostname.
+- `show_pending_charges` - Set to `true` to show pending charges.
 """
 
 URL_INSTANCE_CREATE: Final[Url] = Url(Provider.VULTR).uri("instances")
@@ -1512,14 +1651,45 @@ URL_INSTANCE_CREATE: Final[Url] = Url(Provider.VULTR).uri("instances")
 ### Request Methods
 
 - `Post`: Create a new VPS Instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
+    - `os_id`
+    - `iso_id`
+    - `snapshot_id`
+    - `app_id`
+    - `image_id`
 
-* `os_id`
-* `iso_id`
-* `snapshot_id`
-* `app_id`
-* `image_id`
+### Request Body Schema
+- `region` - The [Region id](#operation/list-regions) where the Instance is located.
+- `plan` - The [Plan id](#operation/list-plans) to use when deploying this instance.
+- `os_id` - The [Operating System id](#operation/list-os) to use when deploying this instance.
+- `ipxe_chain_url` - The URL location of the iPXE chainloader.
+- `iso_id` - The [ISO id](#operation/list-isos) to use when deploying this instance.
+- `script_id` - The [Startup Script id](#operation/list-startup-scripts) to use when deploying this instance.
+- `snapshot_id` - The [Snapshot id](#operation/list-snapshots) to use when deploying the instance.
+- `enable_ipv6` - Enable IPv6.
+- `disable_public_ipv4` - Don't set up a public IPv4 address when IPv6 is enabled.
+- `attach_private_network` - Use `attach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to attach. (Deprecated)
+- `attach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to attach.
+- `attach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to attach.
+- `label` - A user-supplied label for this instance.
+- `sshkey_id` - The [SSH Key id](#operation/list-ssh-keys) to install on this instance.
+- `backups` - Enable automatic backups for the instance. (`enabled`/`disabled`)
+- `app_id` - The [Application id](#operation/list-applications) to use when deploying this instance.
+- `image_id` - The [Application image_id](#operation/list-applications) to use when deploying this instance.
+- `user_data` - The user-supplied, base64 encoded user data.
+- `ddos_protection` - Enable DDoS protection.
+- `activation_email` - Notify by email after deployment.
+- `hostname` - The hostname to use when deploying this instance.
+- `tag` - Use `tags` instead. The user-supplied tag. (Deprecated)
+- `firewall_group_id` - The [Firewall Group id](#operation/list-firewall-groups) to attach.
+- `reserved_ipv4` - ID of the floating IP to use as the main IP.
+- `enable_private_network` - Use `enable_vpc` instead. If `true`, private networking support will be added. (Deprecated)
+- `enable_vpc` - If `true`, VPC support will be added.
+- `enable_vpc2` - If `true`, VPC 2.0 support will be added.
+- `tags` - Tags to apply to the instance.
+- `user_scheme` - Linux-only: The user scheme used for logging in (`root`/`limited`).
+- `app_variables` - The [app variable inputs](#operation/list-marketplace-app-variables) for configuring the marketplace app.
 
-Supply other attributes as desired.
+**Required Fields**: `region`, `plan`
 """
 
 URL_INSTANCE_GET: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}")
@@ -1528,8 +1698,34 @@ URL_INSTANCE_GET: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}"
 
 - `Get`: Get information about an Instance.
 - `Patch`: Update information for an Instance. All attributes are optional. If not set, the attributes will retain their original values.
-**Note:** Changing `os_id`, `app_id` or `image_id` may take a few extra seconds to complete.
 - `Delete`: Delete an Instance.
+
+### Path Parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+
+### Request Body Schema (Patch)
+- `app_id` - Reinstall the instance with this [Application id](#operation/list-applications).
+- `image_id` - Reinstall the instance with this [Application image_id](#operation/list-applications).
+- `backups` - Enable automatic backups (`enabled`/`disabled`).
+- `firewall_group_id` - The [Firewall Group id](#operation/list-firewall-groups) to attach.
+- `enable_ipv6` - Enable IPv6.
+- `os_id` - Reinstall the instance with this [ISO id](#operation/list-isos).
+- `user_data` - The user-supplied, base64 encoded user data.
+- `tag` - Use `tags` instead. The user-supplied tag. (Deprecated)
+- `plan` - Upgrade the instance with this [Plan id](#operation/list-plans).
+- `ddos_protection` - Enable DDoS Protection (`true`/`false`).
+- `attach_private_network` - Use `attach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to attach. (Deprecated)
+- `attach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to attach.
+- `attach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to attach.
+- `detach_private_network` - Use `detach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to detach. (Deprecated)
+- `detach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to detach.
+- `detach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to detach.
+- `enable_private_network` - Use `enable_vpc` instead. If `true`, private networking support will be added. (Deprecated)
+- `enable_vpc` - If `true`, VPC support will be added.
+- `enable_vpc2` - If `true`, VPC 2.0 support will be added.
+- `label` - The user supplied label.
+- `tags` - Tags to apply to the instance.
+- `user_scheme` - Linux-only: The user scheme used for logging in (`root`/`limited`).
 """
 
 URL_INSTANCE_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/reinstall")
@@ -1538,7 +1734,8 @@ URL_INSTANCE_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 
 - `Post`: Reinstall an Instance using an optional `hostname`.
 
-**Note:** This action may take a few extra seconds to complete.
+### Request Body Schema
+- `hostname` - The hostname to use when reinstalling this instance.
 """
 
 URL_INSTANCE_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/bandwidth")
@@ -1547,7 +1744,8 @@ URL_INSTANCE_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 
 - `Get`: Get bandwidth information about an Instance.
 
-The `bandwidth` object in a successful response contains objects representing a day in the month. The date is denoted by the nested object keys. Days begin and end in the UTC timezone. The bandwidth utilization data contained within the date object is refreshed periodically. We do not recommend using this endpoint to gather real-time metrics.
+### Query Parameters
+- `date_range` - The range of days to include (1-180). Default 30.
 """
 
 URL_INSTANCE_NEIGHBORS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/neighbors")
@@ -1561,15 +1759,22 @@ URL_INSTANCE_PRIVATE_NETWORKS: Final[Url] = Url(Provider.VULTR).uri("instances/{
 """
 ### Request Methods
 
-- `Get`: **Deprecated**: use [List Instance VPCs](#operation/list-instance-vpcs) instead.<br><br>List the private networks for an Instance.
-"""
+- `Get`: **Deprecated**: use [List Instance VPCs](#operation/list-instance-vpcs) instead. List the private networks for an Instance.
 
+### Query Parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+"""
 
 URL_INSTANCE_VPCS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs")
 """
 ### Request Methods
 
 - `Get`: List the VPCs for an Instance.
+
+### Query Parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_INSTANCE_VPC2S: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2")
@@ -1577,6 +1782,10 @@ URL_INSTANCE_VPC2S: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id
 ### Request Methods
 
 - `Get`: List the VPC 2.0 networks for an Instance.
+
+### Query Parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_INSTANCE_ISO: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso")
@@ -1584,6 +1793,9 @@ URL_INSTANCE_ISO: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/
 ### Request Methods
 
 - `Get`: Get the ISO status for an Instance.
+
+### Path Parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
 """
 
 URL_INSTANCE_ISO_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso/attach")
@@ -1591,6 +1803,9 @@ URL_INSTANCE_ISO_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instan
 ### Request Methods
 
 - `Post`: Attach an ISO to an Instance.
+
+### Request Body Schema
+- `iso_id` - The [ISO id](#operation/list-isos) to attach to this Instance.
 """
 
 URL_INSTANCE_ISO_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso/detach")
@@ -1598,20 +1813,29 @@ URL_INSTANCE_ISO_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instan
 ### Request Methods
 
 - `Post`: Detach the ISO from an Instance.
+
+### Request Body Schema
+- `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks/attach")
 """
 ### Request Methods
 
-- `Post`: Attach Private Network to an Instance.<br><br>**Deprecated**: use [Attach VPC to Instance](#operation/attach-instance-vpc) instead.
+- `Post`: Attach Private Network to an Instance. (Deprecated)
+
+### Request Body Schema
+- `network_id` - The [Private Network id](#operation/list-networks) to attach to this Instance.
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks/detach")
 """
 ### Request Methods
 
-- `Post`: Detach Private Network from an Instance.<br><br>**Deprecated**: use [Detach VPC from Instance](#operation/detach-instance-vpc) instead.
+- `Post`: Detach Private Network from an Instance. (Deprecated)
+
+### Request Body Schema
+- `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
 """
 
 URL_INSTANCE_VPCS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs/attach")
@@ -1619,6 +1843,9 @@ URL_INSTANCE_VPCS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 ### Request Methods
 
 - `Post`: Attach a VPC to an Instance.
+
+### Request Body Schema
+- `vpc_id` - The [VPC ID](#operation/list-vpcs) to attach to this Instance.
 """
 
 URL_INSTANCE_VPCS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs/detach")
@@ -1626,6 +1853,9 @@ URL_INSTANCE_VPCS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 ### Request Methods
 
 - `Post`: Detach a VPC from an Instance.
+
+### Request Body Schema
+- `vpc_id` - The [VPC ID](#operation/list-vpcs) to detach from this Instance.
 """
 
 URL_INSTANCE_VPC2_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2/attach")
@@ -1633,6 +1863,12 @@ URL_INSTANCE_VPC2_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 ### Request Methods
 
 - `Post`: Attach a VPC 2.0 Network to an Instance.
+
+### Request Body Schema
+- `vpc_id` - The [VPC ID](#operation/list-vpc2) to attach to this Instance.
+- `ip_address` - The IP address to use for this instance on the attached VPC 2.0 network.
+
+**Required Fields**: `vpc_id`
 """
 
 URL_INSTANCE_VPC2_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2/detach")
@@ -1640,13 +1876,59 @@ URL_INSTANCE_VPC2_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 ### Request Methods
 
 - `Post`: Detach a VPC 2.0 Network from an Instance.
+
+### Request Body Schema
+- `vpc_id` - The [VPC ID](#operation/list-vpc2) to detach from this Instance.
+
+**Required Fields**: `vpc_id`
 """
+
+URL_INSTANCE_BACKUP_SCHEDULE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/backup-schedule")
+"""
+### Request Methods
+
+- `Get`: Get the backup schedule for an Instance.
+- `Post`: Set the backup schedule for an Instance in UTC.
+
+### Request Body Schema (Post)
+- `type` - Type of backup schedule: `daily`, `weekly`, `monthly`, `daily_alt_even`, `daily_alt_odd`.
+- `hour` - Hour of day to run in UTC.
+- `dow` - Day of week to run (1-7).
+- `dom` - Day of month to run (1-28).
+
+**Required Fields**: `type`
+"""
+
+URL_INSTANCE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/restore")
+"""
+### Request Methods
+
+- `Post`: Restore an Instance from either `backup_id` or `snapshot_id`.
+
+### Request Body Schema
+- `backup_id` - The [Backup id](#operation/list-backups) used to restore this instance.
+- `snapshot_id` - The [Snapshot id](#operation/list-snapshots) used to restore this instance.
+"""
+
 URL_INSTANCE_IPV4: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4")
 """
 ### Request Methods
 
 - `Get`: List the IPv4 information for an Instance.
 - `Post`: Create an IPv4 address for an Instance.
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+
+### Query Parameters
+- `Get`:
+    - `public_network` - If `true`, includes information about the public network adapter (such as MAC address) with the `main_ip` entry.
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `Post`:
+    - `reboot` - Set if the server is rebooted immediately after the IPv4 address is created.\n\n* true (default)\n* false
 """
 
 URL_INSTANCE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6")
@@ -1654,13 +1936,24 @@ URL_INSTANCE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 ### Request Methods
 
 - `Get`: Get the IPv6 information for an VPS Instance.
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
 """
 
 URL_INSTANCE_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4/reverse")
 """
 ### Request Methods
 
-- `Post`: Create a reverse IPv4 entry for an Instance. The `ip` and `reverse` attributes are required.
+- `Post`: Create a reverse IPv4 entry for an Instance. The `ip` and `reverse` attributes are required. 
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+
+### Request Body Schema
+- `Post`:
+    - `ip` - The IPv4 address.
+    - `reverse` - The IPv4 reverse entry.
 """
 
 URL_INSTANCE_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6/reverse")
@@ -1669,13 +1962,28 @@ URL_INSTANCE_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{inst
 
 - `Get`: List the reverse IPv6 information for an Instance.
 - `Post`: Create a reverse IPv6 entry for an Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format.
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+
+### Request Body Schema
+- `Post`:
+    - `ip` - The IPv6 address in full, expanded format.
+    - `reverse` - The IPv6 reverse entry.
 """
 
 URL_INSTANCE_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4/reverse/default")
 """
 ### Request Methods
 
-- `Post`: Set a reverse DNS entry for an IPv4 address.
+- `Post`: Set a reverse DNS entry for an IPv4 address
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+
+### Request Body Schema
+- `Post`:
+    - `ip` - The IPv4 address.
 """
 
 URL_INSTANCE_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6/reverse/{ipv6}")
@@ -1683,20 +1991,10 @@ URL_INSTANCE_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/
 ### Request Methods
 
 - `Delete`: Delete the reverse IPv6 for an Instance.
-"""
 
-URL_INSTANCE_START: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/start")
-"""
-### Request Methods
-
-- `Post`: Start an Instance.
-"""
-
-URL_INSTANCE_REBOOT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/reboot")
-"""
-### Request Methods
-
-- `Post`: Reboot an Instance.
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
+- `ipv6` - The IPv6 address.
 """
 
 URL_INSTANCE_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/halt")
@@ -1704,34 +2002,19 @@ URL_INSTANCE_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 ### Request Methods
 
 - `Post`: Halt an Instance.
+
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
 """
 
 URL_INSTANCE_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/user-data")
 """
 ### Request Methods
 
-- `Get`: Get the user-supplied, base64 encoded user data for an Instance.
-"""
+- `Get`: Get the user-supplied, base64 encoded [user data](https://www.vultr.com/docs/manage-instance-user-data-with-the-vultr-metadata-api/) for an Instance.
 
-URL_INSTANCES_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/halt")
-"""
-### Request Methods
-
-- `Post`: Halt Instances.
-"""
-
-URL_INSTANCES_REBOOT: Final[Url] = Url(Provider.VULTR).uri("instances/reboot")
-"""
-### Request Methods
-
-- `Post`: Reboot Instances.
-"""
-
-URL_INSTANCES_START: Final[Url] = Url(Provider.VULTR).uri("instances/start")
-"""
-### Request Methods
-
-- `Post`: Start Instances.
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
 """
 
 URL_INSTANCE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/upgrades")
@@ -1739,53 +2022,36 @@ URL_INSTANCE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("instances/{instance
 ### Request Methods
 
 - `Get`: Get available upgrades for an Instance.
-"""
 
-URL_INSTANCE_BACKUP_SCHEDULE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/backup-schedule")
-"""
-### Request Methods
+### Path parameters
+- `instance-id` - The [Instance ID](#operation/list-instances).
 
-- `Get`: Get the backup schedule for an Instance.
-- `Post`: Set the backup schedule for an Instance in UTC. The `type` is required.
+### Query parameters
+- `type` - Filter upgrade by type:\n\n- all (applications, os, plans)\n- applications\n- os\n- plans
 """
-
-URL_INSTANCE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/restore")
-"""
-### Request Methods
-
-- `Post`: Restore an Instance from either `backup_id` or `snapshot_id`.
-"""
-
-URL_ISO: Final[Url] = Url(Provider.VULTR).uri("iso")
-"""
-### Request Methods
-
-- `Get`: Get the ISOs in your account.
-- `Post`: Create a new ISO in your account from `url`.
-"""
-
-URL_ISO_ID: Final[Url] = Url(Provider.VULTR).uri("iso/{iso-id}")
-"""
-### Request Methods
-
-- `Get`: Get information for an ISO.
-- `Delete`: Delete an ISO.
-"""
-
-URL_ISO_PUBLIC: Final[Url] = Url(Provider.VULTR).uri("iso-public")
-"""
-### Request Methods
-
-- `Get`: List all Vultr Public ISOs.
-"""
-
 
 URL_KUBERNETES_LIST: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters")
 """
 ### Request Methods
 
-- `Get`: List all Kubernetes clusters currently deployed.\n
+- `Get`: List all Kubernetes clusters currently deployed.
 - `Post`: Create Kubernetes Cluster.
+
+### Request Body Schema
+- `Post`:
+    - `label` - The label for your Kubernetes cluster.
+    - `region` - Region you want to deploy VKE in. See [Regions](#tag/region) for more information.
+    - `version` - Version of Kubernetes you want to deploy.
+    - `ha_controlplanes` - Whether a highly available control planes configuration should be deployed\n\n* true\n* false (default)
+    - `enable_firewall` - Whether a [Firewall Group](#tag/firewall) should be deployed and managed by this cluster\n\n* true\n* false (default)
+    - `node_pools` - Array of node pool objects containing:
+        - `node_quantity` - Number of instances to deploy in this nodepool
+        - `label` - Label for this nodepool
+        - `plan` - Plan you want this nodepool to use
+        - `tag` - Tag for node pool
+        - `auto_scaler` - Option to use the auto scaler
+        - `min_nodes` - Auto scaler minimum nodes
+        - `max_nodes` - Auto scaler maximum nodes
 """
 
 URL_KUBERNETES_GET: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}")
@@ -1795,6 +2061,13 @@ URL_KUBERNETES_GET: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{v
 - `Get`: Get Kubernetes Cluster.
 - `Put`: Update Kubernetes Cluster.
 - `Delete`: Delete Kubernetes Cluster.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+
+### Request Body Schema
+- `Put`:
+    - `label` - Label for the Kubernetes cluster
 """
 
 URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/delete-with-linked-resources")
@@ -1802,6 +2075,9 @@ URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES: Final[Url] = Url(Provider.VULTR).ur
 ### Request Methods
 
 - `Delete`: Delete Kubernetes Cluster and all related resources.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 """
 
 URL_KUBERNETES_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/resources")
@@ -1809,6 +2085,9 @@ URL_KUBERNETES_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 ### Request Methods
 
 - `Get`: Get the block storage volumes and load balancers deployed by the specified Kubernetes cluster.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 """
 
 URL_KUBERNETES_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/available-upgrades")
@@ -1816,6 +2095,9 @@ URL_KUBERNETES_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kuberne
 ### Request Methods
 
 - `Get`: Get the available upgrades for the specified Kubernetes cluster.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 """
 
 URL_KUBERNETES_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/upgrades")
@@ -1823,6 +2105,13 @@ URL_KUBERNETES_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 ### Request Methods
 
 - `Post`: Start a Kubernetes cluster upgrade.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+
+### Request Body Schema
+- `Post`:
+    - `upgrade_version` - The version you're upgrading to
 """
 
 URL_KUBERNETES_NODEPOOLS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools")
@@ -1831,6 +2120,20 @@ URL_KUBERNETES_NODEPOOLS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 
 - `Get`: List all available NodePools on a Kubernetes Cluster.
 - `Post`: Create NodePool for a Existing Kubernetes Cluster.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+
+### Request Body Schema
+- `Post`:
+    - `node_quantity` - Number of instances in this nodepool
+    - `label` - Label for the nodepool
+    - `plan` - Plan that this nodepool will use
+    - `tag` - Tag for node pool
+    - `auto_scaler` - Option to use the auto scaler
+    - `min_nodes` - Auto scaler minimum nodes
+    - `max_nodes` - Auto scaler maximum nodes
+    - `labels` - Map of key/value pairs defining labels
 """
 
 URL_KUBERNETES_NODEPOOL: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}")
@@ -1840,6 +2143,19 @@ URL_KUBERNETES_NODEPOOL: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 - `Get`: Get Nodepool from a Kubernetes Cluster.
 - `Patch`: Update a Nodepool on a Kubernetes Cluster.
 - `Delete`: Delete a NodePool from a Kubernetes Cluster.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+- `nodepool-id` - The [NodePool ID](#operation/get-nodepools).
+
+### Request Body Schema
+- `Patch`:
+    - `node_quantity` - Number of instances in the NodePool
+    - `tag` - Tag for node pool
+    - `auto_scaler` - Option to use the auto scaler
+    - `min_nodes` - Auto scaler minimum nodes
+    - `max_nodes` - Auto scaler maximum nodes
+    - `labels` - Map of key/value pairs defining labels
 """
 
 URL_KUBERNETES_NODEPOOL_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}/nodes/{node-id}")
@@ -1847,6 +2163,11 @@ URL_KUBERNETES_NODEPOOL_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("kubernet
 ### Request Methods
 
 - `Delete`: Delete a single nodepool instance from a given Nodepool.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+- `nodepool-id` - The [NodePool ID](#operation/get-nodepools).
+- `node-id` - The [Instance ID](#operation/list-instances).
 """
 
 URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}/nodes/{node-id}/recycle")
@@ -1854,6 +2175,11 @@ URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE: Final[Url] = Url(Provider.VULTR).uri("
 ### Request Methods
 
 - `Post`: Recycle a specific NodePool Instance.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
+- `nodepool-id` - The [NodePool ID](#operation/get-nodepools).
+- `node-id` - Node ID
 """
 
 URL_KUBERNETES_CONFIG: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/config")
@@ -1861,6 +2187,9 @@ URL_KUBERNETES_CONFIG: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters
 ### Request Methods
 
 - `Get`: Get Kubernetes Cluster Kubeconfig.
+
+### Path parameters
+- `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 """
 
 URL_KUBERNETES_VERSIONS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/versions")
@@ -1876,6 +2205,10 @@ URL_LOAD_BALANCER_LIST: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 ### Request Methods
 
 - `Get`: List the Load Balancers in your account.
+
+### Query parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_LOAD_BALANCER_CREATE: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
@@ -1883,6 +2216,57 @@ URL_LOAD_BALANCER_CREATE: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 ### Request Methods
 
 - `Post`: Create a new Load Balancer in a particular `region`.
+
+### Request Body Schema
+{
+    "region": "The [Region id](#operation/list-regions) to create this Load Balancer.",
+    "balancing_algorithm": "The balancing algorithm.\n\n* roundrobin (default)\n* leastconn",
+    "ssl_redirect": "If `true`, this will redirect all HTTP traffic to HTTPS. You must have an HTTPS rule and SSL certificate installed on the load balancer to enable this option.\n\n* true\n* false",
+    "http2": "If `true`, this will enable HTTP2 traffic. You must have an HTTPS forwarding rule combo (HTTPS -> HTTPS) to enable this option.\n\n* true\n* false",
+    "http3": "If `true`, this will enable HTTP3/QUIC traffic. You must have HTTP2 enabled.\n\n* true\n* false",
+    "nodes": "The number of nodes to add to the load balancer (1-99), must be an odd number. This defaults to 1.",
+    "proxy_protocol": "If `true`, you must configure backend nodes to accept Proxy protocol.\n\n* true\n* false (Default)",
+    "timeout": "The maximum time allowed for the connection to remain inactive before timing out in seconds. This defaults to 600.",
+    "health_check": {
+        "protocol": "The protocol to use for health checks.\n\n* HTTPS\n* HTTP\n* TCP",
+        "port": "The port to use for health checks.",
+        "path": "HTTP Path to check. Only applies if protocol is HTTP, or HTTPS.",
+        "check_interval": "Interval between health checks.",
+        "response_timeout": "Timeout before health check fails.",
+        "unhealthy_threshold": "Number times a check must fail before becoming unhealthy.",
+        "healthy_threshold": "Number of times a check must succeed before returning to healthy status."
+    },
+    "forwarding_rules": [{
+        "frontend_protocol": "The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP",
+        "frontend_port": "The port number on the Load Balancer to forward to the backend.",
+        "backend_protocol": "The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP",
+        "backend_port": "The port number destination on the backend server."
+    }],
+    "sticky_session": {
+        "cookie_name": "The cookie name to make sticky. See [Load Balancer documentation](https://www.vultr.com/docs/vultr-load-balancers/#Load_Balancer_Configuration)."
+    },
+    "ssl": {
+        "private_key": "The private key.",
+        "certificate": "The SSL certificate.",
+        "chain": "The certificate chain.",
+        "private_key_b64": "The private key base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)",
+        "certificate_b64": "The SSL certificate base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)",
+        "chain_b64": "The certificate chain base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)"
+    },
+    "label": "Label for your Load Balancer.",
+    "instances": "An array of instances IDs that you want attached to the load balancer.",
+    "firewall_rules": [{
+        "port": "Port for this rule.",
+        "source": "If the source string is given a value of \"cloudflare\" then cloudflare IPs will be supplied. Otherwise enter a IP address with subnet size that you wish to permit through the firewall.",
+        "ip_type": "The type of IP rule.\n\n* v4\n* v6"
+    }],
+    "vpc": "ID of the VPC you wish to use. If a VPC ID is omitted it will default to the public network.",
+    "auto_ssl": {
+        "domain_zone": "The domain zone. (example.com)",
+        "domain_sub": "(optional) Subdomain to append to the domain zone."
+    },
+    "global_regions": "Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to."
+}
 """
 
 URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}")
@@ -1892,6 +2276,59 @@ URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loa
 - `Get`: Get information for a Load Balancer.
 - `Patch`: Update information for a Load Balancer. All attributes are optional. If not set, the attributes will retain their original values.
 - `Delete`: Delete a Load Balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
+
+### Request Body Schema (Patch)
+{
+    "ssl": {
+        "private_key": "The private key.",
+        "certificate": "The SSL certificate.",
+        "chain": "The certificate chain.",
+        "private_key_b64": "The private key base64 encoded.",
+        "certificate_b64": "The SSL certificate base64 encoded.",
+        "chain_b64": "The certificate chain base64 encoded."
+    },
+    "sticky_session": {
+        "cookie_name": "The cookie name to make sticky."
+    },
+    "forwarding_rules": [{
+        "frontend_protocol": "The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP",
+        "frontend_port": "The port number on the Load Balancer to forward to the backend.",
+        "backend_protocol": "The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP",
+        "backend_port": "The port number destination on the backend server."
+    }],
+    "health_check": {
+        "protocol": "The protocol to use for health checks.\n\n* HTTPS\n* HTTP\n* TCP",
+        "port": "The port to use for health checks.",
+        "path": "HTTP Path to check. Only applies if protocol is HTTP, or HTTPS.",
+        "check_interval": "Interval between health checks.",
+        "response_timeout": "Timeout before health check fails.",
+        "unhealthy_threshold": "Number times a check must fail before becoming unhealthy.",
+        "healthy_threshold": "Number of times a check must succeed before returning to healthy status."
+    },
+    "proxy_protocol": "If `true`, you must configure backend nodes to accept Proxy protocol.\n\n* true\n* false (Default)",
+    "timeout": "The maximum time allowed for the connection to remain inactive before timing out in seconds. This defaults to 600.",
+    "ssl_redirect": "If `true`, this will redirect all HTTP traffic to HTTPS.",
+    "http2": "If `true`, this will enable HTTP2 traffic.",
+    "http3": "If `true`, this will enable HTTP3/QUIC traffic.",
+    "nodes": "The number of nodes to add to the load balancer (1-99), must be an odd number.",
+    "balancing_algorithm": "The balancing algorithm.\n\n* roundrobin (default)\n* leastconn",
+    "instances": "Send the complete array of Instances IDs that should be attached to this Load Balancer.",
+    "label": "The label for your Load Balancer",
+    "vpc": "ID of the VPC you wish to use. If a VPC ID is omitted it will default to the public network.",
+    "firewall_rules": [{
+        "port": "Port for this rule.",
+        "source": "If the source string is given a value of \"cloudflare\" then cloudflare IPs will be supplied.",
+        "ip_type": "The type of IP rule.\n\n* v4\n* v6"
+    }],
+    "auto_ssl": {
+        "domain_zone": "The domain zone. (example.com)",
+        "domain_sub": "(optional) Subdomain to append to the domain zone."
+    },
+    "global_regions": "Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to."
+}
 """
 
 URL_LOAD_BALANCER_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/ssl")
@@ -1899,6 +2336,9 @@ URL_LOAD_BALANCER_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loa
 ### Request Methods
 
 - `Delete`: Delete a Load Balancer SSL.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
 """
 
 URL_LOAD_BALANCER_AUTO_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/auto_ssl")
@@ -1906,6 +2346,9 @@ URL_LOAD_BALANCER_AUTO_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers
 ### Request Methods
 
 - `Delete`: Remove a Load Balancer Auto SSL. This will not remove an ssl certificate from the load balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
 """
 
 URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/forwarding-rules")
@@ -1914,6 +2357,21 @@ URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-b
 
 - `Get`: List the fowarding rules for a Load Balancer.
 - `Post`: Create a new forwarding rule for a Load Balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
+
+### Query parameters (Get)
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema (Post)
+{
+    "frontend_protocol": "The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP",
+    "frontend_port": "The port number on the Load Balancer to forward to the backend.",
+    "backend_protocol": "The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP",
+    "backend_port": "The port number destination on the backend server."
+}
 """
 
 URL_LOAD_BALANCER_FORWARDING_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/forwarding-rules/{forwarding-rule-id}")
@@ -1922,33 +2380,56 @@ URL_LOAD_BALANCER_FORWARDING_RULE: Final[Url] = Url(Provider.VULTR).uri("load-ba
 
 - `Get`: Get information for a Forwarding Rule on a Load Balancer.
 - `Delete`: Delete a Forwarding Rule on a Load Balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
+- `forwarding-rule-id` - The [Forwarding Rule id](#operation/list-load-balancer-forwarding-rules).
 """
 
-URL_LOAD_BALANCER_FIREWALL_RULES: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loadbalancer-id}/firewall-rules")  # Note: Inconsistent hyphenation with other URLs. Consider changing to load-balancer-id for consistency.
+URL_LOAD_BALANCER_FIREWALL_RULES: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/firewall-rules")
 """
 ### Request Methods
 
 - `Get`: List the firewall rules for a Load Balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
+
+### Query parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
-
-URL_LOAD_BALANCER_FIREWALL_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loadbalancer-id}/firewall-rules/{firewall-rule-id}") # Note: Inconsistent hyphenation with other URLs. Consider changing to load-balancer-id for consistency.
+URL_LOAD_BALANCER_FIREWALL_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/firewall-rules/{firewall-rule-id}")
 """
 ### Request Methods
 
 - `Get`: Get a firewall rule for a Load Balancer.
+
+### Path parameters
+- `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
+- `firewall-rule-id` - The [Firewall Rule id](#operation/list-loadbalancer-firewall-rules).
 """
-URL_MARKET_PLACE_APP_VARIABLE: Final[Url] = Url(Provider.VULTR).uri("marketplace/apps/{image-id}/variables")
+
+URL_MARKETPLACE_APP_VARIABLES: Final[Url] = Url(Provider.VULTR).uri("marketplace/apps/{image-id}/variables")
 """
 ### Request Methods
 
 - `Get`: List all user-supplied variables for a Marketplace App.
+
+### Path parameters
+- `image-id` - The application's [Image ID](#operation/list-applications).
 """
+
 URL_OS: Final[Url] = Url(Provider.VULTR).uri("os")
 """
 ### Request Methods
 
 - `Get`: List the OS images available for installation at Vultr.
+
+### Query parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_PLAN: Final[Url] = Url(Provider.VULTR).uri("plans")
@@ -1956,6 +2437,45 @@ URL_PLAN: Final[Url] = Url(Provider.VULTR).uri("plans")
 ### Request Methods
 
 - `Get`: Get a list of all VPS plans at Vultr.
+
+The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
+
+  <type>-<number of cores>-<memory size>-<optional modifier>
+
+For example: `vc2-24c-96gb-sc1`
+
+More about the sub-fields:
+
+* `<type>`: The Vultr type code. For example, `vc2`, `vhf`, `vdc`, etc.
+* `<number of cores>`: The number of cores, such as `4c` for "4 cores", `8c` for "8 cores", etc.
+* `<memory size>`: Size in GB, such as `32gb`.
+* `<optional modifier>`: Some plans include a modifier for internal identification purposes, such as CPU type or location surcharges.
+
+> Note: This information about plan id format is for general education. Vultr may change the sub-field format or values at any time. You should not attempt to parse the plan ID sub-fields in your code for any specific purpose.
+
+### Query parameters
+- `type` - Filter the results by type.
+
+| **Type** | **Description** |
+|----------|-----------------|
+| all | All available types |
+| vc2 | Cloud Compute |
+| vdc | Dedicated Cloud |
+| vhf | High Frequency Compute |
+| vhp | High Performance |
+| voc | All Optimized Cloud types |
+| voc-g | General Purpose Optimized Cloud |
+| voc-c | CPU Optimized Cloud |
+| voc-m | Memory Optimized Cloud |
+| voc-s | Storage Optimized Cloud |
+| vcg | Cloud GPU |
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+- `os` - Filter the results by operating system.
+
+|   | Type | Description |
+| - | ------ | ------------- |
+|   | windows | All available plans that support windows |
 """
 
 URL_PLAN_METAL: Final[Url] = Url(Provider.VULTR).uri("plans-metal")
@@ -1963,6 +2483,25 @@ URL_PLAN_METAL: Final[Url] = Url(Provider.VULTR).uri("plans-metal")
 ### Request Methods
 
 - `Get`: Get a list of all Bare Metal plans at Vultr.
+
+The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
+
+  <type>-<number of cores>-<memory size>-<optional modifier>
+
+For example: `vc2-24c-96gb-sc1`
+
+More about the sub-fields:
+
+* `<type>`: The Vultr type code. For example, `vc2`, `vhf`, `vdc`, etc.
+* `<number of cores>`: The number of cores, such as `4c` for "4 cores", `8c` for "8 cores", etc.
+* `<memory size>`: Size in GB, such as `32gb`.
+* `<optional modifier>`: Some plans include a modifier for internal identification purposes, such as CPU type or location surcharges.
+
+> Note: This information about plan id format is for general education. Vultr may change the sub-field format or values at any time. You should not attempt to parse the plan ID sub-fields in your code for any specific purpose.
+
+### Query parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
@@ -1970,6 +2509,10 @@ URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
 ### Request Methods
 
 - `Get`: List all Regions at Vultr.
+
+### Query parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-id}/availability")
@@ -1977,6 +2520,27 @@ URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-i
 ### Request Methods
 
 - `Get`: Get a list of the available plans in Region `region-id`. Not all plans are available in all regions.
+
+### Path parameters
+- `region-id` - The [Region id](#operation/list-regions).
+
+### Query parameters
+- `type` - Filter the results by type.
+
+| **Type** | **Description** |
+|----------|-----------------|
+| all | All available types |
+| vc2 | Cloud Compute |
+| vdc | Dedicated Cloud |
+| vhf | High Frequency Compute |
+| vhp | High Performance |
+| voc | All Optimized Cloud types |
+| voc-g | General Purpose Optimized Cloud |
+| voc-c | CPU Optimized Cloud |
+| voc-m | Memory Optimized Cloud |
+| voc-s | Storage Optimized Cloud |
+| vbm | Bare Metal |
+| vcg | Cloud GPU |
 """
 
 URL_RESERVED_IP: Final[Url] = Url(Provider.VULTR).uri("reserved-ips")
