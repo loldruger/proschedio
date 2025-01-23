@@ -6,24 +6,24 @@ URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 """
 ### Request Methods
 
-- `Get`: Get your Vultr account, permission, and billing information.
+- `GET`: Get your Vultr account, permission, and billing information.
 """
 
 URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")
 """
 ### Request Methods
 
-- `Get`: Get your Vultr account bandwidth information.
+- `GET`: Get your Vultr account bandwidth information.
 """
 
 URL_APPLICATIONS: Final[Url] = Url(Provider.VULTR).uri("applications")
 """
 ### Request Methods
 
-- `Get`: Get a list of all available Applications.
+- `GET`: Get a list of all available Applications.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `type` - Filter the results by type.
 
 | Type | Description |
@@ -40,10 +40,10 @@ URL_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("backups")
 """
 ### Request Methods
 
-- `Get`: Get information about Backups in your account.
+- `GET`: Get information about Backups in your account.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `instance_id` - Filter the backups list by Instance id.
     - `per_page` - Number of items requested per page. Default is 100 and max is 500.
     - `cursor` - Cursor for paging. See Meta and pagination.
@@ -53,7 +53,7 @@ URL_BACKUPS_ID: Final[Url] = Url(Provider.VULTR).uri("backups/{backup-id}")
 """
 ### Request Methods
 
-- `Get`: Get the information for the Backup.
+- `GET`: Get the information for the Backup.
 
 ### Path parameters
 
@@ -489,7 +489,7 @@ URL_BARE_METALS_LIST_VPCS2: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{b
 URL_BILLING_LIST_HISTORY: Final[Url] = Url(Provider.VULTR).uri("billing/history")
 """
 ### Request Methods
-- `Get`: Retrieve billing history entries.
+- `GET`: Retrieve billing history entries.
 
 ### Query Parameters
 - `per_page`: Number of items requested per page. Default is 100, maximum is 500.
@@ -499,7 +499,7 @@ URL_BILLING_LIST_HISTORY: Final[Url] = Url(Provider.VULTR).uri("billing/history"
 URL_BILLING_LIST_INVOICES: Final[Url] = Url(Provider.VULTR).uri("billing/invoices")
 """
 ### Request Methods
-- `Get`: Retrieve a list of all invoices on the account.
+- `GET`: Retrieve a list of all invoices on the account.
 
 ### Query Parameters
 - `per_page`: Number of items requested per page. Default is 100, maximum is 500.
@@ -509,7 +509,7 @@ URL_BILLING_LIST_INVOICES: Final[Url] = Url(Provider.VULTR).uri("billing/invoice
 URL_BILLING_GET_INVOICE: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}")
 """
 ### Request Methods
-- `Get`: Retrieve a specific invoice by ID.
+- `GET`: Retrieve a specific invoice by ID.
 
 ### Path Parameters
 - `invoice-id`: The ID of the invoice to retrieve.
@@ -518,7 +518,7 @@ URL_BILLING_GET_INVOICE: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/
 URL_BILLING_GET_INVOICE_ITEMS: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}/items")
 """
 ### Request Methods
-- `Get`: Retrieve line items for a specific invoice.
+- `GET`: Retrieve line items for a specific invoice.
 
 ### Path Parameters
 - `invoice-id`: The ID of the invoice.
@@ -531,7 +531,7 @@ URL_BILLING_GET_INVOICE_ITEMS: Final[Url] = Url(Provider.VULTR).uri("billing/inv
 URL_BILLING_LIST_PENDING_CHARGES: Final[Url] = Url(Provider.VULTR).uri("billing/pending-charges")
 """
 ### Request Methods
-- `Get`: Retrieve all pending charges for the account.
+- `GET`: Retrieve all pending charges for the account.
 """
 
 URL_BLOCK_STORAGE: Final[Url] = Url(Provider.VULTR).uri("blocks")
@@ -637,11 +637,11 @@ URL_CDN_LIST_PULL_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones")
 """
 ### Request Methods
 
-- `Get`: List CDN Pull Zones.
-- `Post`: Create a new CDN Pull Zone.
+- `GET`: List CDN Pull Zones.
+- `POST`: Create a new CDN Pull Zone.
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
 
 ```js
 {
@@ -664,12 +664,12 @@ URL_CDN_GET_PULL_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pu
 """
 ### Request Methods
 
-- `Get`: Get information about a CDN Pull Zones.
-- `Put`: Update information for a CDN Pullzone. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete a CDN Pull Zone.
+- `GET`: Get information about a CDN Pull Zones.
+- `PUT`: Update information for a CDN Pullzone. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete a CDN Pull Zone.
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
 
 ```js
 {
@@ -690,7 +690,7 @@ URL_CDN_PURGE_PULL_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{
 """
 ### Request Methods
 
-- `Get`: Clears cached content on server proxies so that visitors can get the latest page versions.
+- `GET`: Clears cached content on server proxies so that visitors can get the latest page versions.
 
 **Note:** This action may only be performed once every six hours.  
 **Note:** This action may take a few extra seconds to complete.
@@ -700,11 +700,11 @@ URL_CDN_LIST_PUSH_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones")
 """
 ### Request Methods
 
-- `Get`: List CDN Push Zones.
-- `Post`: Create a new CDN Push Zone.
+- `GET`: List CDN Push Zones.
+- `POST`: Create a new CDN Push Zone.
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
 
 ```js
 {
@@ -724,12 +724,12 @@ URL_CDN_GET_PUSH_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pu
 """
 ### Request Methods
 
-- `Get`: Get information about a CDN Push Zone.
-- `Put`: Update information for a CDN Pushzone. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete a CDN Push Zone.
+- `GET`: Get information about a CDN Push Zone.
+- `PUT`: Update information for a CDN Pushzone. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete a CDN Push Zone.
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
 
 ```js
 {
@@ -750,11 +750,11 @@ URL_CDN_LIST_PUSH_ZONE_FILES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zo
 """
 ### Request Methods
 
-- `Get`: Get a list of files that have been uploaded to a specific CDN Push Zones.
-- `Post`: Create a presigned post endpoint that can be used to upload a file to your Push Zone.
+- `GET`: Get a list of files that have been uploaded to a specific CDN Push Zones.
+- `POST`: Create a presigned post endpoint that can be used to upload a file to your Push Zone.
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
 
 ```js
 {
@@ -768,8 +768,8 @@ URL_CDN_DELETE_PUSH_ZONE_FILE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-z
 """
 ### Request Methods
 
-- `Get`: Get information about a CDN Push Zone file.
-- `Delete`: Delete a CDN Push Zone file.
+- `GET`: Get information about a CDN Push Zone file.
+- `DELETE`: Delete a CDN Push Zone file.
 
 ### Path Parameters
 - `pushzone-id`: The [Push Zone ID](#operation/list-pushzones)
@@ -780,10 +780,10 @@ URL_CONTAINER_LIST: Final[Url] = Url(Provider.VULTR).uri("registries")
 """
 ### Request Methods
 
-- `Get`: List All Container Registry Subscriptions for this account
+- `GET`: List All Container Registry Subscriptions for this account
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `per_page` - Number of items requested per page. Default is 100 and max is 500.
     - `cursor` - Cursor for paging. See Meta and pagination.
 """
@@ -791,10 +791,10 @@ URL_CONTAINER_LIST: Final[Url] = Url(Provider.VULTR).uri("registries")
 URL_CONTAINER: Final[Url] = Url(Provider.VULTR).uri("registry")
 """
 ### Request Methods
-- `Post`: Create a new Container Registry Subscription
+- `POST`: Create a new Container Registry Subscription
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
 
 ```js
 {
@@ -809,15 +809,15 @@ URL_CONTAINER: Final[Url] = Url(Provider.VULTR).uri("registry")
 URL_CONTAINER_ID: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}")
 """
 ### Request Methods
-- `Get`: Get a single Container Registry Subscription
-- `Put`: Update a Container Registry Subscription
-- `Delete`: Delete a Container Registry Subscription
+- `GET`: Get a single Container Registry Subscription
+- `PUT`: Update a Container Registry Subscription
+- `DELETE`: Delete a Container Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
 
 ```js
 {
@@ -830,7 +830,7 @@ URL_CONTAINER_ID: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}")
 URL_CONTAINER_REPOSITORY: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/repositories")
 """
 ### Request Methods
-- `Get`: List All Repositories in a Container Registry Subscription
+- `GET`: List All Repositories in a Container Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -839,16 +839,16 @@ URL_CONTAINER_REPOSITORY: Final[Url] = Url(Provider.VULTR).uri("registry/{regist
 URL_CONTAINER_REPOSITORY_IMAGE: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/repository/{repository-image}")
 """
 ### Request Methods
-- `Get`: Get a single Repository in a Container Registry Subscription
-- `Put`: Update a Repository in a Container Registry Subscription
-- `Delete`: Delete a Repository from a Container Registry Subscription
+- `GET`: Get a single Repository in a Container Registry Subscription
+- `PUT`: Update a Repository in a Container Registry Subscription
+- `DELETE`: Delete a Repository from a Container Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
 - `repository-image`: Target repository name
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
 
 ```js
 {
@@ -860,7 +860,7 @@ URL_CONTAINER_REPOSITORY_IMAGE: Final[Url] = Url(Provider.VULTR).uri("registry/{
 URL_CONTAINER_DOCKER_CREDENTIALS: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/docker-credentials")
 """
 ### Request Methods
-- `Options`: Create a fresh set of Docker Credentials for this Container Registry Subscription
+- `OPTIONS`: Create a fresh set of Docker Credentials for this Container Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -873,7 +873,7 @@ URL_CONTAINER_DOCKER_CREDENTIALS: Final[Url] = Url(Provider.VULTR).uri("registry
 URL_CONTAINER_KUBERNETES_DOCKER_CREDENTIALS: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/docker-credentials/kubernetes")
 """
 ### Request Methods
-- `Options`: Create a fresh set of Docker Credentials for this Container Registry Subscription and return them in a Kubernetes friendly YAML format
+- `OPTIONS`: Create a fresh set of Docker Credentials for this Container Registry Subscription and return them in a Kubernetes friendly YAML format
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -887,7 +887,7 @@ URL_CONTAINER_KUBERNETES_DOCKER_CREDENTIALS: Final[Url] = Url(Provider.VULTR).ur
 URL_CONTAINER_ROBOTS: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/robots")
 """
 ### Request Methods
-- `Get`: List All Robots in a Conainer Registry Subscription
+- `GET`: List All Robots in a Conainer Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -896,16 +896,16 @@ URL_CONTAINER_ROBOTS: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-i
 URL_CONTAINER_ROBOT: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/robot/{robot-name}")
 """
 ### Request Methods
-- `Get`: Get a single Robot in a Container Registry Subscription
-- `Put`: Update the description, disable, duration, and add or remove access, in a Container Registry Subscription Robot
-- `Delete`: Deletes a Robot from a Container Registry Subscription
+- `GET`: Get a single Robot in a Container Registry Subscription
+- `PUT`: Update the description, disable, duration, and add or remove access, in a Container Registry Subscription Robot
+- `DELETE`: Deletes a Robot from a Container Registry Subscription
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
 - `robot-name`: The Robot name
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
 
 ```js
 {
@@ -931,7 +931,7 @@ URL_CONTAINER_ROBOT: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id
 URL_CONTAINER_ARTIFACTS: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/repository/{repository-image}/artifacts")
 """
 ### Request Methods
-- `Get`: List All Artifacts in a Container Registry Repository
+- `GET`: List All Artifacts in a Container Registry Repository
 
 ### Path parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -941,8 +941,8 @@ URL_CONTAINER_ARTIFACTS: Final[Url] = Url(Provider.VULTR).uri("registry/{registr
 URL_CONTAINER_ARTIFACT: Final[Url] = Url(Provider.VULTR).uri("registry/{registry-id}/repository/{repository-image}/artifact/{artifact-digest}")
 """
 ### Request Methods
-- `Get`: Get a single Artifact in a Container Registry Repository
-- `Delete`: Deletes an Artifact from a Container Registry Repository
+- `GET`: Get a single Artifact in a Container Registry Repository
+- `DELETE`: Deletes an Artifact from a Container Registry Repository
 
 ### Path Parameters
 - `registry-id`: The Container Registry Subscription ID
@@ -953,17 +953,17 @@ URL_CONTAINER_ARTIFACT: Final[Url] = Url(Provider.VULTR).uri("registry/{registry
 URL_CONTAINER_LIST_REGIONS: Final[Url] = Url(Provider.VULTR).uri("registry/region/list")
 """
 ### Request Methods
-- `Get`: List All Regions where a Container Registry can be deployed
+- `GET`: List All Regions where a Container Registry can be deployed
 """
 
 URL_DATABASE_LIST_PLANS: Final[Url] = Url(Provider.VULTR).uri("databases/plans")
 """
 ### Request Methods
 
-- `Get`: List Managed Database Plans.
+- `GET`: List Managed Database Plans.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `engine` - Filter by engine type\n\n* `mysql`\n* `pg`\n* `valkey`\n* `kafka`
     - `nodes` - Filter by number of nodes.
     - `region` - Filter by [Region id](#operation/list-regions).
@@ -973,17 +973,19 @@ URL_DATABASE_LIST: Final[Url] = Url(Provider.VULTR).uri("databases")
 """
 ### Request Methods
 
-- `Get`: List all Managed Databases in your account.
-- `Post`: Create a new Managed Database in a `region` with the desired `plan`. Supply optional attributes as desired.
+- `GET`: List all Managed Databases in your account.
+- `POST`: Create a new Managed Database in a `region` with the desired `plan`. Supply optional attributes as desired.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `label` - Filter by label.
     - `tag` - Filter by specific tag.
     - `region` - Filter by [Region id](#operation/list-regions).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "database_engine": String, // The database engine type for the Managed Database. * `mysql` * `pg` * `valkey` * `kafka`
     "database_engine_version": String, // The version of the chosen database engine type for the Managed Database. * MySQL: `8` * PostgreSQL: `13` - `16` * Valkey: `7` * Kafka: `3.7`
@@ -1001,21 +1003,24 @@ URL_DATABASE_LIST: Final[Url] = Url(Provider.VULTR).uri("databases")
     "mysql_long_query_time": Optional<Integer>, // Number of seconds to denote a slow query (MySQL engine types only)
     "eviction_policy": Optional<String> // Set the data eviction policy (Valkey engine types only)
 }
+```
 """
 
 URL_DATABASE_GET: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Managed Database.
-- `Put`: Update information for a Managed Database. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete a Managed Database.
+- `GET`: Get information about a Managed Database.
+- `PUT`: Update information for a Managed Database. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete a Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+```js
 {
     "region": Optional<String>, // The [Region id](#operation/list-regions) where the Managed Database is located.
     "plan": Optional<String>, // The [Plan id](#operation/list-database-plans) for this Managed Database.
@@ -1032,13 +1037,14 @@ URL_DATABASE_GET: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}"
     "mysql_long_query_time": Optional<Integer>, // Number of seconds to denote a slow query (MySQL engine types only)
     "eviction_policy": Optional<String> // Set the data eviction policy (Valkey engine types only)
 }
+```
 """
 
 URL_DATABASE_USAGE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/usage")
 """
 ### Request Methods
 
-- `Get`: Get disk, memory, and vCPU usage information for a Managed Database.
+- `GET`: Get disk, memory, and vCPU usage information for a Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1048,88 +1054,106 @@ URL_DATABASE_USERS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id
 """
 ### Request Methods
 
-- `Get`: List all database users within the Managed Database.
-- `Post`: Create a new database user within the Managed Database. Supply optional attributes as desired.
+- `GET`: List all database users within the Managed Database.
+- `POST`: Create a new database user within the Managed Database. Supply optional attributes as desired.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "username": String, // The username of the database user
     "password": Optional<String>, // The password for the database user (omit to auto-generate)
     "encryption": Optional<String>, // The password encryption type (MySQL engine types only) * `caching_sha2_password` * `mysql_native_password`
     "permission": Optional<String> // The permission level (Kafka engine types only) * `admin` * `read` * `write` * `readwrite`
 }
+```
 """
 
 URL_DATABASE_USER: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/users/{username}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Managed Database user.
-- `Put`: Update database user information within a Managed Database.
-- `Delete`: Delete a database user within a Managed Database.
+- `GET`: Get information about a Managed Database user.
+- `PUT`: Update database user information within a Managed Database.
+- `DELETE`: Delete a database user within a Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 - `username` - The [database user](#operation/list-database-users).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+```js
 {
     "password": String // The password for the database user (can be empty to auto-generate)
 }
+```
 """
 
 URL_DATABASE_USER_ACCESS_CONTROL: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/users/{username}/access-control")
 """
 ### Request Methods
 
-- `Put`: Configure access control settings for a Managed Database user (Valkey and Kafka engine types only).
+- `PUT`: Configure access control settings for a Managed Database user (Valkey and Kafka engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 - `username` - The [database user](#operation/list-database-users).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+when access control:
+
+```js
 {
     "acl_categories": Optional<Array<String>>, // ACL categories array (Valkey)
     "acl_channels": Optional<Array<String>>, // ACL channels array (Valkey)
     "acl_commands": Optional<Array<String>>, // ACL commands array (Valkey)
     "acl_keys": Optional<Array<String>> // ACL keys array (Valkey)
 }
-OR
+```
+
+Or when kafka-permission:
+
+```js
 {
     "permission": Optional<String> // Kafka permissions * `admin` * `read` * `write` * `readwrite`
 }
+```
 """
 
 URL_DATABASE_LOGICAL_DATABASES: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/dbs")
 """
 ### Request Methods
 
-- `Get`: List all logical databases within the Managed Database (MySQL and PostgreSQL only).
-- `Post`: Create a new logical database within the Managed Database (MySQL and PostgreSQL only).
+- `GET`: List all logical databases within the Managed Database (MySQL and PostgreSQL only).
+- `POST`: Create a new logical database within the Managed Database (MySQL and PostgreSQL only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "name": String // The name of the logical database
 }
+```
 """
 
 URL_DATABASE_LOGICAL_DATABASE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/dbs/{db-name}")
 """
 ### Request Methods
 
-- `Get`: Get information about a logical database within a Managed Database (MySQL and PostgreSQL only).
-- `Delete`: Delete a logical database within a Managed Database (MySQL and PostgreSQL only).
+- `GET`: Get information about a logical database within a Managed Database (MySQL and PostgreSQL only).
+- `DELETE`: Delete a logical database within a Managed Database (MySQL and PostgreSQL only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1140,14 +1164,16 @@ URL_DATABASE_TOPICS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-i
 """
 ### Request Methods
 
-- `Get`: List all topics within the Managed Database (Kafka engine types only).
-- `Post`: Create a new topic within the Managed Database (Kafka engine types only).
+- `GET`: List all topics within the Managed Database (Kafka engine types only).
+- `POST`: Create a new topic within the Managed Database (Kafka engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "name": String, // The name for the database topic
     "partitions": Integer, // The number of partitions
@@ -1155,42 +1181,48 @@ URL_DATABASE_TOPICS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-i
     "retention_hours": Integer, // The retention hours
     "retention_bytes": Integer // The retention bytes
 }
+```
 """
 
 URL_DATABASE_TOPIC: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/topics/{topic-name}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Managed Database topic (Kafka engine types only).
-- `Put`: Update topic information within a Managed Database (Kafka engine types only).
-- `Delete`: Delete a topic within a Managed Database (Kafka engine types only).
+- `GET`: Get information about a Managed Database topic (Kafka engine types only).
+- `PUT`: Update topic information within a Managed Database (Kafka engine types only).
+- `DELETE`: Delete a topic within a Managed Database (Kafka engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 - `topic-name` - The [database topic](#operation/list-database-topics).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+```js
 {
     "partitions": "The number of partitions for the database topic.",
     "replication": "The replication factor for the database topic.",
     "retention_hours": "The retention hours for the database topic.",
     "retention_bytes": "The retention bytes for the database topic."
 }
+```
 """
 
 URL_DATABASE_QUOTAS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/quotas")
 """
 ### Request Methods
 
-- `Get`: List all quotas within the Managed Database (Kafka engine types only).
-- `Post`: Create a new quota within the Managed Database (Kafka engine types only).
+- `GET`: List all quotas within the Managed Database (Kafka engine types only).
+- `POST`: Create a new quota within the Managed Database (Kafka engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "client_id": "The client ID for the database quota. Note: Creating a new quota with the same client ID and user will overwrite the previous record.",
     "consumer_byte_rate": "The consumer byte rate for the database quota.",
@@ -1198,14 +1230,15 @@ URL_DATABASE_QUOTAS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-i
     "request_percentage": "The CPU request percentage for the database quota.",
     "user": "The [user](#operation/list-database-users) for the database quota."
 }
+```
 """
 
 URL_DATABASE_MAINTENANCE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/maintenance")
 """
 ### Request Methods
 
-- `Get`: List all available version upgrades within the Managed Database.
-- `Post`: Start maintenance updates for the Managed Database.
+- `GET`: List all available version upgrades within the Managed Database.
+- `POST`: Start maintenance updates for the Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1215,15 +1248,17 @@ URL_DATABASE_MIGRATION: Final[Url] = Url(Provider.VULTR).uri("databases/{databas
 """
 ### Request Methods
 
-- `Get`: View the status of a migration attached to the Managed Database.
-- `Post`: Start a migration to the Managed Database.
-- `Delete`: Detach a migration from the Managed Database.
+- `GET`: View the status of a migration attached to the Managed Database.
+- `POST`: Start a migration to the Managed Database.
+- `DELETE`: Detach a migration from the Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "host": "The host name of the source server.",
     "port": "The connection port of the source server.",
@@ -1233,30 +1268,34 @@ URL_DATABASE_MIGRATION: Final[Url] = Url(Provider.VULTR).uri("databases/{databas
     "ignored_databases": "Comma-separated list of ignored databases on the source server. Excluded for Valkey engine types.",
     "ssl": "The true/false value for whether SSL is needed to connect to the source server."
 }
+```
 """
 
 URL_DATABASE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/read-replica")
 """
 ### Request Methods
 
-- `Post`: Create a read-only replica node for the Managed Database.
+- `POST`: Create a read-only replica node for the Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "region": "The [Region id](#operation/list-regions) where the Managed Database is located.",
     "label": "A user-supplied label for this Managed Database."
 }
+```
 """
 
 URL_DATABASE_PROMOTE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/promote-read-replica")
 """
 ### Request Methods
 
-- `Post`: Promote a read-only replica node to its own primary Managed Database.
+- `POST`: Promote a read-only replica node to its own primary Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1266,7 +1305,7 @@ URL_DATABASE_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-
 """
 ### Request Methods
 
-- `Get`: Get backup information for the Managed Database.
+- `GET`: Get backup information for the Managed Database.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1276,13 +1315,14 @@ URL_DATABASE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-
 """
 ### Request Methods
 
-- `Post`: Create a new Managed Database from a backup.
+- `POST`: Create a new Managed Database from a backup.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
 ```js
 {
     "label": String, // A user-supplied label for this Managed Database.
@@ -1297,13 +1337,14 @@ URL_DATABASE_FORK: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}
 """
 ### Request Methods
 
-- `Post`: Fork a Managed Database to a new subscription from a backup.
+- `POST`: Fork a Managed Database to a new subscription from a backup.
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
 ```js
 {
     "label": String, // A user-supplied label for this Managed Database.
@@ -1321,14 +1362,15 @@ URL_DATABASE_CONNECTION_POOLS: Final[Url] = Url(Provider.VULTR).uri("databases/{
 """
 ### Request Methods
 
-- `Get`: List all connection pools within the Managed Database (PostgreSQL engine types only).
-- `Post`: Create a new connection pool within the Managed Database (PostgreSQL engine types only).
+- `GET`: List all connection pools within the Managed Database (PostgreSQL engine types only).
+- `POST`: Create a new connection pool within the Managed Database (PostgreSQL engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
 ```js
 {
     "name": String, // The name of the connection pool.
@@ -1344,16 +1386,17 @@ URL_DATABASE_CONNECTION_POOL: Final[Url] = Url(Provider.VULTR).uri("databases/{d
 """
 ### Request Methods
 
-- `Get`: Get information about a Managed Database connection pool (PostgreSQL engine types only).
-- `Put`: Update connection-pool information within a Managed Database (PostgreSQL engine types only).
-- `Delete`: Delete a connection pool within a Managed Database (PostgreSQL engine types only).
+- `GET`: Get information about a Managed Database connection pool (PostgreSQL engine types only).
+- `PUT`: Update connection-pool information within a Managed Database (PostgreSQL engine types only).
+- `DELETE`: Delete a connection pool within a Managed Database (PostgreSQL engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 - `pool-name` - The [connection pool name](#operation/list-connection-pools).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
 ```js
 {
     "database": String, // The logical database associated with the connection pool.
@@ -1368,8 +1411,8 @@ URL_DATABASE_ADVANCED_OPTIONS: Final[Url] = Url(Provider.VULTR).uri("databases/{
 """
 ### Request Methods
 
-- `Get`: List all configured and available advanced options for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
-- `Put`: Updates an advanced configuration option for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
+- `GET`: List all configured and available advanced options for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
+- `PUT`: Updates an advanced configuration option for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
@@ -1379,14 +1422,15 @@ URL_DATABASE_VERSION_UPGRADE: Final[Url] = Url(Provider.VULTR).uri("databases/{d
 """
 ### Request Methods
 
-- `Get`: List all available version upgrades within the Managed Database (PostgreSQL engine types only).
-- `Post`: Start a version upgrade for the Managed Database (PostgreSQL engine types only).
+- `GET`: List all available version upgrades within the Managed Database (PostgreSQL engine types only).
+- `POST`: Start a version upgrade for the Managed Database (PostgreSQL engine types only).
 
 ### Path parameters
 - `database-id` - The [Managed Database ID](#operation/list-databases).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
 ```js
 {
     "version": String // The version number to upgrade the Managed Database to.
@@ -1398,64 +1442,74 @@ URL_DOMAIN_LIST: Final[Url] = Url(Provider.VULTR).uri("domains")
 """
 ### Request Methods
 
-- `Get`: List all DNS Domains in your account.
-- `Post`: Create a DNS Domain for `domain`. If no `ip` address is supplied a domain with no records will be created.
+- `GET`: List all DNS Domains in your account.
+- `POST`: Create a DNS Domain for `domain`. If no `ip` address is supplied a domain with no records will be created.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
     - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
 ### Request Body Schema
-- `Post`:
+
+- `POST`:
+
+```js
 {
     "domain": "Your registered DNS Domain name.",
     "ip": "The default IP address for your DNS Domain. If omitted an empty domain zone will be created.",
     "dns_sec": "Enable or disable DNSSEC.\\n\\n* enabled\\n* disabled (default)"
 }
+```
 """
 
 URL_DOMAIN: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}")
 """
 ### Request Methods
 
-- `Get`: Get information for the DNS Domain.
-- `Put`: Update the DNS Domain.
-- `Delete`: Delete the DNS Domain.
+- `GET`: Get information for the DNS Domain.
+- `PUT`: Update the DNS Domain.
+- `DELETE`: Delete the DNS Domain.
 
 ### Path parameters
 - `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+```js
 {
     "dns_sec": "Enable or disable DNSSEC.\\n\\n* enabled\\n* disabled"
 }
+```
 """
 
 URL_DOMAIN_SOA: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/soa")
 """
 ### Request Methods
 
-- `Get`: Get SOA information for the DNS Domain.
-- `Patch`: Update the SOA information for the DNS Domain. All attributes are optional. If not set, the attributes will retain their original values.
+- `GET`: Get SOA information for the DNS Domain.
+- `PATCH`: Update the SOA information for the DNS Domain. All attributes are optional. If not set, the attributes will retain their original values.
 
 ### Path parameters
 - `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
 
 ### Request Body Schema
-- `Patch`:
+- `PATCH`:
+
+```js
 {
     "nsprimary": "Set the primary nameserver.",
     "email": "Set the contact email address."
 }
+```
 """
 
 URL_DOMAIN_DNSSEC: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/dnssec")
 """
 ### Request Methods
 
-- `Get`: Get the DNSSEC information for the DNS Domain.
+- `GET`: Get the DNSSEC information for the DNS Domain.
 
 ### Path parameters
 - `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
@@ -1465,19 +1519,21 @@ URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/r
 """
 ### Request Methods
 
-- `Get`: Get the DNS records for the Domain.
-- `Post`: Create a DNS record.
+- `GET`: Get the DNS records for the Domain.
+- `POST`: Create a DNS record.
 
 ### Path parameters
 - `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
     - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "name": "The hostname for this DNS record.",
     "type": "The DNS record type.\\n\\n* A\\n* AAAA\\n* CNAME\\n* NS\\n* MX\\n* SRV\\n* TXT\\n* CAA\\n* SSHFP",
@@ -1485,84 +1541,96 @@ URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/r
     "ttl": "Time to Live in seconds.",
     "priority": "DNS priority. Does not apply to all record types. (Only required for MX and SRV)"
 }
+```
 """
 
 URL_DOMAIN_RECORD: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/records/{record-id}")
 """
 ### Request Methods
 
-- `Get`: Get information for a DNS Record.
-- `Patch`: Update the information for a DNS record. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete the DNS record.
+- `GET`: Get information for a DNS Record.
+- `PATCH`: Update the information for a DNS record. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete the DNS record.
 
 ### Path parameters
 - `dns-domain` - The [DNS Domain](#operation/list-dns-domains).
 - `record-id` - The [DNS Record id](#operation/list-dns-domain-records).
 
 ### Request Body Schema
-- `Patch`:
+- `PATCH`:
+
+```js
 {
     "name": "The hostname for this DNS record.",
     "data": "The DNS data for this record type.",
     "ttl": "Time to Live in seconds.",
     "priority": "DNS priority. Does not apply to all record types."
 }
+```
 """
 
 URL_FIREWALL_GROUP_LIST: Final[Url] = Url(Provider.VULTR).uri("firewalls")
 """
 ### Request Methods
 
-- `Get`: Get a list of all Firewall Groups.
-- `Post`: Create a new Firewall Group.
+- `GET`: Get a list of all Firewall Groups.
+- `POST`: Create a new Firewall Group.
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
     - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "description": "User-supplied description of this Firewall Group."
 }
+```
 """
 
 URL_FIREWALL_GROUP_GET: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}")
 """
 ### Request Methods
 
-- `Get`: Get information for a Firewall Group.
-- `Put`: Update information for a Firewall Group.
-- `Delete`: Delete a Firewall Group.
+- `GET`: Get information for a Firewall Group.
+- `PUT`: Update information for a Firewall Group.
+- `DELETE`: Delete a Firewall Group.
 
 ### Path parameters
 - `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
+
+```js
 {
     "description": "User-supplied description of this Firewall Group."
 }
+```
 """
 
 URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules")
 """
 ### Request Methods
 
-- `Get`: Get the Firewall Rules for a Firewall Group.
-- `Post`: Create a Firewall Rule for a Firewall Group. The attributes `ip_type`, `protocol`, `subnet`, and `subnet_size` are required.
+- `GET`: Get the Firewall Rules for a Firewall Group.
+- `POST`: Create a Firewall Rule for a Firewall Group. The attributes `ip_type`, `protocol`, `subnet`, and `subnet_size` are required.
 
 ### Path parameters
 - `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
 
 ### Query parameters
-- `Get`:
+- `GET`:
     - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
     - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "ip_type": "The type of IP rule.\\n\\n* v4\\n* v6",
     "protocol": "The protocol for this rule.\\n\\n* ICMP\\n* TCP\\n* UDP\\n* GRE\\n* ESP\\n* AH\\n",
@@ -1572,14 +1640,15 @@ URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firew
     "source": "If the source string is given a value of \"cloudflare\" subnet and subnet_size will both be ignored.\\nPossible values:\\n\\n|   | Value | Description |\\n| - | ------ | ------------- |\\n|   | \"\" | Use the value from `subnet` and `subnet_size`. |\\n|   | cloudflare | Allow all of Cloudflare's IP space through the firewall |\\n|   | [Load Balancer id](#operation/list-load-balancers) | Provide a load balancer ID to use its IPs |\\n",
     "notes": "User-supplied notes for this rule."
 }
+```
 """
 
 URL_FIREWALL_GROUP_RULE: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules/{firewall-rule-id}")
 """
 ### Request Methods
 
-- `Get`: Get a Firewall Rule.
-- `Delete`: Delete a Firewall Rule.
+- `GET`: Get a Firewall Rule.
+- `DELETE`: Delete a Firewall Rule.
 
 ### Path parameters
 - `firewall-group-id` - The [Firewall Group id](#operation/list-firewall-groups).
@@ -1590,39 +1659,45 @@ URL_INFERENCE_LIST: Final[Url] = Url(Provider.VULTR).uri("inference")
 """
 ### Request Methods
 
-- `Get`: List all Serverless Inference subscriptions in your account.
-- `Post`: Create a new Serverless Inference subscription.
+- `GET`: List all Serverless Inference subscriptions in your account.
+- `POST`: Create a new Serverless Inference subscription.
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
+
+```js
 {
     "label": "A user-supplied label for this Serverless Inference subscription."
 }
+```
 """
 
 URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Serverless Inference subscription.
-- `Patch`: Update information for a Serverless Inference subscription.
-- `Delete`: Delete a Serverless Inference subscription.
+- `GET`: Get information about a Serverless Inference subscription.
+- `PATCH`: Update information for a Serverless Inference subscription.
+- `DELETE`: Delete a Serverless Inference subscription.
 
 ### Path parameters
 - `inference-id` - The [Inference ID](#operation/list-inference).
 
 ### Request Body Schema
-- `Patch`:
+- `PATCH`:
+
+```js
 {
     "label": "A user-supplied label for this Serverless Inference subscription."
 }
+```
 """
 
 URL_INFERENCE_USAGE: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}/usage")
 """
 ### Request Methods
 
-- `Get`: Get usage information for a Serverless Inference subscription.
+- `GET`: Get usage information for a Serverless Inference subscription.
 
 ### Path parameters
 - `inference-id` - The [Inference ID](#operation/list-inference).
@@ -1632,7 +1707,7 @@ URL_INSTANCE_LIST: Final[Url] = Url(Provider.VULTR).uri("instances")
 """
 ### Request Methods
 
-- `Get`: List all VPS instances in your account.
+- `GET`: List all VPS instances in your account.
 
 ### Query Parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -1650,7 +1725,7 @@ URL_INSTANCE_CREATE: Final[Url] = Url(Provider.VULTR).uri("instances")
 """
 ### Request Methods
 
-- `Post`: Create a new VPS Instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
+- `POST`: Create a new VPS Instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
     - `os_id`
     - `iso_id`
     - `snapshot_id`
@@ -1696,9 +1771,9 @@ URL_INSTANCE_GET: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}"
 """
 ### Request Methods
 
-- `Get`: Get information about an Instance.
-- `Patch`: Update information for an Instance. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete an Instance.
+- `GET`: Get information about an Instance.
+- `PATCH`: Update information for an Instance. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete an Instance.
 
 ### Path Parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -1732,7 +1807,7 @@ URL_INSTANCE_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 """
 ### Request Methods
 
-- `Post`: Reinstall an Instance using an optional `hostname`.
+- `POST`: Reinstall an Instance using an optional `hostname`.
 
 ### Request Body Schema
 - `hostname` - The hostname to use when reinstalling this instance.
@@ -1742,7 +1817,7 @@ URL_INSTANCE_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 """
 ### Request Methods
 
-- `Get`: Get bandwidth information about an Instance.
+- `GET`: Get bandwidth information about an Instance.
 
 ### Query Parameters
 - `date_range` - The range of days to include (1-180). Default 30.
@@ -1752,14 +1827,14 @@ URL_INSTANCE_NEIGHBORS: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 """
 ### Request Methods
 
-- `Get`: Get a list of other instances in the same location as this Instance.
+- `GET`: Get a list of other instances in the same location as this Instance.
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks")
 """
 ### Request Methods
 
-- `Get`: **Deprecated**: use [List Instance VPCs](#operation/list-instance-vpcs) instead. List the private networks for an Instance.
+- `GET`: **Deprecated**: use [List Instance VPCs](#operation/list-instance-vpcs) instead. List the private networks for an Instance.
 
 ### Query Parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -1770,7 +1845,7 @@ URL_INSTANCE_VPCS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 """
 ### Request Methods
 
-- `Get`: List the VPCs for an Instance.
+- `GET`: List the VPCs for an Instance.
 
 ### Query Parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -1781,7 +1856,7 @@ URL_INSTANCE_VPC2S: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id
 """
 ### Request Methods
 
-- `Get`: List the VPC 2.0 networks for an Instance.
+- `GET`: List the VPC 2.0 networks for an Instance.
 
 ### Query Parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -1792,7 +1867,7 @@ URL_INSTANCE_ISO: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/
 """
 ### Request Methods
 
-- `Get`: Get the ISO status for an Instance.
+- `GET`: Get the ISO status for an Instance.
 
 ### Path Parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -1802,7 +1877,7 @@ URL_INSTANCE_ISO_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instan
 """
 ### Request Methods
 
-- `Post`: Attach an ISO to an Instance.
+- `POST`: Attach an ISO to an Instance.
 
 ### Request Body Schema
 - `iso_id` - The [ISO id](#operation/list-isos) to attach to this Instance.
@@ -1812,7 +1887,7 @@ URL_INSTANCE_ISO_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instan
 """
 ### Request Methods
 
-- `Post`: Detach the ISO from an Instance.
+- `POST`: Detach the ISO from an Instance.
 
 ### Request Body Schema
 - `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
@@ -1822,7 +1897,7 @@ URL_INSTANCE_PRIVATE_NETWORKS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("inst
 """
 ### Request Methods
 
-- `Post`: Attach Private Network to an Instance. (Deprecated)
+- `POST`: Attach Private Network to an Instance. (Deprecated)
 
 ### Request Body Schema
 - `network_id` - The [Private Network id](#operation/list-networks) to attach to this Instance.
@@ -1832,7 +1907,7 @@ URL_INSTANCE_PRIVATE_NETWORKS_DETACH: Final[Url] = Url(Provider.VULTR).uri("inst
 """
 ### Request Methods
 
-- `Post`: Detach Private Network from an Instance. (Deprecated)
+- `POST`: Detach Private Network from an Instance. (Deprecated)
 
 ### Request Body Schema
 - `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
@@ -1842,7 +1917,7 @@ URL_INSTANCE_VPCS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 """
 ### Request Methods
 
-- `Post`: Attach a VPC to an Instance.
+- `POST`: Attach a VPC to an Instance.
 
 ### Request Body Schema
 - `vpc_id` - The [VPC ID](#operation/list-vpcs) to attach to this Instance.
@@ -1852,7 +1927,7 @@ URL_INSTANCE_VPCS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 """
 ### Request Methods
 
-- `Post`: Detach a VPC from an Instance.
+- `POST`: Detach a VPC from an Instance.
 
 ### Request Body Schema
 - `vpc_id` - The [VPC ID](#operation/list-vpcs) to detach from this Instance.
@@ -1862,7 +1937,7 @@ URL_INSTANCE_VPC2_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 """
 ### Request Methods
 
-- `Post`: Attach a VPC 2.0 Network to an Instance.
+- `POST`: Attach a VPC 2.0 Network to an Instance.
 
 ### Request Body Schema
 - `vpc_id` - The [VPC ID](#operation/list-vpc2) to attach to this Instance.
@@ -1875,7 +1950,7 @@ URL_INSTANCE_VPC2_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{insta
 """
 ### Request Methods
 
-- `Post`: Detach a VPC 2.0 Network from an Instance.
+- `POST`: Detach a VPC 2.0 Network from an Instance.
 
 ### Request Body Schema
 - `vpc_id` - The [VPC ID](#operation/list-vpc2) to detach from this Instance.
@@ -1887,8 +1962,8 @@ URL_INSTANCE_BACKUP_SCHEDULE: Final[Url] = Url(Provider.VULTR).uri("instances/{i
 """
 ### Request Methods
 
-- `Get`: Get the backup schedule for an Instance.
-- `Post`: Set the backup schedule for an Instance in UTC.
+- `GET`: Get the backup schedule for an Instance.
+- `POST`: Set the backup schedule for an Instance in UTC.
 
 ### Request Body Schema (Post)
 - `type` - Type of backup schedule: `daily`, `weekly`, `monthly`, `daily_alt_even`, `daily_alt_odd`.
@@ -1903,7 +1978,7 @@ URL_INSTANCE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-
 """
 ### Request Methods
 
-- `Post`: Restore an Instance from either `backup_id` or `snapshot_id`.
+- `POST`: Restore an Instance from either `backup_id` or `snapshot_id`.
 
 ### Request Body Schema
 - `backup_id` - The [Backup id](#operation/list-backups) used to restore this instance.
@@ -1914,20 +1989,20 @@ URL_INSTANCE_IPV4: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 """
 ### Request Methods
 
-- `Get`: List the IPv4 information for an Instance.
-- `Post`: Create an IPv4 address for an Instance.
+- `GET`: List the IPv4 information for an Instance.
+- `POST`: Create an IPv4 address for an Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
 
 ### Query Parameters
-- `Get`:
+- `GET`:
     - `public_network` - If `true`, includes information about the public network adapter (such as MAC address) with the `main_ip` entry.
     - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
     - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `reboot` - Set if the server is rebooted immediately after the IPv4 address is created.\n\n* true (default)\n* false
 """
 
@@ -1935,7 +2010,7 @@ URL_INSTANCE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 """
 ### Request Methods
 
-- `Get`: Get the IPv6 information for an VPS Instance.
+- `GET`: Get the IPv6 information for an VPS Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -1945,13 +2020,13 @@ URL_INSTANCE_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{inst
 """
 ### Request Methods
 
-- `Post`: Create a reverse IPv4 entry for an Instance. The `ip` and `reverse` attributes are required. 
+- `POST`: Create a reverse IPv4 entry for an Instance. The `ip` and `reverse` attributes are required. 
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `ip` - The IPv4 address.
     - `reverse` - The IPv4 reverse entry.
 """
@@ -1960,14 +2035,14 @@ URL_INSTANCE_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{inst
 """
 ### Request Methods
 
-- `Get`: List the reverse IPv6 information for an Instance.
-- `Post`: Create a reverse IPv6 entry for an Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format.
+- `GET`: List the reverse IPv6 information for an Instance.
+- `POST`: Create a reverse IPv6 entry for an Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `ip` - The IPv6 address in full, expanded format.
     - `reverse` - The IPv6 reverse entry.
 """
@@ -1976,13 +2051,13 @@ URL_INSTANCE_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("instanc
 """
 ### Request Methods
 
-- `Post`: Set a reverse DNS entry for an IPv4 address
+- `POST`: Set a reverse DNS entry for an IPv4 address
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `ip` - The IPv4 address.
 """
 
@@ -1990,7 +2065,7 @@ URL_INSTANCE_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/
 """
 ### Request Methods
 
-- `Delete`: Delete the reverse IPv6 for an Instance.
+- `DELETE`: Delete the reverse IPv6 for an Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -2001,7 +2076,7 @@ URL_INSTANCE_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 """
 ### Request Methods
 
-- `Post`: Halt an Instance.
+- `POST`: Halt an Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -2011,7 +2086,7 @@ URL_INSTANCE_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 """
 ### Request Methods
 
-- `Get`: Get the user-supplied, base64 encoded [user data](https://www.vultr.com/docs/manage-instance-user-data-with-the-vultr-metadata-api/) for an Instance.
+- `GET`: Get the user-supplied, base64 encoded [user data](https://www.vultr.com/docs/manage-instance-user-data-with-the-vultr-metadata-api/) for an Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -2021,7 +2096,7 @@ URL_INSTANCE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("instances/{instance
 """
 ### Request Methods
 
-- `Get`: Get available upgrades for an Instance.
+- `GET`: Get available upgrades for an Instance.
 
 ### Path parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
@@ -2034,11 +2109,11 @@ URL_KUBERNETES_LIST: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters")
 """
 ### Request Methods
 
-- `Get`: List all Kubernetes clusters currently deployed.
-- `Post`: Create Kubernetes Cluster.
+- `GET`: List all Kubernetes clusters currently deployed.
+- `POST`: Create Kubernetes Cluster.
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `label` - The label for your Kubernetes cluster.
     - `region` - Region you want to deploy VKE in. See [Regions](#tag/region) for more information.
     - `version` - Version of Kubernetes you want to deploy.
@@ -2058,15 +2133,15 @@ URL_KUBERNETES_GET: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{v
 """
 ### Request Methods
 
-- `Get`: Get Kubernetes Cluster.
-- `Put`: Update Kubernetes Cluster.
-- `Delete`: Delete Kubernetes Cluster.
+- `GET`: Get Kubernetes Cluster.
+- `PUT`: Update Kubernetes Cluster.
+- `DELETE`: Delete Kubernetes Cluster.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 
 ### Request Body Schema
-- `Put`:
+- `PUT`:
     - `label` - Label for the Kubernetes cluster
 """
 
@@ -2074,7 +2149,7 @@ URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES: Final[Url] = Url(Provider.VULTR).ur
 """
 ### Request Methods
 
-- `Delete`: Delete Kubernetes Cluster and all related resources.
+- `DELETE`: Delete Kubernetes Cluster and all related resources.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2084,7 +2159,7 @@ URL_KUBERNETES_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 """
 ### Request Methods
 
-- `Get`: Get the block storage volumes and load balancers deployed by the specified Kubernetes cluster.
+- `GET`: Get the block storage volumes and load balancers deployed by the specified Kubernetes cluster.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2094,7 +2169,7 @@ URL_KUBERNETES_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kuberne
 """
 ### Request Methods
 
-- `Get`: Get the available upgrades for the specified Kubernetes cluster.
+- `GET`: Get the available upgrades for the specified Kubernetes cluster.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2104,13 +2179,13 @@ URL_KUBERNETES_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 """
 ### Request Methods
 
-- `Post`: Start a Kubernetes cluster upgrade.
+- `POST`: Start a Kubernetes cluster upgrade.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `upgrade_version` - The version you're upgrading to
 """
 
@@ -2118,14 +2193,14 @@ URL_KUBERNETES_NODEPOOLS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 """
 ### Request Methods
 
-- `Get`: List all available NodePools on a Kubernetes Cluster.
-- `Post`: Create NodePool for a Existing Kubernetes Cluster.
+- `GET`: List all available NodePools on a Kubernetes Cluster.
+- `POST`: Create NodePool for a Existing Kubernetes Cluster.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 
 ### Request Body Schema
-- `Post`:
+- `POST`:
     - `node_quantity` - Number of instances in this nodepool
     - `label` - Label for the nodepool
     - `plan` - Plan that this nodepool will use
@@ -2140,16 +2215,16 @@ URL_KUBERNETES_NODEPOOL: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 """
 ### Request Methods
 
-- `Get`: Get Nodepool from a Kubernetes Cluster.
-- `Patch`: Update a Nodepool on a Kubernetes Cluster.
-- `Delete`: Delete a NodePool from a Kubernetes Cluster.
+- `GET`: Get Nodepool from a Kubernetes Cluster.
+- `PATCH`: Update a Nodepool on a Kubernetes Cluster.
+- `DELETE`: Delete a NodePool from a Kubernetes Cluster.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
 - `nodepool-id` - The [NodePool ID](#operation/get-nodepools).
 
 ### Request Body Schema
-- `Patch`:
+- `PATCH`:
     - `node_quantity` - Number of instances in the NodePool
     - `tag` - Tag for node pool
     - `auto_scaler` - Option to use the auto scaler
@@ -2162,7 +2237,7 @@ URL_KUBERNETES_NODEPOOL_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("kubernet
 """
 ### Request Methods
 
-- `Delete`: Delete a single nodepool instance from a given Nodepool.
+- `DELETE`: Delete a single nodepool instance from a given Nodepool.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2174,7 +2249,7 @@ URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE: Final[Url] = Url(Provider.VULTR).uri("
 """
 ### Request Methods
 
-- `Post`: Recycle a specific NodePool Instance.
+- `POST`: Recycle a specific NodePool Instance.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2186,7 +2261,7 @@ URL_KUBERNETES_CONFIG: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters
 """
 ### Request Methods
 
-- `Get`: Get Kubernetes Cluster Kubeconfig.
+- `GET`: Get Kubernetes Cluster Kubeconfig.
 
 ### Path parameters
 - `vke-id` - The [VKE ID](#operation/list-kubernetes-clusters).
@@ -2196,7 +2271,7 @@ URL_KUBERNETES_VERSIONS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/versio
 """
 ### Request Methods
 
-- `Get`: Get a list of supported Kubernetes versions.
+- `GET`: Get a list of supported Kubernetes versions.
 """
 
 
@@ -2204,7 +2279,7 @@ URL_LOAD_BALANCER_LIST: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 """
 ### Request Methods
 
-- `Get`: List the Load Balancers in your account.
+- `GET`: List the Load Balancers in your account.
 
 ### Query parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -2215,9 +2290,12 @@ URL_LOAD_BALANCER_CREATE: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 """
 ### Request Methods
 
-- `Post`: Create a new Load Balancer in a particular `region`.
+- `POST`: Create a new Load Balancer in a particular `region`.
 
 ### Request Body Schema
+- `POST`:
+
+```
 {
     "region": "The [Region id](#operation/list-regions) to create this Load Balancer.",
     "balancing_algorithm": "The balancing algorithm.\n\n* roundrobin (default)\n* leastconn",
@@ -2267,20 +2345,24 @@ URL_LOAD_BALANCER_CREATE: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
     },
     "global_regions": "Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to."
 }
+```
 """
 
 URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}")
 """
 ### Request Methods
 
-- `Get`: Get information for a Load Balancer.
-- `Patch`: Update information for a Load Balancer. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete a Load Balancer.
+- `GET`: Get information for a Load Balancer.
+- `PATCH`: Update information for a Load Balancer. All attributes are optional. If not set, the attributes will retain their original values.
+- `DELETE`: Delete a Load Balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
 
-### Request Body Schema (Patch)
+### Request Body Schema
+- `PATCH`:
+
+```js
 {
     "ssl": {
         "private_key": "The private key.",
@@ -2329,13 +2411,14 @@ URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loa
     },
     "global_regions": "Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to."
 }
+```
 """
 
 URL_LOAD_BALANCER_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/ssl")
 """
 ### Request Methods
 
-- `Delete`: Delete a Load Balancer SSL.
+- `DELETE`: Delete a Load Balancer SSL.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2345,7 +2428,7 @@ URL_LOAD_BALANCER_AUTO_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers
 """
 ### Request Methods
 
-- `Delete`: Remove a Load Balancer Auto SSL. This will not remove an ssl certificate from the load balancer.
+- `DELETE`: Remove a Load Balancer Auto SSL. This will not remove an ssl certificate from the load balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2355,8 +2438,8 @@ URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-b
 """
 ### Request Methods
 
-- `Get`: List the fowarding rules for a Load Balancer.
-- `Post`: Create a new forwarding rule for a Load Balancer.
+- `GET`: List the fowarding rules for a Load Balancer.
+- `POST`: Create a new forwarding rule for a Load Balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2365,21 +2448,25 @@ URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-b
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
 - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 
-### Request Body Schema (Post)
+### Request Body Schema
+- `POST`:
+
+```js
 {
     "frontend_protocol": "The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP",
     "frontend_port": "The port number on the Load Balancer to forward to the backend.",
     "backend_protocol": "The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP",
     "backend_port": "The port number destination on the backend server."
 }
+```
 """
 
 URL_LOAD_BALANCER_FORWARDING_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/forwarding-rules/{forwarding-rule-id}")
 """
 ### Request Methods
 
-- `Get`: Get information for a Forwarding Rule on a Load Balancer.
-- `Delete`: Delete a Forwarding Rule on a Load Balancer.
+- `GET`: Get information for a Forwarding Rule on a Load Balancer.
+- `DELETE`: Delete a Forwarding Rule on a Load Balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2390,7 +2477,7 @@ URL_LOAD_BALANCER_FIREWALL_RULES: Final[Url] = Url(Provider.VULTR).uri("load-bal
 """
 ### Request Methods
 
-- `Get`: List the firewall rules for a Load Balancer.
+- `GET`: List the firewall rules for a Load Balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2404,7 +2491,7 @@ URL_LOAD_BALANCER_FIREWALL_RULE: Final[Url] = Url(Provider.VULTR).uri("load-bala
 """
 ### Request Methods
 
-- `Get`: Get a firewall rule for a Load Balancer.
+- `GET`: Get a firewall rule for a Load Balancer.
 
 ### Path parameters
 - `load-balancer-id` - The [Load Balancer id](#operation/list-load-balancers).
@@ -2415,7 +2502,7 @@ URL_MARKETPLACE_APP_VARIABLES: Final[Url] = Url(Provider.VULTR).uri("marketplace
 """
 ### Request Methods
 
-- `Get`: List all user-supplied variables for a Marketplace App.
+- `GET`: List all user-supplied variables for a Marketplace App.
 
 ### Path parameters
 - `image-id` - The application's [Image ID](#operation/list-applications).
@@ -2425,7 +2512,7 @@ URL_OS: Final[Url] = Url(Provider.VULTR).uri("os")
 """
 ### Request Methods
 
-- `Get`: List the OS images available for installation at Vultr.
+- `GET`: List the OS images available for installation at Vultr.
 
 ### Query parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -2436,7 +2523,7 @@ URL_PLAN: Final[Url] = Url(Provider.VULTR).uri("plans")
 """
 ### Request Methods
 
-- `Get`: Get a list of all VPS plans at Vultr.
+- `GET`: Get a list of all VPS plans at Vultr.
 
 The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
 
@@ -2482,7 +2569,7 @@ URL_PLAN_METAL: Final[Url] = Url(Provider.VULTR).uri("plans-metal")
 """
 ### Request Methods
 
-- `Get`: Get a list of all Bare Metal plans at Vultr.
+- `GET`: Get a list of all Bare Metal plans at Vultr.
 
 The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
 
@@ -2508,7 +2595,7 @@ URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
 """
 ### Request Methods
 
-- `Get`: List all Regions at Vultr.
+- `GET`: List all Regions at Vultr.
 
 ### Query parameters
 - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
@@ -2519,7 +2606,7 @@ URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-i
 """
 ### Request Methods
 
-- `Get`: Get a list of the available plans in Region `region-id`. Not all plans are available in all regions.
+- `GET`: Get a list of the available plans in Region `region-id`. Not all plans are available in all regions.
 
 ### Path parameters
 - `region-id` - The [Region id](#operation/list-regions).
@@ -2547,180 +2634,435 @@ URL_RESERVED_IP: Final[Url] = Url(Provider.VULTR).uri("reserved-ips")
 """
 ### Request Methods
 
-- `Get`: List all Reserved IPs in your account.
-- `Post`: Create a new Reserved IP. The `region` and `ip_type` attributes are required.
+- `GET`: List all Reserved IPs in your account.
+- `POST`: Create a new Reserved IP. The `region` and `ip_type` attributes are required.
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "region": String, // The [Region id](#operation/list-regions) where the Reserved IP will be created.
+    "ip_type": String, // The type of IP address.\n\n* v4\n* v6
+    "label": String // The user-supplied label.
+}
+```
 """
 
 URL_RESERVED_IP_ID: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Reserved IP.
-- `Patch`: Update information on a Reserved IP.
-- `Delete`: Delete a Reserved IP.
+- `GET`: Get information about a Reserved IP.
+- `PATCH`: Update information on a Reserved IP.
+- `DELETE`: Delete a Reserved IP.
+
+### Path parameters
+- `reserved-ip` - The [Reserved IP id](#operation/list-reserved-ips).
+
+### Request Body Schema
+- `PATCH`:
+
+```js
+{
+    "label": String // The user-supplied label.
+}
+```
 """
 
 URL_RESERVED_IP_ATTACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/attach")
 """
 ### Request Methods
 
-- `Post`: Attach a Reserved IP to an compute instance or a baremetal instance - `instance_id`.
+- `POST`: Attach a Reserved IP to an compute instance or a baremetal instance - `instance_id`.
+
+### Path parameters
+- `reserved-ip` - The [Reserved IP id](#operation/list-reserved-ips).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "instance_id": String // Attach the Reserved IP to a [Compute Instance id](#operation/list-instances) or a [Bare Metal Instance id](#operation/list-baremetals).
+}
+```
 """
 
 URL_RESERVED_IP_DETACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/detach")
 """
 ### Request Methods
 
-- `Post`: Detach a Reserved IP.
+- `POST`: Detach a Reserved IP.
+
+### Path parameters
+- `reserved-ip` - The [Reserved IP id](#operation/list-reserved-ips).
 """
 
 URL_RESERVED_IP_CONVERT: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/convert")
 """
 ### Request Methods
 
-- `Post`: Convert the `ip_address` of an existing instance into a Reserved IP.
+- `POST`: Convert the `ip_address` of an existing [instance](#operation/list-instances) into a Reserved IP.
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "ip_address": String, // The IP address to convert.
+    "label": String // A user-supplied label for this IP address.
+}
+```
 """
 
-URL_SNAPSHOT: Final[Url] = Url(Provider.VULTR).uri("snapshots")
+URL_SNAPSHOT_LIST: Final[Url] = Url(Provider.VULTR).uri("snapshots")
 """
 ### Request Methods
 
-- `Get`: Get information about all Snapshots in your account.
-- `Post`: Create a new Snapshot for `instance_id`.
+- `GET`: Get information about all Snapshots in your account.
+- `POST`: Create a new Snapshot for `instance_id`.
+
+### Query parameters
+- `GET`:
+    - `description` - Filter the list of Snapshots by `description`.
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "instance_id": String, // Create a Snapshot for this [Instance id](#operation/list-instances).
+    "description": String // The user-supplied description of the Snapshot.
+}
+```
 """
 
 URL_SNAPSHOT_ID: Final[Url] = Url(Provider.VULTR).uri("snapshots/{snapshot-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a Snapshot.
-- `Put`: Update the description for a Snapshot.
-- `Delete`: Delete a Snapshot.
+- `GET`: Get information about a Snapshot.
+- `PUT`: Update the description for a Snapshot.
+- `DELETE`: Delete a Snapshot.
+
+### Path parameters
+- `snapshot-id` - The [Snapshot id](#operation/list-snapshots).
+
+### Request Body Schema
+- `PUT`:
+
+```js
+{
+    "description": String // The user-supplied description for the Snapshot.
+}
+```
 """
 
 URL_SNAPSHOT_CREATE_FROM_URL: Final[Url] = Url(Provider.VULTR).uri("snapshots/create-from-url")
 """
 ### Request Methods
 
-- `Post`: Create a new Snapshot from a RAW image located at `url`.
+- `POST`: Create a new Snapshot from a RAW image located at `url`.
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "url": String, // The public URL containing a RAW image.
+    "description": String, // The user-supplied description of the Snapshot.
+    "uefi": String // Whether or not the snapshot uses UEFI.
+}
+```
 """
 
+URL_STARTUP_SCRIPT_ID: Final[Url] = Url(Provider.VULTR).uri("startup-scripts/{startup-id}")
+"""
+### Request Methods
+
+- `GET`: Get information for a Startup Script.
+- `PATCH`: Update a Startup Script.
+- `DELETE`: Delete a Startup Script.
+
+### Path parameters
+- `startup-id` - The [Startup Script id](#operation/list-startup-scripts).
+
+### Request Body Schema
+- `PATCH`:
+
+```js
+{
+    "name": String, // The name of the Startup Script.
+    "script": String, // The base-64 encoded Startup Script.
+    "type": String // The Startup Script type.\n\nboot (default)\npxe
+}
+```
+"""
 
 URL_SSH_KEY_LIST: Final[Url] = Url(Provider.VULTR).uri("ssh-keys")
 """
 ### Request Methods
 
-- `Get`: List all SSH Keys in your account.
-- `Post`: Create a new SSH Key for use with future instances. This does not update any running instances.
+- `GET`: List all SSH Keys in your account.
+- `POST`: Create a new SSH Key for use with future instances.
+
+### Query parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "name": String, // The user-supplied name for this SSH Key.
+    "ssh_key": String // The SSH Key.
+}
+```
 """
 
-URL_SSH_KEY: Final[Url] = Url(Provider.VULTR).uri("ssh-keys/{ssh-key-id}")
-"""
-### Request Methods
-
-- `Get`: Get information about an SSH Key.
-- `Patch`: Update an SSH Key. The attributes `name` and `ssh_key` are optional. If not set, the attributes will retain their original values. New deployments will use the updated key, but this action does not update previously deployed instances.
-- `Delete`: Delete an SSH Key.
-"""
-
-URL_STARTUP_SCRIPT_LIST: Final[Url] = Url(Provider.VULTR).uri("startup-scripts")
-"""
-### Request Methods
-
-- `Get`: Get a list of all Startup Scripts.
-- `Post`: Create a new Startup Script. The `name` and `script` attributes are required, and scripts are base-64 encoded.
-"""
-
-URL_STARTUP_SCRIPT: Final[Url] = Url(Provider.VULTR).uri("startup-scripts/{startup-id}")
+URL_SSH_KEY_ID: Final[Url] = Url(Provider.VULTR).uri("ssh-keys/{ssh-key-id}")
 """
 ### Request Methods
 
-- `Get`: Get information for a Startup Script.
-- `Patch`: Update a Startup Script. The attributes `name` and `script` are optional. If not set, the attributes will retain their original values. The `script` attribute is base-64 encoded. New deployments will use the updated script, but this action does not update previously deployed instances.
-- `Delete`: Delete a Startup Script.
-"""
+- `GET`: Get information about an SSH Key.
+- `PATCH`: Update an SSH Key.
+- `DELETE`: Delete an SSH Key.
 
-URL_SUB_ACCOUNT_LIST: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
-"""
-### Request Methods
+### Path parameters
+- `ssh-key-id` - The [SSH Key id](#operation/list-ssh-keys).
 
-- `Get`: Get information about all sub-accounts for your account.
-- `Post`: Create a new subaccount.
+### Request Body Schema
+- `PATCH`:
+
+```js
+{
+    "name": String, // The user-supplied name for this SSH Key.
+    "ssh_key": String // The SSH Key.
+}
+```
 """
 
 URL_USER_LIST: Final[Url] = Url(Provider.VULTR).uri("users")
 """
 ### Request Methods
 
-- `Get`: Get a list of all Users in your account.
-- `Post`: Create a new User. The `email`, `name`, and `password` attributes are required.
+- `GET`: Get a list of all Users in your account.
+- `POST`: Create a new User. The `email`, `name`, and `password` attributes are required.
+
+### Query parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "email": String, // The User's email address.
+    "name": String, // The User's name.
+    "password": String, // The User's password.
+    "api_enabled": Boolean, // API access is permitted for this User.\n\n* true (default)\n* false
+    "acls": Array<String> // An array of permissions granted.\n\n* abuse\n* alerts\n* billing\n* dns\n* firewall\n* loadbalancer\n* manage_users\n* objstore\n* provisioning\n* subscriptions\n* subscriptions_view\n* support\n* upgrade
+}
+```
 """
 
-URL_USER: Final[Url] = Url(Provider.VULTR).uri("users/{user-id}")
+URL_USER_ID: Final[Url] = Url(Provider.VULTR).uri("users/{user-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a User.
-- `Patch`: Update information for a User. All attributes are optional. If not set, the attributes will retain their original values.
-- `Delete`: Delete a User.
+- `GET`: Get information about a User.
+- `PATCH`: Update information for a User.
+- `DELETE`: Delete a User.
+
+### Path parameters
+- `user-id` - The [User id](#operation/list-users).
+
+### Request Body Schema
+- `PATCH`:
+
+```js
+{
+    "email": String, // The User's email address.
+    "name": String, // The User's name.
+    "password": String, // The User's password.
+    "api_enabled": Boolean, // API access is permitted for this User.\n\n* true (default)\n* false
+    "acls": Array<String> // An array of permission granted. Valid values:\n\n* abuse\n* alerts\n* billing\n* dns\n* firewall\n* loadbalancer\n* manage_users\n* objstore\n* provisioning\n* subscriptions\n* subscriptions_view\n* support\n* upgrade
+}
+```
+"""
+
+URL_SUBACCOUNT_LIST: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
+"""
+### Request Methods
+
+- `GET`: Get information about all sub-accounts for your account.
+- `POST`: Create a new subaccount.
+
+### Query parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "email": String, // Create a new sub-account with this email address.
+    "subaccount_name": String, // Your name for this sub-account.
+    "subaccount_id": String // Your ID for this sub-account.
+}
+```
 """
 
 URL_VPC_LIST: Final[Url] = Url(Provider.VULTR).uri("vpcs")
 """
 ### Request Methods
 
-- `Get`: Get a list of all VPCs in your account.
+- `GET`: Get a list of all VPCs in your account.
+- `POST`: Create a new VPC in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918).
+
+### Query parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "region": String, // Create the VPC in this [Region id](#operation/list-regions).
+    "description": String, // A description of the VPC.
+    "v4_subnet": String, // The IPv4 VPC address. For example: 10.99.0.0
+    "v4_subnet_mask": Integer // The number of bits for the netmask in CIDR notation. Example: 24
+}
+```
 """
 
-URL_VPC_GET: Final[Url] = Url(Provider.VULTR).uri("vpcs/{vpc-id}")
+URL_VPC_ID: Final[Url] = Url(Provider.VULTR).uri("vpcs/{vpc-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a VPC.
-- `Put`: Update information for a VPC.
-- `Delete`: Delete a VPC.
+- `GET`: Get information about a VPC.
+- `PUT`: Update information for a VPC.
+- `DELETE`: Delete a VPC.
+
+### Path parameters
+- `vpc-id` - The [VPC ID](#operation/list-vpcs).
+
+### Request Body Schema
+- `PUT`:
+
+```js
+{
+    "description": String // The VPC description.
+}
+```
 """
 
 URL_VPC2_LIST: Final[Url] = Url(Provider.VULTR).uri("vpc2")
 """
 ### Request Methods
 
-- `Get`: Get a list of all VPC 2.0 networks in your account.
-- `Post`: Create a new VPC 2.0 network in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918):
+- `GET`: Get a list of all VPC 2.0 networks in your account.
+- `POST`: Create a new VPC 2.0 network in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918):
 
     10.0.0.0    - 10.255.255.255  (10/8 prefix)
     172.16.0.0  - 172.31.255.255  (172.16/12 prefix)
     192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "region": "The [Region id](#operation/list-regions) to create the instance.",
+    "description": "A description of the VPC. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens.",
+    "ip_block": "The VPC subnet IP address. For example: 10.99.0.0<br><span style=\"color: red\">If a prefix_length is specified then ip_block is a required field.</span>",
+    "prefix_length": "The number of bits for the netmask in CIDR notation. Example: 24<br><span style=\"color: red\">If an ip_block is specified then prefix_length is a required field.</span>"
+}
+```
 """
 
 URL_VPC2_GET: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about a VPC 2.0 network.
-- `Put`: Update information for a VPC 2.0 network.
-- `Delete`: Delete a VPC 2.0 network.
+- `GET`: Get information about a VPC 2.0 network.
+- `PUT`: Update information for a VPC 2.0 network.
+- `DELETE`: Delete a VPC 2.0 network.
+
+### Path parameters
+- `vpc-id`: The [VPC ID](#operation/list-vpcs).
+
+### Request Body Schema
+- `PUT`:
+
+```js
+{
+    "description": "The VPC description. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens."
+}
+```
 """
 
 URL_VPC2_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes")
 """
 ### Request Methods
 
-- `Get`: Get a list of nodes attached to a VPC 2.0 network.
+- `GET`: Get a list of nodes attached to a VPC 2.0 network.
+
+### Path parameters
+- `vpc-id`: The [VPC ID](#operation/list-vpcs).
+
+### Query Parameters
+- `per_page`: Number of items requested per page. Default is 100 and Max is 500.
+- `cursor`: Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
 """
 
 URL_VPC2_ATTACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/attach")
 """
 ### Request Methods
 
-- `Post`: Attach nodes to a VPC 2.0 network.
+- `POST`: Attach nodes to a VPC 2.0 network.
+
+### Path parameters
+- `vpc-id`: The [VPC ID](#operation/list-vpcs).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "nodes": "An array of ID strings for [instances](#operation/list-instances) and [Bare Metal servers](#operation/list-baremetals) to attach as nodes to the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
+}
+```
 """
 
 URL_VPC2_DETACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/detach")
 """
 ### Request Methods
 
-- `Post`: Remove nodes from a VPC 2.0 network.
+- `POST`: Remove nodes from a VPC 2.0 network.
+
+### Path parameters
+- `vpc-id`: The [VPC ID](#operation/list-vpcs).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "nodes": "An array of ID strings for [nodes](#operation/list-vpc2-nodes) to detach from the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
+}
+```
 """
 
 
@@ -2728,69 +3070,191 @@ URL_VFS_REGIONS: Final[Url] = Url(Provider.VULTR).uri("vfs/regions")
 """
 ### Request Methods
 
-- `Get`: Retrieve a list of all regions where VFS can be deployed.
+- `GET`: Retrieve a list of all regions where VFS can be deployed.
 """
 
 URL_VFS_LIST: Final[Url] = Url(Provider.VULTR).uri("vfs")
 """
 ### Request Methods
 
-- `Get`: Retrieve a list of all VFS subscriptions for the account.
-- `Post`: Create a new VFS subscription with the specified configuration.
+- `GET`: Retrieve a list of all VFS subscriptions for the account.
+- `POST`: Create a new VFS subscription with the specified configuration.
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "region": "Region identifier where to create the VFS",
+    "label": "User-defined label for the VFS subscription",
+    "storage_size": {
+        "gb": "Size in gigabytes for the VFS"
+    },
+    "disk_type": "Type of storage disk (defaults to nvme if not specified)",
+    "tags": "Optional tags to apply to the VFS subscription"
+}
+```
+
+### Required Fields
+- `region`
+- `label`
+- `storage_size`
 """
 
 URL_VFS_GET: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
 """
 ### Request Methods
 
-- `Get`: Retrieve a specific VFS subscription by ID.
-- `Put`: Update a VFS subscription's label or storage size.
-- `Delete`: Delete a specific VFS subscription by ID.
+- `GET`: Retrieve a specific VFS subscription by ID.
+- `PUT`: Update a VFS subscription's label or storage size.
+- `DELETE`: Delete a specific VFS subscription by ID.
+
+### Path parameters
+- `vfs_id`: ID of the VFS subscription to retrieve
+
+### Request Body Schema
+- `PUT`:
+
+```js
+{
+    "label": "New label for the VFS subscription",
+    "storage_size": {
+        "gb": "Size in gigabytes for the VFS"
+    }
+}
+```
 """
 
 URL_VFS_ATTACHMENTS: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments")
 """
 ### Request Methods
 
-- `Get`: Retrieve a list of all attachments for a specific VFS subscription.
+- `GET`: Retrieve a list of all attachments for a specific VFS subscription.
+
+### Path parameters
+- `vfs_id`: ID of the VFS subscription
 """
 
 URL_VFS_ATTACHMENT: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments/{vps_id}")
 """
 ### Request Methods
 
-- `Put`: Attach a VPS instance to a VFS subscription.
-- `Get`: Retrieve details about a specific VFS-VPS attachment.
-- `Delete`: Detach a VPS instance from a VFS subscription.
+- `PUT`: Attach a VPS instance to a VFS subscription.
+- `GET`: Retrieve details about a specific VFS-VPS attachment.
+- `DELETE`: Detach a VPS instance from a VFS subscription.
+
+### Path parameters
+- `vfs_id`: ID of the VFS subscription
+- `vps_id`: ID of the VPS subscription to attach
 """
 
 URL_OBJECT_STORAGE_LIST: Final[Url] = Url(Provider.VULTR).uri("object-storage")
 """
 ### Request Methods
 
-- `Get`: Get a list of all Object Storage in your account.
-- `Post`: Create new Object Storage. The `cluster_id` attribute is required.
+- `GET`: Get a list of all Object Storage in your account.
+- `POST`: Create new Object Storage. The `cluster_id` attribute is required.
+
+### Query Parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "cluster_id": "The [Cluster id](#operation/list-object-storage-clusters) where the Object Storage will be created.",
+    "label": "The user-supplied label for this Object Storage."
+}
+```
+
+### Required Fields
+- `cluster_id`
 """
 
 URL_OBJECT_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("object-storage/{object-storage-id}")
 """
 ### Request Methods
 
-- `Get`: Get information about an Object Storage.
-- `Put`: Update the label for an Object Storage.
-- `Delete`: Delete an Object Storage.
+- `GET`: Get information about an Object Storage.
+- `PUT`: Update the label for an Object Storage.
+- `DELETE`: Delete an Object Storage.
+
+### Path parameters
+- `object-storage-id` - The [Object Storage id](#operation/list-object-storages).
+
+### Request Body Schema
+- `PUT`:
+
+```js
+{
+    "label": "The user-supplied label for the Object Storage."
+}
+```
 """
 
-URL_OBJECT_STORAGE_ID_REGENERATE: Final[Url] = Url(Provider.VULTR).uri("object-storage/{object-storage-id}/regenerate-keys")  # Note: Corrected to regenerate-keys based on provided JSON
+URL_OBJECT_STORAGE_ID_REGENERATE_KEY: Final[Url] = Url(Provider.VULTR).uri("object-storage/{object-storage-id}/regenerate-keys")
 """
 ### Request Methods
 
-- `Post`: Regenerate the keys for an Object Storage.
+- `POST`: Regenerate the keys for an Object Storage.
+
+### Path parameters
+- `object-storage-id` - The [Object Storage id](#operation/list-object-storages).
 """
 
 URL_OBJECT_STORAGE_CLUSTERS: Final[Url] = Url(Provider.VULTR).uri("object-storage/clusters")
 """
 ### Request Methods
 
-- `Get`: Get a list of all Object Storage Clusters.
+- `GET`: Get a list of all Object Storage Clusters.
+
+### Query Parameters
+- `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+- `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+"""
+
+URL_ISO_LIST: Final[Url] = Url(Provider.VULTR).uri("iso")
+"""
+### Request Methods
+
+- `GET`: Get the ISOs in your account.
+- `POST`: Create a new ISO in your account from `url`.
+
+### Query Parameters
+- `GET`:
+    - `per_page` - Number of items requested per page. Default is 100 and Max is 500.
+    - `cursor` - Cursor for paging. See [Meta and Pagination](#section/Introduction/Meta-and-Pagination).
+
+### Request Body Schema
+- `POST`:
+
+```js
+{
+    "url": "Public URL location of the ISO image to download. Example: https://example.com/my-iso.iso"
+}
+```
+
+### Required Fields
+- `url`
+"""
+
+URL_ISO_ID: Final[Url] = Url(Provider.VULTR).uri("iso/{iso-id}")
+"""
+### Request Methods
+
+- `GET`: Get information for an ISO.
+- `DELETE`: Delete an ISO.
+
+### Path parameters
+- `iso-id` - The [ISO id](#operation/list-isos).
+"""
+
+URL_ISO_PUBLIC_LIST: Final[Url] = Url(Provider.VULTR).uri("iso-public")
+"""
+### Request Methods
+
+- `GET`: List all Vultr Public ISOs.
 """
