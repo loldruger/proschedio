@@ -2744,8 +2744,8 @@ URL_SNAPSHOT_CREATE_FROM_URL: Final[Url] = Url(Provider.VULTR).uri("snapshots/cr
 ```js
 {
     "url": String, // The public URL containing a RAW image.
-    "description": String, // The user-supplied description of the Snapshot.
-    "uefi": String // Whether or not the snapshot uses UEFI.
+    "description": Optional<String>, // The user-supplied description of the Snapshot.
+    "uefi": Optional<String> // Whether or not the snapshot uses UEFI.
 }
 ```
 """
@@ -2904,9 +2904,9 @@ URL_VPC_LIST: Final[Url] = Url(Provider.VULTR).uri("vpcs")
 ```js
 {
     "region": String, // Create the VPC in this [Region id](#operation/list-regions).
-    "description": String, // A description of the VPC.
-    "v4_subnet": String, // The IPv4 VPC address. For example: 10.99.0.0
-    "v4_subnet_mask": Integer // The number of bits for the netmask in CIDR notation. Example: 24
+    "description": Optional<String>, // A description of the VPC.
+    "v4_subnet": Optional<String>, // The IPv4 VPC address. For example: 10.99.0.0 *If v4_subnet_mask is specified then v4_subnet is a required field.
+    "v4_subnet_mask": Optional<Integer> // The number of bits for the netmask in CIDR notation. Example: 24 *If v4_subnet is specified then v4_subnet_mask is a required field.
 }
 ```
 """
@@ -2946,10 +2946,10 @@ URL_VPC2_LIST: Final[Url] = Url(Provider.VULTR).uri("vpc2")
 
 ```js
 {
-    "region": "The [Region id](#operation/list-regions) to create the instance.",
-    "description": "A description of the VPC. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens.",
-    "ip_block": "The VPC subnet IP address. For example: 10.99.0.0<br><span style=\"color: red\">If a prefix_length is specified then ip_block is a required field.</span>",
-    "prefix_length": "The number of bits for the netmask in CIDR notation. Example: 24<br><span style=\"color: red\">If an ip_block is specified then prefix_length is a required field.</span>"
+    "region": String, // "The [Region id](#operation/list-regions) to create the instance.",
+    "description": Optional<String>"A description of the VPC. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens.",
+    "ip_block": Optional<String>"The VPC subnet IP address. For example: 10.99.0.0<br><span style=\"color: red\">If a prefix_length is specified then ip_block is a required field.</span>",
+    "prefix_length": Optional<Integer>"The number of bits for the netmask in CIDR notation. Example: 24<br><span style=\"color: red\">If an ip_block is specified then prefix_length is a required field.</span>"
 }
 ```
 """
@@ -2969,7 +2969,7 @@ URL_VPC2_ID: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
 
 ```js
 {
-    "description": "The VPC description. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens."
+    "description": String, // "The VPC description. </br> Must be no longer than 255 characters and may include only letters, numbers, spaces, underscores and hyphens."
 }
 ```
 """
@@ -3000,7 +3000,7 @@ URL_VPC2_ATTACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes
 
 ```js
 {
-    "nodes": "An array of ID strings for [instances](#operation/list-instances) and [Bare Metal servers](#operation/list-baremetals) to attach as nodes to the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
+    "nodes": Array<Array<String>>, // "An array of ID strings for [instances](#operation/list-instances) and [Bare Metal servers](#operation/list-baremetals) to attach as nodes to the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
 }
 ```
 """
@@ -3018,7 +3018,7 @@ URL_VPC2_DETACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes
 
 ```js
 {
-    "nodes": "An array of ID strings for [nodes](#operation/list-vpc2-nodes) to detach from the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
+    "nodes": Array<Array<String>>, // "An array of ID strings for [nodes](#operation/list-vpc2-nodes) to detach from the VPC 2.0 network. A limit of 1000 nodes can be processed in a request"
 }
 ```
 """
@@ -3041,13 +3041,13 @@ URL_VFS_LIST: Final[Url] = Url(Provider.VULTR).uri("vfs")
 
 ```js
 {
-    "region": "Region identifier where to create the VFS",
-    "label": "User-defined label for the VFS subscription",
+    "region": String, // "Region identifier where to create the VFS",
+    "label": String, // "User-defined label for the VFS subscription",
     "storage_size": {
-        "gb": "Size in gigabytes for the VFS"
+        "gb": Integer, // "Size in gigabytes for the VFS"
     },
-    "disk_type": "Type of storage disk (defaults to nvme if not specified)",
-    "tags": "Optional tags to apply to the VFS subscription"
+    "disk_type": Optional<String>, // "Type of storage disk (defaults to nvme if not specified)",
+    "tags": Optional<Array<String>>, // "Optional tags to apply to the VFS subscription"
 }
 ```
 
@@ -3072,9 +3072,9 @@ URL_VFS_ID: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
 
 ```js
 {
-    "label": "New label for the VFS subscription",
+    "label": String, // "New label for the VFS subscription",
     "storage_size": {
-        "gb": "Size in gigabytes for the VFS"
+        "gb": Integer, // "Size in gigabytes for the VFS"
     }
 }
 ```
@@ -3117,8 +3117,8 @@ URL_OBJECT_STORAGE_LIST: Final[Url] = Url(Provider.VULTR).uri("object-storage")
 
 ```js
 {
-    "cluster_id": "The [Cluster id](#operation/list-object-storage-clusters) where the Object Storage will be created.",
-    "label": "The user-supplied label for this Object Storage."
+    "cluster_id": Integer, // "The [Cluster id](#operation/list-object-storage-clusters) where the Object Storage will be created.",
+    "label": Optional<String>, "The user-supplied label for this Object Storage."
 }
 ```
 
@@ -3141,7 +3141,7 @@ URL_OBJECT_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("object-storage/{obj
 
 ```js
 {
-    "label": "The user-supplied label for the Object Storage."
+    "label": Optional<String>, // "The user-supplied label for the Object Storage."
 }
 ```
 """
@@ -3181,12 +3181,9 @@ URL_ISO_LIST: Final[Url] = Url(Provider.VULTR).uri("iso")
 
 ```js
 {
-    "url": "Public URL location of the ISO image to download. Example: https://example.com/my-iso.iso"
+    "url": String, // "Public URL location of the ISO image to download. Example: https://example.com/my-iso.iso"
 }
 ```
-
-### Required Fields
-- `url`
 """
 
 URL_ISO_ID: Final[Url] = Url(Provider.VULTR).uri("iso/{iso-id}")
