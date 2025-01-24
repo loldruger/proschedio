@@ -5,21 +5,18 @@ from proschedio.composer import Provider, Url
 URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 """
 ### Request Methods
-
 - `GET`: Get your Vultr account, permission, and billing information.
 """
 
 URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")
 """
 ### Request Methods
-
 - `GET`: Get your Vultr account bandwidth information.
 """
 
 URL_APPLICATIONS: Final[Url] = Url(Provider.VULTR).uri("applications")
 """
 ### Request Methods
-
 - `GET`: Get a list of all available Applications.
 
 ### Query parameters
@@ -39,7 +36,6 @@ URL_APPLICATIONS: Final[Url] = Url(Provider.VULTR).uri("applications")
 URL_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("backups")
 """
 ### Request Methods
-
 - `GET`: Get information about Backups in your account.
 
 ### Query parameters
@@ -52,18 +48,15 @@ URL_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("backups")
 URL_BACKUPS_ID: Final[Url] = Url(Provider.VULTR).uri("backups/{backup-id}")
 """
 ### Request Methods
-
 - `GET`: Get the information for the Backup.
 
 ### Path parameters
-
 - `backup_id` - The Backup id.
 """
 
 URL_BARE_METAL: Final[Url] = Url(Provider.VULTR).uri("bare-metals")
 """
 ### Request Methods
-
 - `GET`: List all Bare Metal instances in your account.
 - `POST`: Create a new Bare Metal instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
     - `os_id`
@@ -112,30 +105,31 @@ Supply other attributes as desired.
 URL_BARE_METAL_ID: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a Bare Metal instance.
 - `PATCH`: Update a Bare Metal instance. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete a Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
 - `PATCH`:
+
 ```js
 {
-    "user_data": String,
-    "label": String,
-    "os_id": Integer,
-    "app_id": Integer,
-    "enable_ipv6": Boolean,
-    "attach_vpc2": Array<Strings>,
-    "detach_vpc2": Array<Strings>,
-    "enable_vpc2": Boolean,
-    "tags": Array<Strings>,
-    "user_scheme": String,
-    "mdisk_mode": String
+    "user_data": Optional<String>, // The user-supplied, base64 encoded user data to attach to this instance.
+    "label": Optional<String>, // The user-supplied label.
+    "tag": Optional<String>, // Deprecated: Use tags instead. The user-supplied tag.
+    "os_id": Optional<Integer>, // If supplied, reinstall the instance using this Operating System id.
+    "app_id": Optional<Integer>, // If supplied, reinstall the instance using this Application id.
+    "image_id": Optional<String>, // If supplied, reinstall the instance using this Application image_id.
+    "enable_ipv6": Optional<Boolean>, // Enable IPv6.
+    "attach_vpc2": Optional<Array<String>>, // An array of VPC IDs to attach to this Bare Metal Instance. This parameter takes precedence over enable_vpc2. Please choose one parameter.
+    "detach_vpc2": Optional<Array<String>>, // An array of VPC IDs to detach from this Bare Metal Instance. This parameter takes precedence over enable_vpc2.
+    "enable_vpc2": Optional<Boolean>, // If true, VPC 2.0 support will be added to the new server. This parameter attaches a single VPC 2.0 netowrk. When no VPC 2.0 network exists in the region, it will be automatically created. If there are multiple VPC 2.0 networks in the instance's region, use attach_vpc2 instead to specify a VPC 2.0 network.
+    "tags": Optional<Array<String>>, // Tags to apply to the instance.
+    "user_scheme": Optional<String>, // Linux-only: The user scheme used for logging into this instance. The instance must be reinstalled for this change to take effect. * root * limited
+    "mdisk_mode": Optional<String> // The RAID configuration used for the disks on this instance. The instance must be reinstalled for this change to take effect. * raid1 * jbod * none(default)
 }
 ```
 """
@@ -143,37 +137,32 @@ URL_BARE_METAL_ID: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-
 URL_BARE_METAL_IPV4: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4")
 """
 ### Request Methods
-
 - `GET`: Get the IPv4 information for the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 """
 
 URL_BARE_METAL_IPV6: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6")
 """
 ### Request Methods
-
 - `GET`: Get the IPv6 information for the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 """
 
 URL_BARE_METAL_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4/reverse")
 """
 ### Request Methods
-
 - `POST`: Create a reverse IPv4 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
 - `POST`:
+
 ```js
 {
     "ip": String, // The IPv4 address.
@@ -184,15 +173,14 @@ URL_BARE_METAL_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{
 URL_BARE_METAL_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6/reverse")
 """
 ### Request Methods
-
 - `POST`: Create a reverse IPv6 entry for a Bare Metal Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
 - `POST`:
+
 ```js
 {
     "ip": String, // The IPv6 address in full, expanded format.
@@ -203,15 +191,14 @@ URL_BARE_METAL_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{
 URL_BARE_METAL_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4/reverse/default")
 """
 ### Request Methods
-
 - `POST`: Set a reverse DNS entry for an IPv4 address.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
 - `POST`:
+
 ```js
 {
     "ip": String // The IPv4 address.
@@ -222,11 +209,9 @@ URL_BARE_METAL_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("bare-
 URL_BARE_METAL_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6/reverse/{ipv6}")
 """
 ### Request Methods
-
 - `DELETE`: Delete the reverse IPv6 for a Bare metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 - `ipv6` - The IPv6 address.
 """
@@ -234,37 +219,32 @@ URL_BARE_METAL_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("bare-met
 URL_BARE_METAL_START: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/start")
 """
 ### Request Methods
-
 - `POST`: Start the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 """
 
 URL_BARE_METAL_REBOOT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/reboot")
 """
 ### Request Methods
-
 - `POST`: Reboot the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 """
 
 URL_BARE_METAL_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/reinstall")
 """
 ### Request Methods
-
 - `POST`: Reinstall the Bare Metal instance using an optional `hostname`.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
 - `POST`:
+
 ```js
 {
     "hostname": String // The hostname to use when reinstalling this bare metal server.
@@ -275,22 +255,18 @@ URL_BARE_METAL_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{bar
 URL_BARE_METAL_HALT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/halt")
 """
 ### Request Methods
-
 - `POST`: Halt the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 """
 
 URL_BARE_METAL_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/bandwidth")
 """
 ### Request Methods
-
 - `GET`: Get bandwidth information for the Bare Metal instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 The `bandwidth` object in a successful response contains objects representing a day in the month. The date is denoted by the nested object keys. Days begin and end in the UTC timezone. Bandwidth utilization data contained within the date object is refreshed periodically. We do not recommend using this endpoint to gather real-time metrics.
@@ -299,11 +275,9 @@ The `bandwidth` object in a successful response contains objects representing a 
 URL_BARE_METALS_HALT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/halt")
 """
 ### Request Methods
-
 - `POST`: Halt Bare Metals.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -316,11 +290,9 @@ URL_BARE_METALS_HALT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/halt")
 URL_BARE_METALS_REBOOT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/reboot")
 """
 ### Request Methods
-
 - `POST`: Reboot Bare Metals.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -333,11 +305,9 @@ URL_BARE_METALS_REBOOT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/reboot
 URL_BARE_METALS_START: Final[Url] = Url(Provider.VULTR).uri("bare-metals/start")
 """
 ### Request Methods
-
 - `POST`: Start Bare Metals.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -350,17 +320,15 @@ URL_BARE_METALS_START: Final[Url] = Url(Provider.VULTR).uri("bare-metals/start")
 URL_BARE_METALS_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/user-data")
 """
 ### Request Methods
-
 - `GET`: Get the user-supplied, base64 encoded [user data] for a Bare Metal.
 
 ### Path parameters
 - `baremetal-id` - The Bare Metal instance id.
 """
 
-URL_BARE_METALS_GET_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/upgrades")
+URL_BARE_METALS_ID_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/upgrades")
 """
 ### Request Methods
-
 - `GET`: Get available upgrades for a Bare Metal.
 
 ### Path parameters
@@ -373,10 +341,9 @@ URL_BARE_METALS_GET_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("ba
     - os
 """
 
-URL_BARE_METALS_GET_VNC: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vnc")
+URL_BARE_METALS_ID_VNC: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vnc")
 """
 ### Request Methods
-
 - `GET`: Get the VNC URL for a Bare Metal.
 
 ### Path parameters
@@ -386,14 +353,12 @@ URL_BARE_METALS_GET_VNC: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{bare
 URL_BARE_METALS_ATTACH_VPC_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs/attach")
 """
 ### Request Methods
-
 - `POST`: Attach a VPC Network to a Bare Metal Instance.
 
 ### Path parameters
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -406,14 +371,12 @@ URL_BARE_METALS_ATTACH_VPC_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("ba
 URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs/detach")
 """
 ### Request Methods
-
 - `POST`: Detach a VPC Network from an Bare Metal Instance.
 
 ### Path parameters
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -426,7 +389,6 @@ URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("
 URL_BARE_METALS_LIST_VPCS: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs")
 """
 ### Request Methods
-
 - `GET`: List the VPC networks for a Bare Metal Instance.
 
 ### Path parameters
@@ -436,14 +398,12 @@ URL_BARE_METALS_LIST_VPCS: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{ba
 URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2/attach")
 """
 ### Request Methods
-
 - `POST`: Attach a VPC 2.0 Network to a Bare Metal Instance.
 
 ### Path parameters
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -457,14 +417,12 @@ URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("b
 URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2/detach")
 """
 ### Request Methods
-
 - `POST`: Detach a VPC 2.0 Network from an Bare Metal Instance.
 
 ### Path parameters
 - `baremetal-id` - The Bare Metal instance id.
 
 ### Request Body Schema
-
 - `POST`:
 
 ```js
@@ -477,11 +435,9 @@ URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri(
 URL_BARE_METALS_LIST_VPCS2: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2")
 """
 ### Request Methods
-
 - `GET`: List the VPC 2.0 networks for a Bare Metal Instance.
 
 ### Path parameters
-
 - `baremetal-id` - The Bare Metal instance id.
 
 """
@@ -496,7 +452,7 @@ URL_BILLING_LIST_HISTORY: Final[Url] = Url(Provider.VULTR).uri("billing/history"
 - `cursor`: Cursor for pagination.
 """
 
-URL_BILLING_LIST_INVOICES: Final[Url] = Url(Provider.VULTR).uri("billing/invoices")
+URL_BILLING_INVOICES: Final[Url] = Url(Provider.VULTR).uri("billing/invoices")
 """
 ### Request Methods
 - `GET`: Retrieve a list of all invoices on the account.
@@ -506,7 +462,7 @@ URL_BILLING_LIST_INVOICES: Final[Url] = Url(Provider.VULTR).uri("billing/invoice
 - `cursor`: Cursor for pagination.
 """
 
-URL_BILLING_GET_INVOICE: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}")
+URL_BILLING_INVOICE_ID: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}")
 """
 ### Request Methods
 - `GET`: Retrieve a specific invoice by ID.
@@ -515,7 +471,7 @@ URL_BILLING_GET_INVOICE: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/
 - `invoice-id`: The ID of the invoice to retrieve.
 """
 
-URL_BILLING_GET_INVOICE_ITEMS: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}/items")
+URL_BILLING_INVOICE_ID_ITEMS: Final[Url] = Url(Provider.VULTR).uri("billing/invoices/{invoice-id}/items")
 """
 ### Request Methods
 - `GET`: Retrieve line items for a specific invoice.
@@ -537,7 +493,6 @@ URL_BILLING_LIST_PENDING_CHARGES: Final[Url] = Url(Provider.VULTR).uri("billing/
 URL_BLOCK_STORAGE: Final[Url] = Url(Provider.VULTR).uri("blocks")
 """
 ### Request Methods
-
 - `GET`: List all Block Storage in your account.
 - `POST`: Create new Block Storage in a `region` with a size of `size_gb`.
 
@@ -564,7 +519,6 @@ URL_BLOCK_STORAGE: Final[Url] = Url(Provider.VULTR).uri("blocks")
 URL_BLOCK_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for Block Storage.
 - `PATCH`: Update information for Block Storage.
 - `DELETE`: Delete Block Storage.
@@ -586,7 +540,6 @@ URL_BLOCK_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id}")
 URL_BLOCK_STORAGE_ATTACH: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id}/attach")
 """
 ### Request Methods
-
 - `POST`: Attach Block Storage to Instance.
 
 ### Path parameters
@@ -608,7 +561,6 @@ URL_BLOCK_STORAGE_ATTACH: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id
 URL_BLOCK_STORAGE_DETACH: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id}/detach")
 """
 ### Request Methods
-
 - `POST`: Detach Block Storage.
 
 ### Path parameters
@@ -636,7 +588,6 @@ URL_BLOCK_STORAGE_DETACH: Final[Url] = Url(Provider.VULTR).uri("blocks/{block-id
 URL_CDN_LIST_PULL_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones")
 """
 ### Request Methods
-
 - `GET`: List CDN Pull Zones.
 - `POST`: Create a new CDN Pull Zone.
 
@@ -660,10 +611,9 @@ URL_CDN_LIST_PULL_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones")
 ```
 """
 
-URL_CDN_GET_PULL_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pullzone-id}")
+URL_CDN_PULL_ZONE_ID: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pullzone-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a CDN Pull Zones.
 - `PUT`: Update information for a CDN Pullzone. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete a CDN Pull Zone.
@@ -686,20 +636,18 @@ URL_CDN_GET_PULL_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pu
 ```
 """
 
-URL_CDN_PURGE_PULL_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pullzone-id}/purge")
+URL_CDN_PULL_ZONE_PURGE: Final[Url] = Url(Provider.VULTR).uri("cdns/pull-zones/{pullzone-id}/purge")
 """
 ### Request Methods
-
 - `GET`: Clears cached content on server proxies so that visitors can get the latest page versions.
 
 **Note:** This action may only be performed once every six hours.  
 **Note:** This action may take a few extra seconds to complete.
 """
 
-URL_CDN_LIST_PUSH_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones")
+URL_CDN_PUSH_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones")
 """
 ### Request Methods
-
 - `GET`: List CDN Push Zones.
 - `POST`: Create a new CDN Push Zone.
 
@@ -720,10 +668,9 @@ URL_CDN_LIST_PUSH_ZONES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones")
 ```
 """
 
-URL_CDN_GET_PUSH_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}")
+URL_CDN_PUSH_ZONE_ID: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a CDN Push Zone.
 - `PUT`: Update information for a CDN Pushzone. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete a CDN Push Zone.
@@ -746,10 +693,9 @@ URL_CDN_GET_PUSH_ZONE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pu
 ```
 """
 
-URL_CDN_LIST_PUSH_ZONE_FILES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}/files")
+URL_CDN_PUSH_ZONE_FILES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}/files")
 """
 ### Request Methods
-
 - `GET`: Get a list of files that have been uploaded to a specific CDN Push Zones.
 - `POST`: Create a presigned post endpoint that can be used to upload a file to your Push Zone.
 
@@ -764,10 +710,9 @@ URL_CDN_LIST_PUSH_ZONE_FILES: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zo
 ```
 """
 
-URL_CDN_DELETE_PUSH_ZONE_FILE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}/files/{file-name}")
+URL_CDN_PUSH_ZONE_FILE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-zones/{pushzone-id}/files/{file-name}")
 """
 ### Request Methods
-
 - `GET`: Get information about a CDN Push Zone file.
 - `DELETE`: Delete a CDN Push Zone file.
 
@@ -779,7 +724,6 @@ URL_CDN_DELETE_PUSH_ZONE_FILE: Final[Url] = Url(Provider.VULTR).uri("cdns/push-z
 URL_CONTAINER_LIST: Final[Url] = Url(Provider.VULTR).uri("registries")
 """
 ### Request Methods
-
 - `GET`: List All Container Registry Subscriptions for this account
 
 ### Query parameters
@@ -959,7 +903,6 @@ URL_CONTAINER_LIST_REGIONS: Final[Url] = Url(Provider.VULTR).uri("registry/regio
 URL_DATABASE_LIST_PLANS: Final[Url] = Url(Provider.VULTR).uri("databases/plans")
 """
 ### Request Methods
-
 - `GET`: List Managed Database Plans.
 
 ### Query parameters
@@ -972,7 +915,6 @@ URL_DATABASE_LIST_PLANS: Final[Url] = Url(Provider.VULTR).uri("databases/plans")
 URL_DATABASE_LIST: Final[Url] = Url(Provider.VULTR).uri("databases")
 """
 ### Request Methods
-
 - `GET`: List all Managed Databases in your account.
 - `POST`: Create a new Managed Database in a `region` with the desired `plan`. Supply optional attributes as desired.
 
@@ -1006,10 +948,9 @@ URL_DATABASE_LIST: Final[Url] = Url(Provider.VULTR).uri("databases")
 ```
 """
 
-URL_DATABASE_GET: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}")
+URL_DATABASE_ID: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Managed Database.
 - `PUT`: Update information for a Managed Database. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete a Managed Database.
@@ -1043,7 +984,6 @@ URL_DATABASE_GET: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}"
 URL_DATABASE_USAGE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/usage")
 """
 ### Request Methods
-
 - `GET`: Get disk, memory, and vCPU usage information for a Managed Database.
 
 ### Path parameters
@@ -1053,7 +993,6 @@ URL_DATABASE_USAGE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id
 URL_DATABASE_USERS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/users")
 """
 ### Request Methods
-
 - `GET`: List all database users within the Managed Database.
 - `POST`: Create a new database user within the Managed Database. Supply optional attributes as desired.
 
@@ -1076,7 +1015,6 @@ URL_DATABASE_USERS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id
 URL_DATABASE_USER: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/users/{username}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Managed Database user.
 - `PUT`: Update database user information within a Managed Database.
 - `DELETE`: Delete a database user within a Managed Database.
@@ -1098,7 +1036,6 @@ URL_DATABASE_USER: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}
 URL_DATABASE_USER_ACCESS_CONTROL: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/users/{username}/access-control")
 """
 ### Request Methods
-
 - `PUT`: Configure access control settings for a Managed Database user (Valkey and Kafka engine types only).
 
 ### Path parameters
@@ -1131,7 +1068,6 @@ Or when kafka-permission:
 URL_DATABASE_LOGICAL_DATABASES: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/dbs")
 """
 ### Request Methods
-
 - `GET`: List all logical databases within the Managed Database (MySQL and PostgreSQL only).
 - `POST`: Create a new logical database within the Managed Database (MySQL and PostgreSQL only).
 
@@ -1151,7 +1087,6 @@ URL_DATABASE_LOGICAL_DATABASES: Final[Url] = Url(Provider.VULTR).uri("databases/
 URL_DATABASE_LOGICAL_DATABASE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/dbs/{db-name}")
 """
 ### Request Methods
-
 - `GET`: Get information about a logical database within a Managed Database (MySQL and PostgreSQL only).
 - `DELETE`: Delete a logical database within a Managed Database (MySQL and PostgreSQL only).
 
@@ -1163,7 +1098,6 @@ URL_DATABASE_LOGICAL_DATABASE: Final[Url] = Url(Provider.VULTR).uri("databases/{
 URL_DATABASE_TOPICS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/topics")
 """
 ### Request Methods
-
 - `GET`: List all topics within the Managed Database (Kafka engine types only).
 - `POST`: Create a new topic within the Managed Database (Kafka engine types only).
 
@@ -1187,7 +1121,6 @@ URL_DATABASE_TOPICS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-i
 URL_DATABASE_TOPIC: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/topics/{topic-name}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Managed Database topic (Kafka engine types only).
 - `PUT`: Update topic information within a Managed Database (Kafka engine types only).
 - `DELETE`: Delete a topic within a Managed Database (Kafka engine types only).
@@ -1212,7 +1145,6 @@ URL_DATABASE_TOPIC: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id
 URL_DATABASE_QUOTAS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/quotas")
 """
 ### Request Methods
-
 - `GET`: List all quotas within the Managed Database (Kafka engine types only).
 - `POST`: Create a new quota within the Managed Database (Kafka engine types only).
 
@@ -1236,7 +1168,6 @@ URL_DATABASE_QUOTAS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-i
 URL_DATABASE_MAINTENANCE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/maintenance")
 """
 ### Request Methods
-
 - `GET`: List all available version upgrades within the Managed Database.
 - `POST`: Start maintenance updates for the Managed Database.
 
@@ -1247,7 +1178,6 @@ URL_DATABASE_MAINTENANCE: Final[Url] = Url(Provider.VULTR).uri("databases/{datab
 URL_DATABASE_MIGRATION: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/migration")
 """
 ### Request Methods
-
 - `GET`: View the status of a migration attached to the Managed Database.
 - `POST`: Start a migration to the Managed Database.
 - `DELETE`: Detach a migration from the Managed Database.
@@ -1274,7 +1204,6 @@ URL_DATABASE_MIGRATION: Final[Url] = Url(Provider.VULTR).uri("databases/{databas
 URL_DATABASE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/read-replica")
 """
 ### Request Methods
-
 - `POST`: Create a read-only replica node for the Managed Database.
 
 ### Path parameters
@@ -1294,7 +1223,6 @@ URL_DATABASE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databases/{data
 URL_DATABASE_PROMOTE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/promote-read-replica")
 """
 ### Request Methods
-
 - `POST`: Promote a read-only replica node to its own primary Managed Database.
 
 ### Path parameters
@@ -1304,7 +1232,6 @@ URL_DATABASE_PROMOTE_READ_REPLICA: Final[Url] = Url(Provider.VULTR).uri("databas
 URL_DATABASE_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/backups")
 """
 ### Request Methods
-
 - `GET`: Get backup information for the Managed Database.
 
 ### Path parameters
@@ -1314,7 +1241,6 @@ URL_DATABASE_BACKUPS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-
 URL_DATABASE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/restore")
 """
 ### Request Methods
-
 - `POST`: Create a new Managed Database from a backup.
 
 ### Path parameters
@@ -1336,7 +1262,6 @@ URL_DATABASE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-
 URL_DATABASE_FORK: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/fork")
 """
 ### Request Methods
-
 - `POST`: Fork a Managed Database to a new subscription from a backup.
 
 ### Path parameters
@@ -1361,7 +1286,6 @@ URL_DATABASE_FORK: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}
 URL_DATABASE_CONNECTION_POOLS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/connection-pools")
 """
 ### Request Methods
-
 - `GET`: List all connection pools within the Managed Database (PostgreSQL engine types only).
 - `POST`: Create a new connection pool within the Managed Database (PostgreSQL engine types only).
 
@@ -1385,7 +1309,6 @@ URL_DATABASE_CONNECTION_POOLS: Final[Url] = Url(Provider.VULTR).uri("databases/{
 URL_DATABASE_CONNECTION_POOL: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/connection-pools/{pool-name}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Managed Database connection pool (PostgreSQL engine types only).
 - `PUT`: Update connection-pool information within a Managed Database (PostgreSQL engine types only).
 - `DELETE`: Delete a connection pool within a Managed Database (PostgreSQL engine types only).
@@ -1410,7 +1333,6 @@ URL_DATABASE_CONNECTION_POOL: Final[Url] = Url(Provider.VULTR).uri("databases/{d
 URL_DATABASE_ADVANCED_OPTIONS: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/advanced-options")
 """
 ### Request Methods
-
 - `GET`: List all configured and available advanced options for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
 - `PUT`: Updates an advanced configuration option for the Managed Database (MySQL, PostgreSQL, and Kafka engine types only).
 
@@ -1421,7 +1343,6 @@ URL_DATABASE_ADVANCED_OPTIONS: Final[Url] = Url(Provider.VULTR).uri("databases/{
 URL_DATABASE_VERSION_UPGRADE: Final[Url] = Url(Provider.VULTR).uri("databases/{database-id}/version-upgrade")
 """
 ### Request Methods
-
 - `GET`: List all available version upgrades within the Managed Database (PostgreSQL engine types only).
 - `POST`: Start a version upgrade for the Managed Database (PostgreSQL engine types only).
 
@@ -1441,7 +1362,6 @@ URL_DATABASE_VERSION_UPGRADE: Final[Url] = Url(Provider.VULTR).uri("databases/{d
 URL_DOMAIN_LIST: Final[Url] = Url(Provider.VULTR).uri("domains")
 """
 ### Request Methods
-
 - `GET`: List all DNS Domains in your account.
 - `POST`: Create a DNS Domain for `domain`. If no `ip` address is supplied a domain with no records will be created.
 
@@ -1466,7 +1386,6 @@ URL_DOMAIN_LIST: Final[Url] = Url(Provider.VULTR).uri("domains")
 URL_DOMAIN: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}")
 """
 ### Request Methods
-
 - `GET`: Get information for the DNS Domain.
 - `PUT`: Update the DNS Domain.
 - `DELETE`: Delete the DNS Domain.
@@ -1487,7 +1406,6 @@ URL_DOMAIN: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}")
 URL_DOMAIN_SOA: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/soa")
 """
 ### Request Methods
-
 - `GET`: Get SOA information for the DNS Domain.
 - `PATCH`: Update the SOA information for the DNS Domain. All attributes are optional. If not set, the attributes will retain their original values.
 
@@ -1508,7 +1426,6 @@ URL_DOMAIN_SOA: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/soa")
 URL_DOMAIN_DNSSEC: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/dnssec")
 """
 ### Request Methods
-
 - `GET`: Get the DNSSEC information for the DNS Domain.
 
 ### Path parameters
@@ -1518,7 +1435,6 @@ URL_DOMAIN_DNSSEC: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/dn
 URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/records")
 """
 ### Request Methods
-
 - `GET`: Get the DNS records for the Domain.
 - `POST`: Create a DNS record.
 
@@ -1547,7 +1463,6 @@ URL_DOMAIN_RECORDS: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/r
 URL_DOMAIN_RECORD: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/records/{record-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a DNS Record.
 - `PATCH`: Update the information for a DNS record. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete the DNS record.
@@ -1572,7 +1487,6 @@ URL_DOMAIN_RECORD: Final[Url] = Url(Provider.VULTR).uri("domains/{dns-domain}/re
 URL_FIREWALL_GROUP_LIST: Final[Url] = Url(Provider.VULTR).uri("firewalls")
 """
 ### Request Methods
-
 - `GET`: Get a list of all Firewall Groups.
 - `POST`: Create a new Firewall Group.
 
@@ -1591,10 +1505,9 @@ URL_FIREWALL_GROUP_LIST: Final[Url] = Url(Provider.VULTR).uri("firewalls")
 ```
 """
 
-URL_FIREWALL_GROUP_GET: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}")
+URL_FIREWALL_GROUP_ID: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a Firewall Group.
 - `PUT`: Update information for a Firewall Group.
 - `DELETE`: Delete a Firewall Group.
@@ -1615,7 +1528,6 @@ URL_FIREWALL_GROUP_GET: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewal
 URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules")
 """
 ### Request Methods
-
 - `GET`: Get the Firewall Rules for a Firewall Group.
 - `POST`: Create a Firewall Rule for a Firewall Group. The attributes `ip_type`, `protocol`, `subnet`, and `subnet_size` are required.
 
@@ -1646,7 +1558,6 @@ URL_FIREWALL_GROUP_RULES: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firew
 URL_FIREWALL_GROUP_RULE: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewall-group-id}/rules/{firewall-rule-id}")
 """
 ### Request Methods
-
 - `GET`: Get a Firewall Rule.
 - `DELETE`: Delete a Firewall Rule.
 
@@ -1658,7 +1569,6 @@ URL_FIREWALL_GROUP_RULE: Final[Url] = Url(Provider.VULTR).uri("firewalls/{firewa
 URL_INFERENCE_LIST: Final[Url] = Url(Provider.VULTR).uri("inference")
 """
 ### Request Methods
-
 - `GET`: List all Serverless Inference subscriptions in your account.
 - `POST`: Create a new Serverless Inference subscription.
 
@@ -1667,15 +1577,14 @@ URL_INFERENCE_LIST: Final[Url] = Url(Provider.VULTR).uri("inference")
 
 ```js
 {
-    "label": "A user-supplied label for this Serverless Inference subscription."
+    "label": String, "A user-supplied label for this Serverless Inference subscription."
 }
 ```
 """
 
-URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}")
+URL_INFERENCE_ID: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Serverless Inference subscription.
 - `PATCH`: Update information for a Serverless Inference subscription.
 - `DELETE`: Delete a Serverless Inference subscription.
@@ -1688,7 +1597,7 @@ URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id
 
 ```js
 {
-    "label": "A user-supplied label for this Serverless Inference subscription."
+    "label": String, // "A user-supplied label for this Serverless Inference subscription."
 }
 ```
 """
@@ -1696,7 +1605,6 @@ URL_INFERENCE_GET: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id
 URL_INFERENCE_USAGE: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-id}/usage")
 """
 ### Request Methods
-
 - `GET`: Get usage information for a Serverless Inference subscription.
 
 ### Path parameters
@@ -1706,7 +1614,6 @@ URL_INFERENCE_USAGE: Final[Url] = Url(Provider.VULTR).uri("inference/{inference-
 URL_INSTANCE_LIST: Final[Url] = Url(Provider.VULTR).uri("instances")
 """
 ### Request Methods
-
 - `GET`: List all VPS instances in your account.
 
 ### Query Parameters
@@ -1724,7 +1631,6 @@ URL_INSTANCE_LIST: Final[Url] = Url(Provider.VULTR).uri("instances")
 URL_INSTANCE_CREATE: Final[Url] = Url(Provider.VULTR).uri("instances")
 """
 ### Request Methods
-
 - `POST`: Create a new VPS Instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
     - `os_id`
     - `iso_id`
@@ -1733,44 +1639,47 @@ URL_INSTANCE_CREATE: Final[Url] = Url(Provider.VULTR).uri("instances")
     - `image_id`
 
 ### Request Body Schema
-- `region` - The [Region id](#operation/list-regions) where the Instance is located.
-- `plan` - The [Plan id](#operation/list-plans) to use when deploying this instance.
-- `os_id` - The [Operating System id](#operation/list-os) to use when deploying this instance.
-- `ipxe_chain_url` - The URL location of the iPXE chainloader.
-- `iso_id` - The [ISO id](#operation/list-isos) to use when deploying this instance.
-- `script_id` - The [Startup Script id](#operation/list-startup-scripts) to use when deploying this instance.
-- `snapshot_id` - The [Snapshot id](#operation/list-snapshots) to use when deploying the instance.
-- `enable_ipv6` - Enable IPv6.
-- `disable_public_ipv4` - Don't set up a public IPv4 address when IPv6 is enabled.
-- `attach_private_network` - Use `attach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to attach. (Deprecated)
-- `attach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to attach.
-- `attach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to attach.
-- `label` - A user-supplied label for this instance.
-- `sshkey_id` - The [SSH Key id](#operation/list-ssh-keys) to install on this instance.
-- `backups` - Enable automatic backups for the instance. (`enabled`/`disabled`)
-- `app_id` - The [Application id](#operation/list-applications) to use when deploying this instance.
-- `image_id` - The [Application image_id](#operation/list-applications) to use when deploying this instance.
-- `user_data` - The user-supplied, base64 encoded user data.
-- `ddos_protection` - Enable DDoS protection.
-- `activation_email` - Notify by email after deployment.
-- `hostname` - The hostname to use when deploying this instance.
-- `tag` - Use `tags` instead. The user-supplied tag. (Deprecated)
-- `firewall_group_id` - The [Firewall Group id](#operation/list-firewall-groups) to attach.
-- `reserved_ipv4` - ID of the floating IP to use as the main IP.
-- `enable_private_network` - Use `enable_vpc` instead. If `true`, private networking support will be added. (Deprecated)
-- `enable_vpc` - If `true`, VPC support will be added.
-- `enable_vpc2` - If `true`, VPC 2.0 support will be added.
-- `tags` - Tags to apply to the instance.
-- `user_scheme` - Linux-only: The user scheme used for logging in (`root`/`limited`).
-- `app_variables` - The [app variable inputs](#operation/list-marketplace-app-variables) for configuring the marketplace app.
+- `POST`:
 
-**Required Fields**: `region`, `plan`
+```js
+{
+    "region": String, // [Required] [Region id](#operation/list-regions) where the Instance is located.
+    "plan": String, // [Required] [Plan id](#operation/list-plans) to use when deploying this instance.
+    "os_id": Optional<Integer>, // [Operating System id](#operation/list-os) to use when deploying this instance.
+    "ipxe_chain_url": Optional<String>, // URL location of the iPXE chainloader.
+    "iso_id": Optional<String>, // [ISO id](#operation/list-isos) to use when deploying this instance.
+    "script_id": Optional<String>, // [Startup Script id](#operation/list-startup-scripts) to use.
+    "snapshot_id": Optional<String>, // [Snapshot id](#operation/list-snapshots) to use for deployment.
+    "enable_ipv6": Optional<Boolean>, // Enable IPv6. Default: false
+    "disable_public_ipv4": Optional<Boolean>, // Disable public IPv4 when IPv6 is enabled. Default: false
+    "attach_private_network": Optional<Array<String>>, // [Deprecated] Use `attach_vpc`. [Private Network ids](#operation/list-networks).
+    "attach_vpc": Optional<Array<String>>, // [VPC IDs](#operation/list-vpcs) to attach.
+    "attach_vpc2": Optional<Array<String>>, // [VPC 2.0 IDs](#operation/list-vpc2) to attach.
+    "label": Optional<String>, // User-supplied label (max 255 characters).
+    "sshkey_id": Optional<Array<String>>, // [SSH Key ids](#operation/list-ssh-keys) to install.
+    "backups": Optional<String>, // Enable automatic backups. Values: "enabled"|"disabled".
+    "app_id": Optional<Integer>, // [Application id](#operation/list-applications) for deployment.
+    "image_id": Optional<String>, // [Application image_id](#operation/list-applications) for deployment.
+    "user_data": Optional<String>, // Base64-encoded user data (cloud-init).
+    "ddos_protection": Optional<Boolean>, // Enable DDoS protection. Default: false
+    "activation_email": Optional<Boolean>, // Send deployment email. Default: false
+    "hostname": Optional<String>, // Hostname (max 255 characters).
+    "tag": Optional<String>, // [Deprecated] Use `tags`. User-supplied tag.
+    "firewall_group_id": Optional<String>, // [Firewall Group id](#operation/list-firewall-groups) to attach.
+    "reserved_ipv4": Optional<String>, // [Reserved IP id](#operation/list-reserved-ips) to use as main IP.
+    "enable_private_network": Optional<Boolean>, // [Deprecated] Use `enable_vpc`. Enable private networking.
+    "enable_vpc": Optional<Boolean>, // Enable VPC support. Default: false
+    "enable_vpc2": Optional<Boolean>, // Enable VPC 2.0 support. Default: false
+    "tags": Optional<Array<String>>, // Tags to apply (max 5 tags, 255 chars each).
+    "user_scheme": Optional<String>, // Linux user scheme. Values: "root"|"limited".
+    "app_variables": Optional<Object> // [App variables](#operation/list-marketplace-app-variables) (key/value pairs).
+}
+```
 """
 
-URL_INSTANCE_GET: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}")
+URL_INSTANCE_ID: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about an Instance.
 - `PATCH`: Update information for an Instance. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete an Instance.
@@ -1778,45 +1687,55 @@ URL_INSTANCE_GET: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}"
 ### Path Parameters
 - `instance-id` - The [Instance ID](#operation/list-instances).
 
-### Request Body Schema (Patch)
-- `app_id` - Reinstall the instance with this [Application id](#operation/list-applications).
-- `image_id` - Reinstall the instance with this [Application image_id](#operation/list-applications).
-- `backups` - Enable automatic backups (`enabled`/`disabled`).
-- `firewall_group_id` - The [Firewall Group id](#operation/list-firewall-groups) to attach.
-- `enable_ipv6` - Enable IPv6.
-- `os_id` - Reinstall the instance with this [ISO id](#operation/list-isos).
-- `user_data` - The user-supplied, base64 encoded user data.
-- `tag` - Use `tags` instead. The user-supplied tag. (Deprecated)
-- `plan` - Upgrade the instance with this [Plan id](#operation/list-plans).
-- `ddos_protection` - Enable DDoS Protection (`true`/`false`).
-- `attach_private_network` - Use `attach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to attach. (Deprecated)
-- `attach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to attach.
-- `attach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to attach.
-- `detach_private_network` - Use `detach_vpc` instead. An array of [Private Network ids](#operation/list-networks) to detach. (Deprecated)
-- `detach_vpc` - An array of [VPC IDs](#operation/list-vpcs) to detach.
-- `detach_vpc2` - An array of [VPC IDs](#operation/list-vpc2) to detach.
-- `enable_private_network` - Use `enable_vpc` instead. If `true`, private networking support will be added. (Deprecated)
-- `enable_vpc` - If `true`, VPC support will be added.
-- `enable_vpc2` - If `true`, VPC 2.0 support will be added.
-- `label` - The user supplied label.
-- `tags` - Tags to apply to the instance.
-- `user_scheme` - Linux-only: The user scheme used for logging in (`root`/`limited`).
+### Request Body Schema
+- `PATCH`:
+
+```js
+{
+    "app_id": Optional<Integer>, // [Application id](#operation/list-applications) to reinstall the instance.
+    "image_id": Optional<String>, // [Application image_id](#operation/list-applications) to reinstall the instance.
+    "backups": Optional<String>, // Enable automatic backups. Values: "enabled"|"disabled".
+    "firewall_group_id": Optional<String>, // [Firewall Group id](#operation/list-firewall-groups) to attach.
+    "enable_ipv6": Optional<Boolean>, // Enable IPv6. Default: false
+    "os_id": Optional<Integer>, // [ISO id](#operation/list-isos) to reinstall (field name may be misleading).
+    "user_data": Optional<String>, // Base64-encoded user data (cloud-init).
+    "tag": Optional<String>, // [Deprecated] Use `tags`. User-supplied tag.
+    "plan": Optional<String>, // [Plan id](#operation/list-plans) for upgrade.
+    "ddos_protection": Optional<Boolean>, // Enable DDoS protection. Values: true|false.
+    "attach_private_network": Optional<Array<String>>, // [Deprecated] Use `attach_vpc`. [Private Network ids](#operation/list-networks).
+    "attach_vpc": Optional<Array<String>>, // [VPC IDs](#operation/list-vpcs) to attach.
+    "attach_vpc2": Optional<Array<String>>, // [VPC 2.0 IDs](#operation/list-vpc2) to attach.
+    "detach_private_network": Optional<Array<String>>, // [Deprecated] Use `detach_vpc`. [Private Network ids](#operation/list-networks).
+    "detach_vpc": Optional<Array<String>>, // [VPC IDs](#operation/list-vpcs) to detach.
+    "detach_vpc2": Optional<Array<String>>, // [VPC 2.0 IDs](#operation/list-vpc2) to detach.
+    "enable_private_network": Optional<Boolean>, // [Deprecated] Use `enable_vpc`. Enable private networking.
+    "enable_vpc": Optional<Boolean>, // Enable VPC support. Default: false
+    "enable_vpc2": Optional<Boolean>, // Enable VPC 2.0 support. Default: false
+    "label": Optional<String>, // User-supplied label (max 255 characters).
+    "tags": Optional<Array<String>>, // Tags to apply (max 5 tags, 255 chars each).
+    "user_scheme": Optional<String> // Linux user scheme. Values: "root"|"limited".
+}
+```
 """
 
 URL_INSTANCE_REINSTALL: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/reinstall")
 """
 ### Request Methods
-
 - `POST`: Reinstall an Instance using an optional `hostname`.
 
 ### Request Body Schema
-- `hostname` - The hostname to use when reinstalling this instance.
+- `POST`:
+
+```js
+{
+    "hostname": Optional<String> // The hostname to use when reinstalling this instance.
+}
+```
 """
 
 URL_INSTANCE_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/bandwidth")
 """
 ### Request Methods
-
 - `GET`: Get bandwidth information about an Instance.
 
 ### Query Parameters
@@ -1826,14 +1745,12 @@ URL_INSTANCE_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 URL_INSTANCE_NEIGHBORS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/neighbors")
 """
 ### Request Methods
-
 - `GET`: Get a list of other instances in the same location as this Instance.
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks")
 """
 ### Request Methods
-
 - `GET`: **Deprecated**: use [List Instance VPCs](#operation/list-instance-vpcs) instead. List the private networks for an Instance.
 
 ### Query Parameters
@@ -1844,7 +1761,6 @@ URL_INSTANCE_PRIVATE_NETWORKS: Final[Url] = Url(Provider.VULTR).uri("instances/{
 URL_INSTANCE_VPCS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs")
 """
 ### Request Methods
-
 - `GET`: List the VPCs for an Instance.
 
 ### Query Parameters
@@ -1855,7 +1771,6 @@ URL_INSTANCE_VPCS: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 URL_INSTANCE_VPC2S: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2")
 """
 ### Request Methods
-
 - `GET`: List the VPC 2.0 networks for an Instance.
 
 ### Query Parameters
@@ -1866,7 +1781,6 @@ URL_INSTANCE_VPC2S: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id
 URL_INSTANCE_ISO: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso")
 """
 ### Request Methods
-
 - `GET`: Get the ISO status for an Instance.
 
 ### Path Parameters
@@ -1876,119 +1790,171 @@ URL_INSTANCE_ISO: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/
 URL_INSTANCE_ISO_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso/attach")
 """
 ### Request Methods
-
 - `POST`: Attach an ISO to an Instance.
 
 ### Request Body Schema
-- `iso_id` - The [ISO id](#operation/list-isos) to attach to this Instance.
+- `POST`:
+
+```js
+{
+    "iso_id": String // The [ISO id](#operation/list-isos) to attach to this Instance.
+}
+```
 """
 
 URL_INSTANCE_ISO_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/iso/detach")
 """
 ### Request Methods
-
 - `POST`: Detach the ISO from an Instance.
 
 ### Request Body Schema
-- `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
+- `POST`:
+
+```js
+{
+    "network_id": String // The [Private Network id](#operation/list-networks) to detach from this Instance.
+}
+```
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks/attach")
 """
 ### Request Methods
-
 - `POST`: Attach Private Network to an Instance. (Deprecated)
 
 ### Request Body Schema
-- `network_id` - The [Private Network id](#operation/list-networks) to attach to this Instance.
+- `POST`:
+
+```js
+{
+    "network_id": String // The [Private Network id](#operation/list-networks) to attach to this Instance.
+}
+```
 """
 
 URL_INSTANCE_PRIVATE_NETWORKS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/private-networks/detach")
 """
 ### Request Methods
-
 - `POST`: Detach Private Network from an Instance. (Deprecated)
 
 ### Request Body Schema
-- `network_id` - The [Private Network id](#operation/list-networks) to detach from this Instance.
+- `POST`:
+
+```js
+{
+    "network_id": String // The [Private Network id](#operation/list-networks) to detach from this Instance.
+}
+```
 """
 
 URL_INSTANCE_VPCS_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs/attach")
 """
 ### Request Methods
-
 - `POST`: Attach a VPC to an Instance.
 
 ### Request Body Schema
-- `vpc_id` - The [VPC ID](#operation/list-vpcs) to attach to this Instance.
+- `POST`:
+
+```js
+{
+    "vpc_id": String // The [VPC ID](#operation/list-vpcs) to attach to this Instance.
+}
+```
 """
 
 URL_INSTANCE_VPCS_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpcs/detach")
 """
 ### Request Methods
-
 - `POST`: Detach a VPC from an Instance.
 
 ### Request Body Schema
-- `vpc_id` - The [VPC ID](#operation/list-vpcs) to detach from this Instance.
+- `POST`:
+
+```js
+{
+    "vpc_id": String // The [VPC ID](#operation/list-vpcs) to detach from this Instance.
+}
+```
 """
 
 URL_INSTANCE_VPC2_ATTACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2/attach")
 """
 ### Request Methods
-
 - `POST`: Attach a VPC 2.0 Network to an Instance.
 
 ### Request Body Schema
-- `vpc_id` - The [VPC ID](#operation/list-vpc2) to attach to this Instance.
-- `ip_address` - The IP address to use for this instance on the attached VPC 2.0 network.
+- `POST`:
 
-**Required Fields**: `vpc_id`
+```js
+{
+    "vpc_id": String, // The [VPC ID](#operation/list-vpc2) to attach to this Instance.
+    "ip_address": Optional<String> // The IP address to use for this instance on the attached VPC 2.0 network.
+}
+```
 """
 
 URL_INSTANCE_VPC2_DETACH: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/vpc2/detach")
 """
 ### Request Methods
-
 - `POST`: Detach a VPC 2.0 Network from an Instance.
 
 ### Request Body Schema
-- `vpc_id` - The [VPC ID](#operation/list-vpc2) to detach from this Instance.
+- `POST`:
 
-**Required Fields**: `vpc_id`
+```js
+{
+    "vpc_id": String // The [VPC ID](#operation/list-vpc2) to detach from this Instance.
+}
+```
 """
 
 URL_INSTANCE_BACKUP_SCHEDULE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/backup-schedule")
 """
 ### Request Methods
-
 - `GET`: Get the backup schedule for an Instance.
 - `POST`: Set the backup schedule for an Instance in UTC.
 
-### Request Body Schema (Post)
-- `type` - Type of backup schedule: `daily`, `weekly`, `monthly`, `daily_alt_even`, `daily_alt_odd`.
-- `hour` - Hour of day to run in UTC.
-- `dow` - Day of week to run (1-7).
-- `dom` - Day of month to run (1-28).
+### Request Body Schema
+- `POST`:
 
-**Required Fields**: `type`
+```js
+{
+    "type": String, // Type of backup schedule: `daily`, `weekly`, `monthly`, `daily_alt_even`, `daily_alt_odd`.
+    "hour": Optional<Integer>, // Hour of day to run in UTC.
+    "dow": Optional<Integer>, // Day of week to run (1-7).
+    "dom": Optional<Integer> // Day of month to run (1-28).
+}
+```
+
+|Type | Description |
+|---|---|
+|daily | Backups run every day. |
+|weekly | Backups run every week. |
+|monthly | Backups run every month. |
+|daily_alt_even | Backups run every other day starting on an even day of the month. |
+|daily_alt_odd | Backups run every other day starting on an odd day of the month |
+
 """
 
 URL_INSTANCE_RESTORE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/restore")
 """
 ### Request Methods
-
 - `POST`: Restore an Instance from either `backup_id` or `snapshot_id`.
 
 ### Request Body Schema
-- `backup_id` - The [Backup id](#operation/list-backups) used to restore this instance.
-- `snapshot_id` - The [Snapshot id](#operation/list-snapshots) used to restore this instance.
+- `POST`:
+
+```js
+{
+    "backup_id": Optional<String>, // The [Backup id](#operation/list-backups) used to restore this instance.
+    "snapshot_id": Optional<String> // The [Snapshot id](#operation/list-snapshots) used to restore this instance.
+}
+```
 """
 
 URL_INSTANCE_IPV4: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4")
 """
 ### Request Methods
-
 - `GET`: List the IPv4 information for an Instance.
 - `POST`: Create an IPv4 address for an Instance.
 
@@ -2003,13 +1969,17 @@ URL_INSTANCE_IPV4: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 
 ### Request Body Schema
 - `POST`:
-    - `reboot` - Set if the server is rebooted immediately after the IPv4 address is created.\n\n* true (default)\n* false
+
+```js
+{
+    "reboot": Optional<Boolean> // Set if the server is rebooted immediately after the IPv4 address is created.
+}
+```
 """
 
 URL_INSTANCE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6")
 """
 ### Request Methods
-
 - `GET`: Get the IPv6 information for an VPS Instance.
 
 ### Path parameters
@@ -2019,7 +1989,6 @@ URL_INSTANCE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 URL_INSTANCE_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4/reverse")
 """
 ### Request Methods
-
 - `POST`: Create a reverse IPv4 entry for an Instance. The `ip` and `reverse` attributes are required. 
 
 ### Path parameters
@@ -2027,14 +1996,18 @@ URL_INSTANCE_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{inst
 
 ### Request Body Schema
 - `POST`:
-    - `ip` - The IPv4 address.
-    - `reverse` - The IPv4 reverse entry.
+
+```js
+{
+    "ip": String, // The IPv4 address.
+    "reverse": String // The IPv4 reverse entry.
+}
+```
 """
 
 URL_INSTANCE_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6/reverse")
 """
 ### Request Methods
-
 - `GET`: List the reverse IPv6 information for an Instance.
 - `POST`: Create a reverse IPv6 entry for an Instance. The `ip` and `reverse` attributes are required. IP address must be in full, expanded format.
 
@@ -2043,14 +2016,19 @@ URL_INSTANCE_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("instances/{inst
 
 ### Request Body Schema
 - `POST`:
-    - `ip` - The IPv6 address in full, expanded format.
-    - `reverse` - The IPv6 reverse entry.
+
+```js
+{
+    "ip": String, // The IPv6 address in full, expanded format.
+    "reverse": String // The IPv6 reverse entry.
+}
+```
+
 """
 
 URL_INSTANCE_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv4/reverse/default")
 """
 ### Request Methods
-
 - `POST`: Set a reverse DNS entry for an IPv4 address
 
 ### Path parameters
@@ -2058,13 +2036,17 @@ URL_INSTANCE_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("instanc
 
 ### Request Body Schema
 - `POST`:
-    - `ip` - The IPv4 address.
+
+```js
+{
+    "ip": String // The IPv4 address.
+}
+```
 """
 
 URL_INSTANCE_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/ipv6/reverse/{ipv6}")
 """
 ### Request Methods
-
 - `DELETE`: Delete the reverse IPv6 for an Instance.
 
 ### Path parameters
@@ -2075,7 +2057,6 @@ URL_INSTANCE_IPV6_REVERSE_IPV6: Final[Url] = Url(Provider.VULTR).uri("instances/
 URL_INSTANCE_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/halt")
 """
 ### Request Methods
-
 - `POST`: Halt an Instance.
 
 ### Path parameters
@@ -2085,7 +2066,6 @@ URL_INSTANCE_HALT: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}
 URL_INSTANCE_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/user-data")
 """
 ### Request Methods
-
 - `GET`: Get the user-supplied, base64 encoded [user data](https://www.vultr.com/docs/manage-instance-user-data-with-the-vultr-metadata-api/) for an Instance.
 
 ### Path parameters
@@ -2095,7 +2075,6 @@ URL_INSTANCE_USER_DATA: Final[Url] = Url(Provider.VULTR).uri("instances/{instanc
 URL_INSTANCE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("instances/{instance-id}/upgrades")
 """
 ### Request Methods
-
 - `GET`: Get available upgrades for an Instance.
 
 ### Path parameters
@@ -2108,31 +2087,35 @@ URL_INSTANCE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("instances/{instance
 URL_KUBERNETES_LIST: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters")
 """
 ### Request Methods
-
 - `GET`: List all Kubernetes clusters currently deployed.
 - `POST`: Create Kubernetes Cluster.
 
 ### Request Body Schema
 - `POST`:
-    - `label` - The label for your Kubernetes cluster.
-    - `region` - Region you want to deploy VKE in. See [Regions](#tag/region) for more information.
-    - `version` - Version of Kubernetes you want to deploy.
-    - `ha_controlplanes` - Whether a highly available control planes configuration should be deployed\n\n* true\n* false (default)
-    - `enable_firewall` - Whether a [Firewall Group](#tag/firewall) should be deployed and managed by this cluster\n\n* true\n* false (default)
-    - `node_pools` - Array of node pool objects containing:
-        - `node_quantity` - Number of instances to deploy in this nodepool
-        - `label` - Label for this nodepool
-        - `plan` - Plan you want this nodepool to use
-        - `tag` - Tag for node pool
-        - `auto_scaler` - Option to use the auto scaler
-        - `min_nodes` - Auto scaler minimum nodes
-        - `max_nodes` - Auto scaler maximum nodes
+
+```js
+{
+    "label": String, // The label for your Kubernetes cluster.
+    "region": String, // Region you want to deploy VKE in. See [Regions](#tag/region) for more information.
+    "version": String, // Version of Kubernetes you want to deploy.
+    "ha_controlplanes": Optional<Boolean>, // Whether a highly available control planes configuration should be deployed.
+    "enable_firewall": Optional<Boolean>, // Whether a [Firewall Group](#tag/firewall) should be deployed and managed by this cluster.
+    "node_pools": Array<{ // Array of node pool objects containing:
+        "node_quantity": Integer, // Number of instances to deploy in this nodepool.
+        "label": String, // Label for this nodepool.
+        "plan": String, // Plan you want this nodepool to use.
+        "tag": String, // Tag for node pool.
+        "auto_scaler": Boolean, // Option to use the auto scaler.
+        "min_nodes": Integer, // Auto scaler minimum nodes.
+        "max_nodes": Integer // Auto scaler maximum nodes.
+    }>
+}
+```
 """
 
-URL_KUBERNETES_GET: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}")
+URL_KUBERNETES_ID: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}")
 """
 ### Request Methods
-
 - `GET`: Get Kubernetes Cluster.
 - `PUT`: Update Kubernetes Cluster.
 - `DELETE`: Delete Kubernetes Cluster.
@@ -2142,13 +2125,17 @@ URL_KUBERNETES_GET: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{v
 
 ### Request Body Schema
 - `PUT`:
-    - `label` - Label for the Kubernetes cluster
+
+```js
+{
+    "label": Optional<String> // Label for the Kubernetes cluster.
+}
+```
 """
 
 URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/delete-with-linked-resources")
 """
 ### Request Methods
-
 - `DELETE`: Delete Kubernetes Cluster and all related resources.
 
 ### Path parameters
@@ -2158,7 +2145,6 @@ URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES: Final[Url] = Url(Provider.VULTR).ur
 URL_KUBERNETES_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/resources")
 """
 ### Request Methods
-
 - `GET`: Get the block storage volumes and load balancers deployed by the specified Kubernetes cluster.
 
 ### Path parameters
@@ -2168,7 +2154,6 @@ URL_KUBERNETES_RESOURCES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 URL_KUBERNETES_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/available-upgrades")
 """
 ### Request Methods
-
 - `GET`: Get the available upgrades for the specified Kubernetes cluster.
 
 ### Path parameters
@@ -2178,7 +2163,6 @@ URL_KUBERNETES_AVAILABLE_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kuberne
 URL_KUBERNETES_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/upgrades")
 """
 ### Request Methods
-
 - `POST`: Start a Kubernetes cluster upgrade.
 
 ### Path parameters
@@ -2186,13 +2170,17 @@ URL_KUBERNETES_UPGRADES: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 
 ### Request Body Schema
 - `POST`:
-    - `upgrade_version` - The version you're upgrading to
+
+```js
+{
+    "upgrade_version": String // The version you're upgrading to.
+}
+```
 """
 
 URL_KUBERNETES_NODEPOOLS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools")
 """
 ### Request Methods
-
 - `GET`: List all available NodePools on a Kubernetes Cluster.
 - `POST`: Create NodePool for a Existing Kubernetes Cluster.
 
@@ -2201,20 +2189,24 @@ URL_KUBERNETES_NODEPOOLS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clust
 
 ### Request Body Schema
 - `POST`:
-    - `node_quantity` - Number of instances in this nodepool
-    - `label` - Label for the nodepool
-    - `plan` - Plan that this nodepool will use
-    - `tag` - Tag for node pool
-    - `auto_scaler` - Option to use the auto scaler
-    - `min_nodes` - Auto scaler minimum nodes
-    - `max_nodes` - Auto scaler maximum nodes
-    - `labels` - Map of key/value pairs defining labels
+
+```js
+{
+    "node_quantity": Integer, // Number of instances in this nodepool.
+    "label": String, // Label for the nodepool.
+    "plan": String, // Plan that this nodepool will use.
+    "tag": Optional<String>, // Tag for node pool.
+    "auto_scaler": Optional<Boolean>, // Option to use the auto scaler.
+    "min_nodes": Optional<Integer>, // Auto scaler minimum nodes.
+    "max_nodes": Optional<Integer>, // Auto scaler maximum nodes.
+    "labels": Optional<Object> // Map of key/value pairs defining labels.
+}
+```
 """
 
 URL_KUBERNETES_NODEPOOL: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}")
 """
 ### Request Methods
-
 - `GET`: Get Nodepool from a Kubernetes Cluster.
 - `PATCH`: Update a Nodepool on a Kubernetes Cluster.
 - `DELETE`: Delete a NodePool from a Kubernetes Cluster.
@@ -2225,18 +2217,22 @@ URL_KUBERNETES_NODEPOOL: Final[Url] = Url(Provider.VULTR).uri("kubernetes/cluste
 
 ### Request Body Schema
 - `PATCH`:
-    - `node_quantity` - Number of instances in the NodePool
-    - `tag` - Tag for node pool
-    - `auto_scaler` - Option to use the auto scaler
-    - `min_nodes` - Auto scaler minimum nodes
-    - `max_nodes` - Auto scaler maximum nodes
-    - `labels` - Map of key/value pairs defining labels
+
+```js
+{
+    "node_quantity": Integer, // Number of instances in the NodePool.
+    "tag": Optional<String>, // Tag for node pool.
+    "auto_scaler": Optional<Boolean>, // Option to use the auto scaler.
+    "min_nodes": Optional<Integer>, // Auto scaler minimum nodes.
+    "max_nodes": Optional<Integer>, // Auto scaler maximum nodes.
+    "labels": Optional<Object> // Map of key/value pairs defining labels.
+}
+```
 """
 
 URL_KUBERNETES_NODEPOOL_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}/nodes/{node-id}")
 """
 ### Request Methods
-
 - `DELETE`: Delete a single nodepool instance from a given Nodepool.
 
 ### Path parameters
@@ -2248,7 +2244,6 @@ URL_KUBERNETES_NODEPOOL_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("kubernet
 URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/node-pools/{nodepool-id}/nodes/{node-id}/recycle")
 """
 ### Request Methods
-
 - `POST`: Recycle a specific NodePool Instance.
 
 ### Path parameters
@@ -2260,7 +2255,6 @@ URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE: Final[Url] = Url(Provider.VULTR).uri("
 URL_KUBERNETES_CONFIG: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters/{vke-id}/config")
 """
 ### Request Methods
-
 - `GET`: Get Kubernetes Cluster Kubeconfig.
 
 ### Path parameters
@@ -2270,7 +2264,6 @@ URL_KUBERNETES_CONFIG: Final[Url] = Url(Provider.VULTR).uri("kubernetes/clusters
 URL_KUBERNETES_VERSIONS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/versions")
 """
 ### Request Methods
-
 - `GET`: Get a list of supported Kubernetes versions.
 """
 
@@ -2278,7 +2271,6 @@ URL_KUBERNETES_VERSIONS: Final[Url] = Url(Provider.VULTR).uri("kubernetes/versio
 URL_LOAD_BALANCER_LIST: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 """
 ### Request Methods
-
 - `GET`: List the Load Balancers in your account.
 
 ### Query parameters
@@ -2289,69 +2281,67 @@ URL_LOAD_BALANCER_LIST: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 URL_LOAD_BALANCER_CREATE: Final[Url] = Url(Provider.VULTR).uri("load-balancers")
 """
 ### Request Methods
-
 - `POST`: Create a new Load Balancer in a particular `region`.
 
 ### Request Body Schema
 - `POST`:
 
-```
+```js
 {
-    "region": "The [Region id](#operation/list-regions) to create this Load Balancer.",
-    "balancing_algorithm": "The balancing algorithm.\n\n* roundrobin (default)\n* leastconn",
-    "ssl_redirect": "If `true`, this will redirect all HTTP traffic to HTTPS. You must have an HTTPS rule and SSL certificate installed on the load balancer to enable this option.\n\n* true\n* false",
-    "http2": "If `true`, this will enable HTTP2 traffic. You must have an HTTPS forwarding rule combo (HTTPS -> HTTPS) to enable this option.\n\n* true\n* false",
-    "http3": "If `true`, this will enable HTTP3/QUIC traffic. You must have HTTP2 enabled.\n\n* true\n* false",
-    "nodes": "The number of nodes to add to the load balancer (1-99), must be an odd number. This defaults to 1.",
-    "proxy_protocol": "If `true`, you must configure backend nodes to accept Proxy protocol.\n\n* true\n* false (Default)",
-    "timeout": "The maximum time allowed for the connection to remain inactive before timing out in seconds. This defaults to 600.",
-    "health_check": {
-        "protocol": "The protocol to use for health checks.\n\n* HTTPS\n* HTTP\n* TCP",
-        "port": "The port to use for health checks.",
-        "path": "HTTP Path to check. Only applies if protocol is HTTP, or HTTPS.",
-        "check_interval": "Interval between health checks.",
-        "response_timeout": "Timeout before health check fails.",
-        "unhealthy_threshold": "Number times a check must fail before becoming unhealthy.",
-        "healthy_threshold": "Number of times a check must succeed before returning to healthy status."
-    },
-    "forwarding_rules": [{
-        "frontend_protocol": "The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP",
-        "frontend_port": "The port number on the Load Balancer to forward to the backend.",
-        "backend_protocol": "The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP",
-        "backend_port": "The port number destination on the backend server."
-    }],
-    "sticky_session": {
-        "cookie_name": "The cookie name to make sticky. See [Load Balancer documentation](https://www.vultr.com/docs/vultr-load-balancers/#Load_Balancer_Configuration)."
-    },
-    "ssl": {
-        "private_key": "The private key.",
-        "certificate": "The SSL certificate.",
-        "chain": "The certificate chain.",
-        "private_key_b64": "The private key base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)",
-        "certificate_b64": "The SSL certificate base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)",
-        "chain_b64": "The certificate chain base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)"
-    },
-    "label": "Label for your Load Balancer.",
-    "instances": "An array of instances IDs that you want attached to the load balancer.",
-    "firewall_rules": [{
-        "port": "Port for this rule.",
-        "source": "If the source string is given a value of \"cloudflare\" then cloudflare IPs will be supplied. Otherwise enter a IP address with subnet size that you wish to permit through the firewall.",
-        "ip_type": "The type of IP rule.\n\n* v4\n* v6"
-    }],
-    "vpc": "ID of the VPC you wish to use. If a VPC ID is omitted it will default to the public network.",
-    "auto_ssl": {
-        "domain_zone": "The domain zone. (example.com)",
-        "domain_sub": "(optional) Subdomain to append to the domain zone."
-    },
-    "global_regions": "Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to."
+    "region": String, // [Required] [Region id](#operation/list-regions) to create this Load Balancer.
+    "balancing_algorithm": Optional<String>, // The balancing algorithm.\n\n* roundrobin (default)\n* leastconn
+    "ssl_redirect": Optional<Boolean>, // If `true`, this will redirect all HTTP traffic to HTTPS. You must have an HTTPS rule and SSL certificate installed on the load balancer to enable this option.\n\n* true\n* false
+    "http2": Optional<Boolean>, // If `true`, this will enable HTTP2 traffic. You must have an HTTPS forwarding rule combo (HTTPS -> HTTPS) to enable this option.\n\n* true\n* false
+    "http3": Optional<Boolean>, // If `true`, this will enable HTTP3/QUIC traffic. You must have HTTP2 enabled.\n\n* true\n* false
+    "nodes": Optional<Integer>, // The number of nodes to add to the load balancer (1-99), must be an odd number. This defaults to 1.
+    "proxy_protocol": Optional<Boolean>, // If `true`, you must configure backend nodes to accept Proxy protocol.\n\n* true\n* false (Default)
+    "timeout": Optional<Integer>, // The maximum time allowed for the connection to remain inactive before timing out in seconds. This defaults to 600.
+    "health_check": Optional<{ 
+        "protocol": String, // The protocol to use for health checks.\n\n* HTTPS\n* HTTP\n* TCP
+        "port": Integer, // The port to use for health checks.
+        "path": Optional<String>, // HTTP Path to check. Only applies if protocol is HTTP, or HTTPS.
+        "check_interval": Optional<Integer>, // Interval between health checks.
+        "response_timeout": Optional<Integer>, // Timeout before health check fails.
+        "unhealthy_threshold": Optional<Integer>, // Number times a check must fail before becoming unhealthy.
+        "healthy_threshold": Optional<Integer> // Number of times a check must succeed before returning to healthy status.
+    }>,
+    "forwarding_rules": Array<{ // [Required] Array of forwarding rules
+        "frontend_protocol": String, // The protocol on the Load Balancer to forward to the backend.\n\n* HTTP\n* HTTPS\n* TCP
+        "frontend_port": Integer, // The port number on the Load Balancer to forward to the backend.
+        "backend_protocol": String, // The protocol destination on the backend server.\n\n* HTTP\n* HTTPS\n* TCP
+        "backend_port": Integer // The port number destination on the backend server.
+    }>,
+    "sticky_session": Optional<{
+        "cookie_name": String // The cookie name to make sticky. See [Load Balancer documentation](https://www.vultr.com/docs/vultr-load-balancers/#Load_Balancer_Configuration).
+    }>,
+    "ssl": Optional<{
+        "private_key": String, // The private key.
+        "certificate": String, // The SSL certificate.
+        "chain": Optional<String>, // The certificate chain.
+        "private_key_b64": Optional<String>, // The private key base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)
+        "certificate_b64": Optional<String>, // The SSL certificate base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)
+        "chain_b64": Optional<String> // The certificate chain base64 encoded. (Base64 encoded values should not be used alongside with non-Base64 encoded values)
+    }>,
+    "label": Optional<String>, // Label for your Load Balancer.
+    "instances": Optional<Array<String>>, // An array of instances IDs that you want attached to the load balancer.
+    "firewall_rules": Optional<Array<{
+        "port": Integer, // Port for this rule.
+        "source": String, // If the source string is given a value of \"cloudflare\" then cloudflare IPs will be supplied. Otherwise enter a IP address with subnet size that you wish to permit through the firewall.
+        "ip_type": String // The type of IP rule.\n\n* v4\n* v6
+    }>>,
+    "vpc": Optional<String>, // ID of the VPC you wish to use. If a VPC ID is omitted it will default to the public network.
+    "auto_ssl": Optional<{
+        "domain_zone": String, // The domain zone. (example.com)
+        "domain_sub": Optional<String> // (optional) Subdomain to append to the domain zone.
+    }>,
+    "global_regions": Optional<Array<String>> // Array of [Region ids](#operation/list-regions) to deploy child Load Balancers to.
 }
 ```
 """
 
-URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}")
+URL_LOAD_BALANCER_ID: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a Load Balancer.
 - `PATCH`: Update information for a Load Balancer. All attributes are optional. If not set, the attributes will retain their original values.
 - `DELETE`: Delete a Load Balancer.
@@ -2417,7 +2407,6 @@ URL_LOAD_BALANCER_GET: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loa
 URL_LOAD_BALANCER_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/ssl")
 """
 ### Request Methods
-
 - `DELETE`: Delete a Load Balancer SSL.
 
 ### Path parameters
@@ -2427,7 +2416,6 @@ URL_LOAD_BALANCER_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{loa
 URL_LOAD_BALANCER_AUTO_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/auto_ssl")
 """
 ### Request Methods
-
 - `DELETE`: Remove a Load Balancer Auto SSL. This will not remove an ssl certificate from the load balancer.
 
 ### Path parameters
@@ -2437,7 +2425,6 @@ URL_LOAD_BALANCER_AUTO_SSL: Final[Url] = Url(Provider.VULTR).uri("load-balancers
 URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/forwarding-rules")
 """
 ### Request Methods
-
 - `GET`: List the fowarding rules for a Load Balancer.
 - `POST`: Create a new forwarding rule for a Load Balancer.
 
@@ -2464,7 +2451,6 @@ URL_LOAD_BALANCER_FORWARDING_RULES: Final[Url] = Url(Provider.VULTR).uri("load-b
 URL_LOAD_BALANCER_FORWARDING_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/forwarding-rules/{forwarding-rule-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a Forwarding Rule on a Load Balancer.
 - `DELETE`: Delete a Forwarding Rule on a Load Balancer.
 
@@ -2476,7 +2462,6 @@ URL_LOAD_BALANCER_FORWARDING_RULE: Final[Url] = Url(Provider.VULTR).uri("load-ba
 URL_LOAD_BALANCER_FIREWALL_RULES: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/firewall-rules")
 """
 ### Request Methods
-
 - `GET`: List the firewall rules for a Load Balancer.
 
 ### Path parameters
@@ -2490,7 +2475,6 @@ URL_LOAD_BALANCER_FIREWALL_RULES: Final[Url] = Url(Provider.VULTR).uri("load-bal
 URL_LOAD_BALANCER_FIREWALL_RULE: Final[Url] = Url(Provider.VULTR).uri("load-balancers/{load-balancer-id}/firewall-rules/{firewall-rule-id}")
 """
 ### Request Methods
-
 - `GET`: Get a firewall rule for a Load Balancer.
 
 ### Path parameters
@@ -2501,7 +2485,6 @@ URL_LOAD_BALANCER_FIREWALL_RULE: Final[Url] = Url(Provider.VULTR).uri("load-bala
 URL_MARKETPLACE_APP_VARIABLES: Final[Url] = Url(Provider.VULTR).uri("marketplace/apps/{image-id}/variables")
 """
 ### Request Methods
-
 - `GET`: List all user-supplied variables for a Marketplace App.
 
 ### Path parameters
@@ -2511,7 +2494,6 @@ URL_MARKETPLACE_APP_VARIABLES: Final[Url] = Url(Provider.VULTR).uri("marketplace
 URL_OS: Final[Url] = Url(Provider.VULTR).uri("os")
 """
 ### Request Methods
-
 - `GET`: List the OS images available for installation at Vultr.
 
 ### Query parameters
@@ -2522,7 +2504,6 @@ URL_OS: Final[Url] = Url(Provider.VULTR).uri("os")
 URL_PLAN: Final[Url] = Url(Provider.VULTR).uri("plans")
 """
 ### Request Methods
-
 - `GET`: Get a list of all VPS plans at Vultr.
 
 The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
@@ -2568,7 +2549,6 @@ More about the sub-fields:
 URL_PLAN_METAL: Final[Url] = Url(Provider.VULTR).uri("plans-metal")
 """
 ### Request Methods
-
 - `GET`: Get a list of all Bare Metal plans at Vultr.
 
 The response is an array of JSON `plan` objects, with unique `id` with sub-fields in the general format of:
@@ -2594,7 +2574,6 @@ More about the sub-fields:
 URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
 """
 ### Request Methods
-
 - `GET`: List all Regions at Vultr.
 
 ### Query parameters
@@ -2605,7 +2584,6 @@ URL_REGION: Final[Url] = Url(Provider.VULTR).uri("regions")
 URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-id}/availability")
 """
 ### Request Methods
-
 - `GET`: Get a list of the available plans in Region `region-id`. Not all plans are available in all regions.
 
 ### Path parameters
@@ -2633,7 +2611,6 @@ URL_REGION_ID_AVAILABLE: Final[Url] = Url(Provider.VULTR).uri("regions/{region-i
 URL_RESERVED_IP: Final[Url] = Url(Provider.VULTR).uri("reserved-ips")
 """
 ### Request Methods
-
 - `GET`: List all Reserved IPs in your account.
 - `POST`: Create a new Reserved IP. The `region` and `ip_type` attributes are required.
 
@@ -2652,7 +2629,6 @@ URL_RESERVED_IP: Final[Url] = Url(Provider.VULTR).uri("reserved-ips")
 URL_RESERVED_IP_ID: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Reserved IP.
 - `PATCH`: Update information on a Reserved IP.
 - `DELETE`: Delete a Reserved IP.
@@ -2673,7 +2649,6 @@ URL_RESERVED_IP_ID: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved
 URL_RESERVED_IP_ATTACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/attach")
 """
 ### Request Methods
-
 - `POST`: Attach a Reserved IP to an compute instance or a baremetal instance - `instance_id`.
 
 ### Path parameters
@@ -2692,7 +2667,6 @@ URL_RESERVED_IP_ATTACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{rese
 URL_RESERVED_IP_DETACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{reserved-ip}/detach")
 """
 ### Request Methods
-
 - `POST`: Detach a Reserved IP.
 
 ### Path parameters
@@ -2702,7 +2676,6 @@ URL_RESERVED_IP_DETACH: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/{rese
 URL_RESERVED_IP_CONVERT: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/convert")
 """
 ### Request Methods
-
 - `POST`: Convert the `ip_address` of an existing [instance](#operation/list-instances) into a Reserved IP.
 
 ### Request Body Schema
@@ -2719,7 +2692,6 @@ URL_RESERVED_IP_CONVERT: Final[Url] = Url(Provider.VULTR).uri("reserved-ips/conv
 URL_SNAPSHOT_LIST: Final[Url] = Url(Provider.VULTR).uri("snapshots")
 """
 ### Request Methods
-
 - `GET`: Get information about all Snapshots in your account.
 - `POST`: Create a new Snapshot for `instance_id`.
 
@@ -2743,7 +2715,6 @@ URL_SNAPSHOT_LIST: Final[Url] = Url(Provider.VULTR).uri("snapshots")
 URL_SNAPSHOT_ID: Final[Url] = Url(Provider.VULTR).uri("snapshots/{snapshot-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a Snapshot.
 - `PUT`: Update the description for a Snapshot.
 - `DELETE`: Delete a Snapshot.
@@ -2764,7 +2735,6 @@ URL_SNAPSHOT_ID: Final[Url] = Url(Provider.VULTR).uri("snapshots/{snapshot-id}")
 URL_SNAPSHOT_CREATE_FROM_URL: Final[Url] = Url(Provider.VULTR).uri("snapshots/create-from-url")
 """
 ### Request Methods
-
 - `POST`: Create a new Snapshot from a RAW image located at `url`.
 
 ### Request Body Schema
@@ -2782,7 +2752,6 @@ URL_SNAPSHOT_CREATE_FROM_URL: Final[Url] = Url(Provider.VULTR).uri("snapshots/cr
 URL_STARTUP_SCRIPT_ID: Final[Url] = Url(Provider.VULTR).uri("startup-scripts/{startup-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for a Startup Script.
 - `PATCH`: Update a Startup Script.
 - `DELETE`: Delete a Startup Script.
@@ -2805,7 +2774,6 @@ URL_STARTUP_SCRIPT_ID: Final[Url] = Url(Provider.VULTR).uri("startup-scripts/{st
 URL_SSH_KEY_LIST: Final[Url] = Url(Provider.VULTR).uri("ssh-keys")
 """
 ### Request Methods
-
 - `GET`: List all SSH Keys in your account.
 - `POST`: Create a new SSH Key for use with future instances.
 
@@ -2828,7 +2796,6 @@ URL_SSH_KEY_LIST: Final[Url] = Url(Provider.VULTR).uri("ssh-keys")
 URL_SSH_KEY_ID: Final[Url] = Url(Provider.VULTR).uri("ssh-keys/{ssh-key-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about an SSH Key.
 - `PATCH`: Update an SSH Key.
 - `DELETE`: Delete an SSH Key.
@@ -2850,7 +2817,6 @@ URL_SSH_KEY_ID: Final[Url] = Url(Provider.VULTR).uri("ssh-keys/{ssh-key-id}")
 URL_USER_LIST: Final[Url] = Url(Provider.VULTR).uri("users")
 """
 ### Request Methods
-
 - `GET`: Get a list of all Users in your account.
 - `POST`: Create a new User. The `email`, `name`, and `password` attributes are required.
 
@@ -2876,7 +2842,6 @@ URL_USER_LIST: Final[Url] = Url(Provider.VULTR).uri("users")
 URL_USER_ID: Final[Url] = Url(Provider.VULTR).uri("users/{user-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a User.
 - `PATCH`: Update information for a User.
 - `DELETE`: Delete a User.
@@ -2901,7 +2866,6 @@ URL_USER_ID: Final[Url] = Url(Provider.VULTR).uri("users/{user-id}")
 URL_SUBACCOUNT_LIST: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
 """
 ### Request Methods
-
 - `GET`: Get information about all sub-accounts for your account.
 - `POST`: Create a new subaccount.
 
@@ -2925,7 +2889,6 @@ URL_SUBACCOUNT_LIST: Final[Url] = Url(Provider.VULTR).uri("subaccounts")
 URL_VPC_LIST: Final[Url] = Url(Provider.VULTR).uri("vpcs")
 """
 ### Request Methods
-
 - `GET`: Get a list of all VPCs in your account.
 - `POST`: Create a new VPC in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918).
 
@@ -2950,7 +2913,6 @@ URL_VPC_LIST: Final[Url] = Url(Provider.VULTR).uri("vpcs")
 URL_VPC_ID: Final[Url] = Url(Provider.VULTR).uri("vpcs/{vpc-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a VPC.
 - `PUT`: Update information for a VPC.
 - `DELETE`: Delete a VPC.
@@ -2971,13 +2933,12 @@ URL_VPC_ID: Final[Url] = Url(Provider.VULTR).uri("vpcs/{vpc-id}")
 URL_VPC2_LIST: Final[Url] = Url(Provider.VULTR).uri("vpc2")
 """
 ### Request Methods
-
 - `GET`: Get a list of all VPC 2.0 networks in your account.
 - `POST`: Create a new VPC 2.0 network in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918):
 
-    10.0.0.0    - 10.255.255.255  (10/8 prefix)
-    172.16.0.0  - 172.31.255.255  (172.16/12 prefix)
-    192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
+    - 10.0.0.0    - 10.255.255.255  (10/8 prefix)
+    - 172.16.0.0  - 172.31.255.255  (172.16/12 prefix)
+    - 192.168.0.0 - 192.168.255.255 (192.168/16 prefix)
 
 ### Request Body Schema
 - `POST`:
@@ -2992,10 +2953,9 @@ URL_VPC2_LIST: Final[Url] = Url(Provider.VULTR).uri("vpc2")
 ```
 """
 
-URL_VPC2_GET: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
+URL_VPC2_ID: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about a VPC 2.0 network.
 - `PUT`: Update information for a VPC 2.0 network.
 - `DELETE`: Delete a VPC 2.0 network.
@@ -3016,7 +2976,6 @@ URL_VPC2_GET: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}")
 URL_VPC2_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes")
 """
 ### Request Methods
-
 - `GET`: Get a list of nodes attached to a VPC 2.0 network.
 
 ### Path parameters
@@ -3030,7 +2989,6 @@ URL_VPC2_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes")
 URL_VPC2_ATTACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/attach")
 """
 ### Request Methods
-
 - `POST`: Attach nodes to a VPC 2.0 network.
 
 ### Path parameters
@@ -3049,7 +3007,6 @@ URL_VPC2_ATTACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes
 URL_VPC2_DETACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes/detach")
 """
 ### Request Methods
-
 - `POST`: Remove nodes from a VPC 2.0 network.
 
 ### Path parameters
@@ -3069,14 +3026,12 @@ URL_VPC2_DETACH_NODES: Final[Url] = Url(Provider.VULTR).uri("vpc2/{vpc-id}/nodes
 URL_VFS_REGIONS: Final[Url] = Url(Provider.VULTR).uri("vfs/regions")
 """
 ### Request Methods
-
 - `GET`: Retrieve a list of all regions where VFS can be deployed.
 """
 
 URL_VFS_LIST: Final[Url] = Url(Provider.VULTR).uri("vfs")
 """
 ### Request Methods
-
 - `GET`: Retrieve a list of all VFS subscriptions for the account.
 - `POST`: Create a new VFS subscription with the specified configuration.
 
@@ -3101,10 +3056,9 @@ URL_VFS_LIST: Final[Url] = Url(Provider.VULTR).uri("vfs")
 - `storage_size`
 """
 
-URL_VFS_GET: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
+URL_VFS_ID: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
 """
 ### Request Methods
-
 - `GET`: Retrieve a specific VFS subscription by ID.
 - `PUT`: Update a VFS subscription's label or storage size.
 - `DELETE`: Delete a specific VFS subscription by ID.
@@ -3128,7 +3082,6 @@ URL_VFS_GET: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}")
 URL_VFS_ATTACHMENTS: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments")
 """
 ### Request Methods
-
 - `GET`: Retrieve a list of all attachments for a specific VFS subscription.
 
 ### Path parameters
@@ -3138,7 +3091,6 @@ URL_VFS_ATTACHMENTS: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachme
 URL_VFS_ATTACHMENT: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachments/{vps_id}")
 """
 ### Request Methods
-
 - `PUT`: Attach a VPS instance to a VFS subscription.
 - `GET`: Retrieve details about a specific VFS-VPS attachment.
 - `DELETE`: Detach a VPS instance from a VFS subscription.
@@ -3151,7 +3103,6 @@ URL_VFS_ATTACHMENT: Final[Url] = Url(Provider.VULTR).uri("vfs/{vfs_id}/attachmen
 URL_OBJECT_STORAGE_LIST: Final[Url] = Url(Provider.VULTR).uri("object-storage")
 """
 ### Request Methods
-
 - `GET`: Get a list of all Object Storage in your account.
 - `POST`: Create new Object Storage. The `cluster_id` attribute is required.
 
@@ -3177,7 +3128,6 @@ URL_OBJECT_STORAGE_LIST: Final[Url] = Url(Provider.VULTR).uri("object-storage")
 URL_OBJECT_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("object-storage/{object-storage-id}")
 """
 ### Request Methods
-
 - `GET`: Get information about an Object Storage.
 - `PUT`: Update the label for an Object Storage.
 - `DELETE`: Delete an Object Storage.
@@ -3198,7 +3148,6 @@ URL_OBJECT_STORAGE_ID: Final[Url] = Url(Provider.VULTR).uri("object-storage/{obj
 URL_OBJECT_STORAGE_ID_REGENERATE_KEY: Final[Url] = Url(Provider.VULTR).uri("object-storage/{object-storage-id}/regenerate-keys")
 """
 ### Request Methods
-
 - `POST`: Regenerate the keys for an Object Storage.
 
 ### Path parameters
@@ -3208,7 +3157,6 @@ URL_OBJECT_STORAGE_ID_REGENERATE_KEY: Final[Url] = Url(Provider.VULTR).uri("obje
 URL_OBJECT_STORAGE_CLUSTERS: Final[Url] = Url(Provider.VULTR).uri("object-storage/clusters")
 """
 ### Request Methods
-
 - `GET`: Get a list of all Object Storage Clusters.
 
 ### Query Parameters
@@ -3219,7 +3167,6 @@ URL_OBJECT_STORAGE_CLUSTERS: Final[Url] = Url(Provider.VULTR).uri("object-storag
 URL_ISO_LIST: Final[Url] = Url(Provider.VULTR).uri("iso")
 """
 ### Request Methods
-
 - `GET`: Get the ISOs in your account.
 - `POST`: Create a new ISO in your account from `url`.
 
@@ -3244,7 +3191,6 @@ URL_ISO_LIST: Final[Url] = Url(Provider.VULTR).uri("iso")
 URL_ISO_ID: Final[Url] = Url(Provider.VULTR).uri("iso/{iso-id}")
 """
 ### Request Methods
-
 - `GET`: Get information for an ISO.
 - `DELETE`: Delete an ISO.
 
@@ -3255,6 +3201,5 @@ URL_ISO_ID: Final[Url] = Url(Provider.VULTR).uri("iso/{iso-id}")
 URL_ISO_PUBLIC_LIST: Final[Url] = Url(Provider.VULTR).uri("iso-public")
 """
 ### Request Methods
-
 - `GET`: List all Vultr Public ISOs.
 """
