@@ -170,6 +170,7 @@ URL_BARE_METAL_IPV4_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{
 }
 ```
 """
+
 URL_BARE_METAL_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv6/reverse")
 """
 ### Request Methods
@@ -188,6 +189,7 @@ URL_BARE_METAL_IPV6_REVERSE: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{
 }
 ```
 """
+
 URL_BARE_METAL_IPV4_REVERSE_DEFAULT: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/ipv4/reverse/default")
 """
 ### Request Methods
@@ -386,7 +388,7 @@ URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("
 ```
 """
 
-URL_BARE_METALS_LIST_VPCS: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs")
+URL_BARE_METALS_VPCS: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpcs")
 """
 ### Request Methods
 - `GET`: List the VPC networks for a Bare Metal Instance.
@@ -432,7 +434,7 @@ URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE: Final[Url] = Url(Provider.VULTR).uri(
 ```
 """
 
-URL_BARE_METALS_LIST_VPCS2: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2")
+URL_BARE_METALS_VPCS2: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-id}/vpc2")
 """
 ### Request Methods
 - `GET`: List the VPC 2.0 networks for a Bare Metal Instance.
