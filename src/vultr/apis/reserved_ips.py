@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_reserved_ips(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_reserved_ips(per_page: Optional[int], cursor: Optional[str]):
     """
     List all Reserved IPs in your account.
 

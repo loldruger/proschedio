@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_ssh_keys(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_ssh_keys(per_page: Optional[int], cursor: Optional[str]):
     """
     List all SSH Keys in your account.
 
@@ -62,7 +62,7 @@ async def get_ssh_key(ssh_key_id: str):
         .request()
 
 
-async def update_ssh_key(ssh_key_id: str, name: Optional[str] = None, ssh_key: Optional[str] = None):
+async def update_ssh_key(ssh_key_id: str, name: Optional[str], ssh_key: Optional[str]):
     """
     Update an SSH Key.
 

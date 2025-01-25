@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_vpc2s(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_vpc2s(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all VPC 2.0 networks in your account.
 
@@ -97,7 +97,7 @@ async def delete_vpc2(vpc_id: str):
         .request()
 
 
-async def list_vpc2_nodes(vpc_id: str, per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_vpc2_nodes(vpc_id: str, per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of nodes attached to a VPC 2.0 network.
 

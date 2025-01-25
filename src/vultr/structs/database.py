@@ -480,7 +480,7 @@ class CreateDatabaseUserData:
         return {k: v for k, v in data.items() if v is not None}
 
 class UpdateDatabaseUserData:
-    def __init__(self, password: Optional[str] = None):
+    def __init__(self, password: Optional[str]):
         """
         Data structure used for updating a database user within a Vultr Managed Database.
 

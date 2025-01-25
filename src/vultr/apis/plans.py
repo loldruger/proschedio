@@ -20,10 +20,10 @@ async def list_plans(
             "voc-s",
             "vcg",
         ]
-    ] = None,
-    per_page: Optional[int] = None,
-    cursor: Optional[str] = None,
-    os: Optional[Literal["windows"]] = None,
+    ],
+    per_page: Optional[int],
+    cursor: Optional[str],
+    os: Optional[Literal["windows"]],
 ):
     """
     Get a list of all VPS plans at Vultr.

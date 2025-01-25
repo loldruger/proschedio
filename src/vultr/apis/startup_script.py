@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_startup_scripts(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_startup_scripts(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all Startup Scripts in your account.
 
@@ -28,7 +28,7 @@ async def list_startup_scripts(per_page: Optional[int] = None, cursor: Optional[
     return await request.request()
 
 
-async def create_startup_script(name: str, script: str, type: Optional[Literal["boot", "pxe"]] = None):
+async def create_startup_script(name: str, script: str, type: Optional[Literal["boot", "pxe"]]):
     """
     Create a new Startup Script in your account.
 

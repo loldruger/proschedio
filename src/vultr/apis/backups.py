@@ -6,9 +6,9 @@ from vultr import const, get_key
 
 
 async def list_backups(
-    instance_id: Optional[str] = None,
-    per_page: Optional[int] = None,
-    cursor: Optional[str] = None,
+    instance_id: Optional[str],
+    per_page: Optional[int],
+    cursor: Optional[str],
 ):
     """
     Get information about Backups in your account.

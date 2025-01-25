@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_metal_plans(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_metal_plans(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all Bare Metal plans at Vultr.
 

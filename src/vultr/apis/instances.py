@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 from vultr.structs import instance
 
-async def list_instances(filters: Optional[instance.ListInstancesData] = None):
+async def list_instances(filters: Optional[instance.ListInstancesData]):
     """
     List all VPS instances in your account.
 

@@ -167,7 +167,7 @@ class CreateKubernetesData:
         return {k: v for k, v in data.items() if v is not None}
     
 class UpdateKubernetesData:
-    def __init__(self, label: Optional[str] = None):
+    def __init__(self, label: Optional[str]):
         """
         Data structure used for updating a Vultr Kubernetes Engine (VKE) cluster.
 
@@ -187,7 +187,7 @@ class UpdateKubernetesData:
         return {k: v for k, v in data.items() if v is not None}
     
 class UpdateNodePoolData:
-    def __init__(self, node_quantity: Optional[int] = None):
+    def __init__(self, node_quantity: Optional[int]):
         """
         Data structure used for updating a NodePool on a Vultr Kubernetes Engine (VKE) cluster.
 

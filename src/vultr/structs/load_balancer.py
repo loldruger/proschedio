@@ -10,13 +10,13 @@ class HealthCheck:
             protocol (Literal["HTTPS", "HTTP", "TCP"]): The protocol to use for health checks.
             port (int): The port to use for health checks.
         """
-        self.protocol: Literal["HTTPS", "HTTP", "TCP"] = protocol
-        self.port: int = port
-        self.path: Optional[str] = None
-        self.check_interval: Optional[int] = None
-        self.response_timeout: Optional[int] = None
-        self.unhealthy_threshold: Optional[int] = None
-        self.healthy_threshold: Optional[int] = None
+        self._protocol: Literal["HTTPS", "HTTP", "TCP"] = protocol
+        self._port: int = port
+        self._path: Optional[str] = None
+        self._check_interval: Optional[int] = None
+        self._response_timeout: Optional[int] = None
+        self._unhealthy_threshold: Optional[int] = None
+        self._healthy_threshold: Optional[int] = None
 
     def path(self, path: str) -> "HealthCheck":
         """
@@ -28,7 +28,7 @@ class HealthCheck:
         Returns:
             HealthCheck: The current object with the path set.
         """
-        self.path = path
+        self._path = path
         return self
 
     def check_interval(self, check_interval: int) -> "HealthCheck":
@@ -41,7 +41,7 @@ class HealthCheck:
         Returns:
             HealthCheck: The current object with the check interval set.
         """
-        self.check_interval = check_interval
+        self._check_interval = check_interval
         return self
 
     def response_timeout(self, response_timeout: int) -> "HealthCheck":
@@ -54,7 +54,7 @@ class HealthCheck:
         Returns:
             HealthCheck: The current object with the response timeout set.
         """
-        self.response_timeout = response_timeout
+        self._response_timeout = response_timeout
         return self
 
     def unhealthy_threshold(self, unhealthy_threshold: int) -> "HealthCheck":
@@ -67,7 +67,7 @@ class HealthCheck:
         Returns:
             HealthCheck: The current object with the unhealthy threshold set.
         """
-        self.unhealthy_threshold = unhealthy_threshold
+        self._unhealthy_threshold = unhealthy_threshold
         return self
 
     def healthy_threshold(self, healthy_threshold: int) -> "HealthCheck":
@@ -80,7 +80,7 @@ class HealthCheck:
         Returns:
             HealthCheck: The current object with the healthy threshold set.
         """
-        self.healthy_threshold = healthy_threshold
+        self._healthy_threshold = healthy_threshold
         return self
 
     def to_json(self):
@@ -91,13 +91,13 @@ class HealthCheck:
             dict: The data in JSON format.
         """
         data = {
-            "protocol": self.protocol,
-            "port": self.port,
-            "path": self.path,
-            "check_interval": self.check_interval,
-            "response_timeout": self.response_timeout,
-            "unhealthy_threshold": self.unhealthy_threshold,
-            "healthy_threshold": self.healthy_threshold,
+            "protocol": self._protocol,
+            "port": self._port,
+            "path": self._path,
+            "check_interval": self._check_interval,
+            "response_timeout": self._response_timeout,
+            "unhealthy_threshold": self._unhealthy_threshold,
+            "healthy_threshold": self._healthy_threshold,
         }
         return {k: v for k, v in data.items() if v is not None}
 
@@ -296,7 +296,7 @@ class FirewallRule:
         }
 
 class AutoSSL:
-    def __init__(self, domain_zone: str, domain_sub: Optional[str] = None):
+    def __init__(self, domain_zone: str, domain_sub: Optional[str]):
         """
         Data structure representing the Auto SSL configuration for a Vultr Load Balancer.
 

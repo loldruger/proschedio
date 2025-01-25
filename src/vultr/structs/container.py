@@ -33,7 +33,7 @@ class CreateContainerRegistryData:
 
 
 class UpdateContainerRegistryData:
-    def __init__(self, public: Optional[bool] = None, plan: Optional[str] = None):
+    def __init__(self, public: Optional[bool], plan: Optional[str]):
         """
         Data structure used for updating a Vultr Container Registry Subscription
 

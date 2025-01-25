@@ -18,7 +18,7 @@ async def list_vfs_regions():
         .request()
 
 
-async def list_vfs_subscriptions(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_vfs_subscriptions(per_page: Optional[int], cursor: Optional[str]):
     """
     Retrieve a list of all VFS subscriptions for the account.
 

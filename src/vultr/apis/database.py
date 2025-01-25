@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 from vultr.structs import database
 
-async def list_database_plans(engine: Optional[Literal["mysql", "pg", "valkey", "kafka"]] = None, nodes: Optional[int] = None, region: Optional[str] = None):
+async def list_database_plans(engine: Optional[Literal["mysql", "pg", "valkey", "kafka"]], nodes: Optional[int], region: Optional[str]):
     """
     List Managed Database Plans.
 
@@ -30,7 +30,7 @@ async def list_database_plans(engine: Optional[Literal["mysql", "pg", "valkey", 
 
     return await request.request()
 
-async def list_databases(label: Optional[str] = None, tag: Optional[str] = None, region: Optional[str] = None):
+async def list_databases(label: Optional[str], tag: Optional[str], region: Optional[str]):
     """
     List all Managed Databases in your account.
 

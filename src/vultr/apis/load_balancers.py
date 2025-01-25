@@ -6,7 +6,7 @@ from vultr import const, get_key
 from vultr.structs import load_balancer
 
 
-async def list_load_balancers(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_load_balancers(per_page: Optional[int], cursor: Optional[str]):
     """
     List the Load Balancers in your account.
 
@@ -130,7 +130,7 @@ async def delete_load_balancer_auto_ssl(load_balancer_id: str):
         .request()
 
 
-async def list_load_balancer_forwarding_rules(load_balancer_id: str, per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_load_balancer_forwarding_rules(load_balancer_id: str, per_page: Optional[int], cursor: Optional[str]):
     """
     List the fowarding rules for a Load Balancer.
 
@@ -207,7 +207,7 @@ async def delete_load_balancer_forwarding_rule(load_balancer_id: str, forwarding
         .request()
 
 
-async def list_load_balancer_firewall_rules(load_balancer_id: str, per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_load_balancer_firewall_rules(load_balancer_id: str, per_page: Optional[int], cursor: Optional[str]):
     """
     List the firewall rules for a Load Balancer.
 

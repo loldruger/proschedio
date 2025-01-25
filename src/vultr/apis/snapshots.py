@@ -6,9 +6,9 @@ from vultr import const, get_key
 
 
 async def list_snapshots(
-    description: Optional[str] = None,
-    per_page: Optional[int] = None,
-    cursor: Optional[str] = None,
+    description: Optional[str],
+    per_page: Optional[int],
+    cursor: Optional[str],
 ):
     """
     Get information about all Snapshots in your account.

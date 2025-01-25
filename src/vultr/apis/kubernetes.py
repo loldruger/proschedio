@@ -18,7 +18,7 @@ async def list_kubernetes_clusters():
         .request()
 
 
-async def create_kubernetes_cluster(label: str, region: str, version: str, node_pools: List[NodePoolData], ha_controlplanes: Optional[bool] = None, enable_firewall: Optional[bool] = None):
+async def create_kubernetes_cluster(label: str, region: str, version: str, node_pools: List[NodePoolData], ha_controlplanes: Optional[bool], enable_firewall: Optional[bool]):
     """
     Create Kubernetes Cluster.
 
@@ -65,7 +65,7 @@ async def get_kubernetes_cluster(vke_id: str):
         .request()
 
 
-async def update_kubernetes_cluster(vke_id: str, label: Optional[str] = None):
+async def update_kubernetes_cluster(vke_id: str, label: Optional[str]):
     """
     Update Kubernetes Cluster.
 
@@ -220,7 +220,7 @@ async def get_kubernetes_nodepool(vke_id: str, nodepool_id: str):
         .request()
 
 
-async def update_kubernetes_nodepool(vke_id: str, nodepool_id: str, node_quantity: Optional[int] = None, tag: Optional[str] = None, auto_scaler: Optional[bool] = None, min_nodes: Optional[int] = None, max_nodes: Optional[int] = None, labels: Optional[dict] = None):
+async def update_kubernetes_nodepool(vke_id: str, nodepool_id: str, node_quantity: Optional[int], tag: Optional[str], auto_scaler: Optional[bool], min_nodes: Optional[int], max_nodes: Optional[int], labels: Optional[dict]):
     """
     Update a Nodepool on a Kubernetes Cluster.
 

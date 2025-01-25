@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_regions(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_regions(per_page: Optional[int], cursor: Optional[str]):
     """
     List all Regions at Vultr.
 
@@ -45,7 +45,7 @@ async def get_available_plans_in_region(
             "vbm",
             "vcg"
         ]
-    ] = None,
+    ],
 ):
     """
     Get a list of the available plans in Region `region-id`. Not all plans are available in all regions.

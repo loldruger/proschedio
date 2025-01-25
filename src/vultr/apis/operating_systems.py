@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_os_images(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_os_images(per_page: Optional[int], cursor: Optional[str]):
     """
     List the OS images available for installation at Vultr.
 

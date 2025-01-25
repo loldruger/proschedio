@@ -6,9 +6,9 @@ from vultr import const, get_key
 
 
 async def list_applications(
-    type: Optional[Literal["all", "marketplace", "one-click"]] = None,
-    per_page: Optional[int] = None,
-    cursor: Optional[str] = None,
+    type: Optional[Literal["all", "marketplace", "one-click"]],
+    per_page: Optional[int],
+    cursor: Optional[str],
 ):
     """
     Get a list of all available Applications.

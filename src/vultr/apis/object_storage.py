@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_object_storages(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_object_storages(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all Object Storage in your account.
 
@@ -62,7 +62,7 @@ async def get_object_storage(object_storage_id: str):
         .request()
 
 
-async def update_object_storage(object_storage_id: str, label: Optional[str] = None):
+async def update_object_storage(object_storage_id: str, label: Optional[str]):
     """
     Update the label for an Object Storage.
 
@@ -117,7 +117,7 @@ async def regenerate_object_storage_keys(object_storage_id: str):
         .request()
 
 
-async def list_object_storage_clusters(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_object_storage_clusters(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all Object Storage Clusters.
 

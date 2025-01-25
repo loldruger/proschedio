@@ -4,7 +4,7 @@ from typing import Optional
 from proschedio import composer
 from vultr import const, get_key
 
-async def list_users(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_users(per_page: Optional[int], cursor: Optional[str]):
     """
     Get a list of all Users in your account.
 
