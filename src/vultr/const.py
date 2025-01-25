@@ -91,8 +91,8 @@ Supply other attributes as desired.
     "app_id": Optional<Integer>, // If supplied, deploy the instance using this [Application id](#operation/list-applications).
     "image_id": Optional<String>, // If supplied, deploy the instance using this [Application image_id](#operation/list-applications).
     "persistent_pxe": Optional<Boolean>, // Enable persistent PXE. * true * false (default)
-    "attach_vpc2": Optional<Array<Strings>>, // An array of [VPC IDs](#operation/list-vpc2) to attach to this Bare Metal Instance.
-    "detach_vpc2": Optional<Array<Strings>>, // An array of [VPC IDs](#operation/list-vpc2) to detach from this Bare Metal Instance.
+    "attach_vpc2": Optional<Array<Strings>>, // An array of [VPC IDs](#operation/list-vpc2) to attach to this Bare Metal Instance. This parameter takes precedence over `enable_vpc2`.  Please choose one parameter.
+    "detach_vpc2": Optional<Array<Strings>>, // An array of [VPC IDs](#operation/list-vpc2) to detach from this Bare Metal Instance. This parameter takes precedence over `enable_vpc2`.
     "enable_vpc2": Optional<Boolean>, // If `true`, VPC 2.0 support will be added to the new server.
     "tags": Optional<Array<Strings>>, // Tags to apply to the instance.
     "user_scheme": Optional<String>, // Linux-only: The user scheme used for logging into this instance. * root * limited
@@ -120,12 +120,12 @@ URL_BARE_METAL_ID: Final[Url] = Url(Provider.VULTR).uri("bare-metals/{baremetal-
     "user_data": Optional<String>, // The user-supplied, base64 encoded user data to attach to this instance.
     "label": Optional<String>, // The user-supplied label.
     "tag": Optional<String>, // Deprecated: Use tags instead. The user-supplied tag.
-    "os_id": Optional<Integer>, // If supplied, reinstall the instance using this Operating System id.
-    "app_id": Optional<Integer>, // If supplied, reinstall the instance using this Application id.
-    "image_id": Optional<String>, // If supplied, reinstall the instance using this Application image_id.
-    "enable_ipv6": Optional<Boolean>, // Enable IPv6.
-    "attach_vpc2": Optional<Array<String>>, // An array of VPC IDs to attach to this Bare Metal Instance. This parameter takes precedence over enable_vpc2. Please choose one parameter.
-    "detach_vpc2": Optional<Array<String>>, // An array of VPC IDs to detach from this Bare Metal Instance. This parameter takes precedence over enable_vpc2.
+    "os_id": Optional<String>, // If supplied, reinstall the instance using this [Operating System id](#operation/list-os).
+    "app_id": Optional<String>, // If supplied, reinstall the instance using this [Application id](#operation/list-applications).
+    "image_id": Optional<String>, // If supplied, reinstall the instance using this [Application image_id](#operation/list-applications).
+    "enable_ipv6": Optional<Boolean>, // Enable IPv6. * true
+    "attach_vpc2": Optional<Array<String>>, // An array of [VPC IDs](#operation/list-vpc2) to attach to this Bare Metal Instance. This parameter takes precedence over enable_vpc2. Please choose one parameter.
+    "detach_vpc2": Optional<Array<String>>, // An array of [VPC IDs](#operation/list-vpc2) to detach from this Bare Metal Instance. This parameter takes precedence over enable_vpc2.
     "enable_vpc2": Optional<Boolean>, // If true, VPC 2.0 support will be added to the new server. This parameter attaches a single VPC 2.0 netowrk. When no VPC 2.0 network exists in the region, it will be automatically created. If there are multiple VPC 2.0 networks in the instance's region, use attach_vpc2 instead to specify a VPC 2.0 network.
     "tags": Optional<Array<String>>, // Tags to apply to the instance.
     "user_scheme": Optional<String>, // Linux-only: The user scheme used for logging into this instance. The instance must be reinstalled for this change to take effect. * root * limited
@@ -410,8 +410,8 @@ URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE: Final[Url] = Url(Provider.VULTR).uri("b
 
 ```js
 {
-    "vpc_id": String, // The [VPC ID](#operation/list-vpc2) to attach.
-    "ip_address": String // The IP address to use for this instance on the attached VPC 2.0 network.
+    "vpc_id": Optional<String>, // The [VPC ID](#operation/list-vpc2) to attach.
+    "ip_address": Optional<String> // The IP address to use for this instance on the attached VPC 2.0 network.
 }
 ```
 """

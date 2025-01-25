@@ -5,9 +5,9 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def list_os_images(per_page: Optional[int] = None, cursor: Optional[str] = None):
+async def list_metal_plans(per_page: Optional[int] = None, cursor: Optional[str] = None):
     """
-    List the OS images available for installation at Vultr.
+    Get a list of all Bare Metal plans at Vultr.
 
     Args:
         per_page (Optional[int]): Number of items requested per page. Default is 100 and Max is 500.
@@ -16,7 +16,7 @@ async def list_os_images(per_page: Optional[int] = None, cursor: Optional[str] =
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_OS) \
+    request = composer.Request(const.URL_PLAN_METAL) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
