@@ -3,6 +3,7 @@ from typing import Optional, List
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import kubenetes
 
 
 async def list_kubernetes_clusters():
@@ -18,7 +19,7 @@ async def list_kubernetes_clusters():
         .request()
 
 
-async def create_kubernetes_cluster(label: str, region: str, version: str, node_pools: List[NodePoolData], ha_controlplanes: Optional[bool], enable_firewall: Optional[bool]):
+async def create_kubernetes_cluster(label: str, region: str, version: str, node_pools: List[kubenetes.NodePoolData], ha_controlplanes: Optional[bool], enable_firewall: Optional[bool]):
     """
     Create Kubernetes Cluster.
 
@@ -184,7 +185,7 @@ async def list_kubernetes_nodepools(vke_id: str):
         .request()
 
 
-async def create_kubernetes_nodepool(vke_id: str, data: NodePoolData):
+async def create_kubernetes_nodepool(vke_id: str, data: kubenetes.NodePoolData):
     """
     Create NodePool for a Existing Kubernetes Cluster.
 

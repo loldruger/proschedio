@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import vpc2
 
 
 async def list_vpc2s(per_page: Optional[int], cursor: Optional[str]):
@@ -28,7 +29,7 @@ async def list_vpc2s(per_page: Optional[int], cursor: Optional[str]):
     return await request.request()
 
 
-async def create_vpc2(data: CreateVpc2Data):
+async def create_vpc2(data: vpc2.CreateVpc2Data):
     """
     Create a new VPC 2.0 network in a `region`.
 
@@ -120,7 +121,7 @@ async def list_vpc2_nodes(vpc_id: str, per_page: Optional[int], cursor: Optional
 
     return await request.request()
 
-async def attach_vpc2_nodes(vpc_id: str, data: AttachDetachVpc2NodesData):
+async def attach_vpc2_nodes(vpc_id: str, data: vpc2.AttachDetachVpc2NodesData):
     """
     Attach nodes to a VPC 2.0 network.
 
@@ -138,7 +139,7 @@ async def attach_vpc2_nodes(vpc_id: str, data: AttachDetachVpc2NodesData):
         .set_body(data.to_json()) \
         .request()
 
-async def detach_vpc2_nodes(vpc_id: str, data: AttachDetachVpc2NodesData):
+async def detach_vpc2_nodes(vpc_id: str, data: vpc2.AttachDetachVpc2NodesData):
     """
     Remove nodes from a VPC 2.0 network.
 

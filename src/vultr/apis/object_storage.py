@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import object_storage
 
 
 async def list_object_storages(per_page: Optional[int], cursor: Optional[str]):
@@ -28,7 +29,7 @@ async def list_object_storages(per_page: Optional[int], cursor: Optional[str]):
     return await request.request()
 
 
-async def create_object_storage(data: CreateObjectStorageData):
+async def create_object_storage(data: object_storage.CreateObjectStorageData):
     """
     Create new Object Storage. The `cluster_id` attribute is required.
 

@@ -3,6 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import reserved_ips
 
 
 async def list_reserved_ips(per_page: Optional[int], cursor: Optional[str]):
@@ -28,7 +29,7 @@ async def list_reserved_ips(per_page: Optional[int], cursor: Optional[str]):
     return await request.request()
 
 
-async def create_reserved_ip(data: CreateReservedIpData):
+async def create_reserved_ip(data: reserved_ips.CreateReservedIpData):
     """
     Create a new Reserved IP. The `region` and `ip_type` attributes are required.
 
@@ -132,7 +133,7 @@ async def detach_reserved_ip(reserved_ip: str):
         .request()
 
 
-async def convert_to_reserved_ip(data: ConvertIpToReservedIpData):
+async def convert_to_reserved_ip(data: reserved_ips.ConvertIpToReservedIpData):
     """
     Convert the `ip_address` of an existing [instance](#operation/list-instances) into a Reserved IP.
 

@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import subaccount
 
 
 async def list_subaccounts(per_page: Optional[int], cursor: Optional[str]):
@@ -28,7 +29,7 @@ async def list_subaccounts(per_page: Optional[int], cursor: Optional[str]):
     return await request.request()
 
 
-async def create_subaccount(data: CreateSubaccountData):
+async def create_subaccount(data: subaccount.CreateSubaccountData):
     """
     Create a new subaccount.
 

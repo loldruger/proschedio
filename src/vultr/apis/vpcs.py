@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import vpcs
 
 
 async def list_vpcs(per_page: Optional[int], cursor: Optional[str]):
@@ -28,7 +29,7 @@ async def list_vpcs(per_page: Optional[int], cursor: Optional[str]):
     return await request.request()
 
 
-async def create_vpc(data: CreateVpcData):
+async def create_vpc(data: vpcs.CreateVpcData):
     """
     Create a new VPC in a `region`. VPCs should use [RFC1918 private address space](https://tools.ietf.org/html/rfc1918).
 

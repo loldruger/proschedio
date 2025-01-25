@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import users
 
 async def list_users(per_page: Optional[int], cursor: Optional[str]):
     """
@@ -26,7 +27,7 @@ async def list_users(per_page: Optional[int], cursor: Optional[str]):
 
     return await request.request()
 
-async def create_user(data: CreateUserData):
+async def create_user(data: users.CreateUserData):
     """
     Create a new User. The `email`, `name`, and `password` attributes are required.
 
@@ -58,7 +59,7 @@ async def get_user(user_id: str):
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
 
-async def update_user(user_id: str, data: UpdateUserData):
+async def update_user(user_id: str, data: users.UpdateUserData):
     """
     Update information for a User.
 

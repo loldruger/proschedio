@@ -3,6 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import vfs
 
 
 async def list_vfs_regions():
@@ -41,7 +42,7 @@ async def list_vfs_subscriptions(per_page: Optional[int], cursor: Optional[str])
     return await request.request()
 
 
-async def create_vfs_subscription(data: CreateVfsData):
+async def create_vfs_subscription(data: vfs.CreateVfsData):
     """
     Create a new VFS subscription with the specified configuration.
 
@@ -75,7 +76,7 @@ async def get_vfs_subscription(vfs_id: str):
         .request()
 
 
-async def update_vfs_subscription(vfs_id: str, data: UpdateVfsData):
+async def update_vfs_subscription(vfs_id: str, data: vfs.UpdateVfsData):
     """
     Update a VFS subscription's label or storage size.
 

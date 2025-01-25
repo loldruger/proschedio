@@ -3,6 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import snapshots
 
 
 async def list_snapshots(
@@ -35,7 +36,7 @@ async def list_snapshots(
     return await request.request()
 
 
-async def create_snapshot(data: CreateSnapshotData):
+async def create_snapshot(data: snapshots.CreateSnapshotData):
     """
     Create a new Snapshot for `instance_id`.
 
@@ -104,7 +105,7 @@ async def delete_snapshot(snapshot_id: str):
         .request()
 
 
-async def create_snapshot_from_url(data: CreateSnapshotFromUrlData):
+async def create_snapshot_from_url(data: snapshots.CreateSnapshotFromUrlData):
     """
     Create a new Snapshot from a RAW image located at `url`.
 

@@ -3,6 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import const, get_key
+from vultr.structs import startup_script
 
 
 async def list_startup_scripts(per_page: Optional[int], cursor: Optional[str]):
@@ -68,7 +69,7 @@ async def get_startup_script(startup_id: str):
         .request()
 
 
-async def update_startup_script(startup_id: str, data: UpdateStartupScriptData):
+async def update_startup_script(startup_id: str, data: startup_script.UpdateStartupScriptData):
     """
     Update a Startup Script.
 
