@@ -1,25 +1,33 @@
 import pytest
 import logging
 
-from http import HTTPMethod
-
-from proschedio import composer
-from vultr import const
+from vultr.apis.account import *
 
 logger = logging.getLogger(__name__)
 
 @pytest.mark.asyncio
-async def test_example(capsys, api_key):
+async def test_get_account_info(api_key):
     try:
-        a = await composer.Request(const.URL_ACCOUNT)\
-            .set_method(HTTPMethod.GET)\
-            .add_header("Authorization", f"Bearer {api_key}")\
-            .request()
+        result = await get_account_info()
 
-        if a.get("status") != 200:
-            raise Exception(a)
+        if result.get("status") != 200:
+            raise Exception(result)
         
-        logger.info("\nResponse Data:\n%s", a)
+        logger.info("\nResponse Data:\n%s", result)
+
+    except Exception as e:
+        logger.error("Error: %s", e)
+        pytest.fail(f"Test failed with error: {e}")
+
+@pytest.mark.asyncio
+async def test_get_account_bandwidth(api_key):
+    try:
+        result = await get_account_bandwidth()
+
+        if result.get("status") != 200:
+            raise Exception(result)
+        
+        logger.info("\nResponse Data:\n%s", result)
 
     except Exception as e:
         logger.error("Error: %s", e)

@@ -6,6 +6,17 @@ URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 """
 ### Request Methods
 - `GET`: Get your Vultr account, permission, and billing information.
+
+### Response Schema
+- `GET`:
+
+```js
+{
+    "account": {
+	    b
+	}
+}
+```
 """
 
 URL_ACCOUNT_BANDWIDTH: Final[Url] = Url(Provider.VULTR).uri("account/bandwidth")

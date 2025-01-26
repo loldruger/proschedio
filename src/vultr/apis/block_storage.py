@@ -5,7 +5,7 @@ from proschedio import composer
 from vultr import const, get_key
 
 
-async def get_block_storage_list(per_page: Optional[int], cursor: Optional[str]):
+async def list_block_storage(per_page: Optional[int], cursor: Optional[str]):
     """
     List all Block Storage in your account.
 
