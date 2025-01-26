@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import startup_script
 
 
@@ -17,7 +18,7 @@ async def list_startup_scripts(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_STARTUP_SCRIPT_LIST) \
+    request = composer.Request(_const.URL_STARTUP_SCRIPT_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -46,7 +47,7 @@ async def create_startup_script(name: str, script: str, type: Optional[Literal["
         "script": script,
         "type": type,
     }
-    return await composer.Request(const.URL_STARTUP_SCRIPT_LIST) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -63,7 +64,7 @@ async def get_startup_script(startup_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -80,7 +81,7 @@ async def update_startup_script(startup_id: str, data: startup_script.UpdateStar
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -98,7 +99,7 @@ async def delete_startup_script(startup_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

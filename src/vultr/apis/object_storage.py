@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import object_storage
 
 
@@ -17,7 +18,7 @@ async def list_object_storages(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_OBJECT_STORAGE_LIST) \
+    request = composer.Request(_const.URL_OBJECT_STORAGE_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -39,7 +40,7 @@ async def create_object_storage(data: object_storage.CreateObjectStorageData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_OBJECT_STORAGE_LIST) \
+    return await composer.Request(_const.URL_OBJECT_STORAGE_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -57,7 +58,7 @@ async def get_object_storage(object_storage_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
+    return await composer.Request(_const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -78,7 +79,7 @@ async def update_object_storage(object_storage_id: str, label: Optional[str]):
     if label is not None:
         body["label"] = label
     
-    return await composer.Request(const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
+    return await composer.Request(_const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -96,7 +97,7 @@ async def delete_object_storage(object_storage_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
+    return await composer.Request(_const.URL_OBJECT_STORAGE_ID.assign("object-storage-id", object_storage_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -112,7 +113,7 @@ async def regenerate_object_storage_keys(object_storage_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_OBJECT_STORAGE_ID_REGENERATE_KEY.assign("object-storage-id", object_storage_id)) \
+    return await composer.Request(_const.URL_OBJECT_STORAGE_ID_REGENERATE_KEY.assign("object-storage-id", object_storage_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -129,7 +130,7 @@ async def list_object_storage_clusters(per_page: Optional[int], cursor: Optional
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_OBJECT_STORAGE_CLUSTERS) \
+    request = composer.Request(_const.URL_OBJECT_STORAGE_CLUSTERS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 

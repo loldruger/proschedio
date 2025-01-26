@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, List, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import instance
 
 async def list_instances(filters: Optional[instance.ListInstancesData]):
@@ -15,7 +16,7 @@ async def list_instances(filters: Optional[instance.ListInstancesData]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_LIST) \
+    request = composer.Request(_const.URL_INSTANCE_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -56,7 +57,7 @@ async def create_instance(data: instance.CreateInstanceData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_CREATE) \
+    return await composer.Request(_const.URL_INSTANCE_CREATE) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -73,7 +74,7 @@ async def get_instance(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -89,7 +90,7 @@ async def update_instance(instance_id: str, data: instance.UpdateInstanceData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -106,7 +107,7 @@ async def delete_instance(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ID.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -122,7 +123,7 @@ async def reinstall_instance(instance_id: str, hostname: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_REINSTALL.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_REINSTALL.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json")
@@ -143,7 +144,7 @@ async def get_instance_bandwidth(instance_id: str, date_range: Optional[int]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_BANDWIDTH.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_BANDWIDTH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -162,7 +163,7 @@ async def get_instance_neighbors(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_NEIGHBORS.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_NEIGHBORS.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -179,7 +180,7 @@ async def list_instance_private_networks(instance_id: str, per_page: Optional[in
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_PRIVATE_NETWORKS.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_PRIVATE_NETWORKS.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -202,7 +203,7 @@ instance_id (str): The [Instance ID](#operation/list-instances).
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_VPCS.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_VPCS.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -225,7 +226,7 @@ async def list_instance_vpc2s(instance_id: str, per_page: Optional[int], cursor:
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_VPC2S.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_VPC2S.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -246,7 +247,7 @@ async def get_instance_iso_status(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ISO.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ISO.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -262,7 +263,7 @@ async def attach_instance_iso(instance_id: str, iso_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ISO_ATTACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ISO_ATTACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -279,7 +280,7 @@ async def detach_instance_iso(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_ISO_DETACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_ISO_DETACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -295,7 +296,7 @@ async def attach_instance_private_network(instance_id: str, network_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_PRIVATE_NETWORKS_ATTACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_PRIVATE_NETWORKS_ATTACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -313,7 +314,7 @@ async def detach_instance_private_network(instance_id: str, network_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_PRIVATE_NETWORKS_DETACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_PRIVATE_NETWORKS_DETACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -331,7 +332,7 @@ async def attach_instance_vpc(instance_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_VPCS_ATTACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_VPCS_ATTACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -349,7 +350,7 @@ async def detach_instance_vpc(instance_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_VPCS_DETACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_VPCS_DETACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -368,7 +369,7 @@ async def attach_instance_vpc2(instance_id: str, vpc_id: str, ip_address: Option
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_VPC2_ATTACH.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_VPC2_ATTACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -390,7 +391,7 @@ async def detach_instance_vpc2(instance_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_VPC2_DETACH.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_VPC2_DETACH.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -407,7 +408,7 @@ async def get_instance_backup_schedule(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_BACKUP_SCHEDULE.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_BACKUP_SCHEDULE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -423,7 +424,7 @@ async def set_instance_backup_schedule(instance_id: str, data: instance.SetInsta
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_BACKUP_SCHEDULE.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_BACKUP_SCHEDULE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -442,7 +443,7 @@ async def restore_instance(instance_id: str, backup_id: Optional[str], snapshot_
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_RESTORE.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_RESTORE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json")
@@ -467,7 +468,7 @@ async def list_instance_ipv4(instance_id: str, public_network: Optional[bool], p
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_IPV4.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_IPV4.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -491,7 +492,7 @@ async def create_instance_ipv4(instance_id: str, reboot: Optional[bool]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_IPV4.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_IPV4.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json")
@@ -511,7 +512,7 @@ async def get_instance_ipv6(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV6.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV6.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -528,7 +529,7 @@ async def create_instance_reverse_ipv4(instance_id: str, ip: str, reverse: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV4_REVERSE.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV4_REVERSE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -545,7 +546,7 @@ async def list_instance_reverse_ipv6(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV6_REVERSE.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV6_REVERSE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -562,7 +563,7 @@ async def create_instance_reverse_ipv6(instance_id: str, ip: str, reverse: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV6_REVERSE.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV6_REVERSE.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -580,7 +581,7 @@ async def set_instance_reverse_ipv4(instance_id: str, ip: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV4_REVERSE_DEFAULT.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV4_REVERSE_DEFAULT.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -598,7 +599,7 @@ async def delete_instance_reverse_ipv6(instance_id: str, ipv6: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_IPV6_REVERSE_IPV6.assign("instance-id", instance_id).assign("ipv6", ipv6)) \
+    return await composer.Request(_const.URL_INSTANCE_IPV6_REVERSE_IPV6.assign("instance-id", instance_id).assign("ipv6", ipv6)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -613,7 +614,7 @@ async def halt_instance(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_HALT.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_HALT.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -628,7 +629,7 @@ async def get_instance_user_data(instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_INSTANCE_USER_DATA.assign("instance-id", instance_id)) \
+    return await composer.Request(_const.URL_INSTANCE_USER_DATA.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -644,7 +645,7 @@ async def get_instance_upgrades(instance_id: str, type: Optional[Literal["all", 
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_INSTANCE_UPGRADES.assign("instance-id", instance_id)) \
+    request = composer.Request(_const.URL_INSTANCE_UPGRADES.assign("instance-id", instance_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 

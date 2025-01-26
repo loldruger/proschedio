@@ -4,7 +4,7 @@ import os
 
 from proschedio import composer
 from vultr import set_key, get_key
-from vultr import const
+from vultr.apis import _const
 
 async def main():
     set_key(os.environ.get("VULTR_API_KEY"))
@@ -18,7 +18,7 @@ async def main():
     #     })\
     #     .request()
 
-    a = await composer.Request(const.URL_ACCOUNT)\
+    a = await composer.Request(_const.URL_ACCOUNT)\
         .set_method(HTTPMethod.GET)\
         .add_header("Authorization", f"Bearer {get_key()}")\
         .request()

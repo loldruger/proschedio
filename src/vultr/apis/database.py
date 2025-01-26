@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, List, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import database
 
 async def list_database_plans(engine: Optional[Literal["mysql", "pg", "valkey", "kafka"]], nodes: Optional[int], region: Optional[str]):
@@ -17,7 +18,7 @@ async def list_database_plans(engine: Optional[Literal["mysql", "pg", "valkey", 
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_DATABASE_LIST_PLANS) \
+    request = composer.Request(_const.URL_DATABASE_LIST_PLANS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -42,7 +43,7 @@ async def list_databases(label: Optional[str], tag: Optional[str], region: Optio
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_DATABASE_LIST) \
+    request = composer.Request(_const.URL_DATABASE_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -65,7 +66,7 @@ async def create_database(data: database.CreateDatabaseData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_LIST) \
+    return await composer.Request(_const.URL_DATABASE_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -82,7 +83,7 @@ async def get_database(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_ID.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_ID.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -98,7 +99,7 @@ async def update_database(database_id: str, data: database.UpdateDatabaseData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_ID.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_ID.assign("database-id", database_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -115,7 +116,7 @@ async def delete_database(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_ID.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_ID.assign("database-id", database_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -130,7 +131,7 @@ async def get_database_usage(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USAGE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_USAGE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -145,7 +146,7 @@ async def list_database_users(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USERS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_USERS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -161,7 +162,7 @@ async def create_database_user(database_id: str, data: database.CreateDatabaseUs
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USERS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_USERS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -179,7 +180,7 @@ async def get_database_user(database_id: str, username: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
+    return await composer.Request(_const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -196,7 +197,7 @@ async def update_database_user(database_id: str, username: str, data: database.U
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
+    return await composer.Request(_const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -214,7 +215,7 @@ async def delete_database_user(database_id: str, username: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
+    return await composer.Request(_const.URL_DATABASE_USER.assign("database-id", database_id).assign("username", username)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -231,7 +232,7 @@ async def update_database_user_access_control(database_id: str, username: str, d
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_USER_ACCESS_CONTROL.assign("database-id", database_id).assign("username", username)) \
+    return await composer.Request(_const.URL_DATABASE_USER_ACCESS_CONTROL.assign("database-id", database_id).assign("username", username)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -248,7 +249,7 @@ async def list_logical_databases(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_LOGICAL_DATABASES.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_LOGICAL_DATABASES.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -264,7 +265,7 @@ async def create_logical_database(database_id: str, data: database.CreateDatabas
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_LOGICAL_DATABASES.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_LOGICAL_DATABASES.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -282,7 +283,7 @@ async def get_logical_database(database_id: str, db_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_LOGICAL_DATABASE.assign("database-id", database_id).assign("db-name", db_name)) \
+    return await composer.Request(_const.URL_DATABASE_LOGICAL_DATABASE.assign("database-id", database_id).assign("db-name", db_name)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -298,7 +299,7 @@ async def delete_logical_database(database_id: str, db_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_LOGICAL_DATABASE.assign("database-id", database_id).assign("db-name", db_name)) \
+    return await composer.Request(_const.URL_DATABASE_LOGICAL_DATABASE.assign("database-id", database_id).assign("db-name", db_name)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -313,7 +314,7 @@ async def list_topics(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_TOPICS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_TOPICS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -329,7 +330,7 @@ async def create_topic(database_id: str, data: database.CreateDatabaseTopicData)
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_TOPICS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_TOPICS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -347,7 +348,7 @@ async def get_topic(database_id: str, topic_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
+    return await composer.Request(_const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -364,7 +365,7 @@ async def update_topic(database_id: str, topic_name: str, data: database.UpdateD
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
+    return await composer.Request(_const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -382,7 +383,7 @@ async def delete_topic(database_id: str, topic_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
+    return await composer.Request(_const.URL_DATABASE_TOPIC.assign("database-id", database_id).assign("topic-name", topic_name)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -397,7 +398,7 @@ async def list_quotas(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_QUOTAS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_QUOTAS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -413,7 +414,7 @@ async def create_quota(database_id: str, data: database.CreateDatabaseQuotaData)
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_QUOTAS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_QUOTAS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -430,7 +431,7 @@ async def list_maintenance_updates(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_MAINTENANCE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_MAINTENANCE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -445,7 +446,7 @@ async def start_maintenance_update(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_MAINTENANCE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_MAINTENANCE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -460,7 +461,7 @@ async def get_migration_status(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -476,7 +477,7 @@ async def start_migration(database_id: str, data: database.StartDatabaseMigratio
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -493,7 +494,7 @@ async def detach_migration(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_MIGRATION.assign("database-id", database_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -509,7 +510,7 @@ async def create_read_replica(database_id: str, data: database.CreateDatabaseRea
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_READ_REPLICA.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_READ_REPLICA.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -526,7 +527,7 @@ async def promote_read_replica(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_PROMOTE_READ_REPLICA.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_PROMOTE_READ_REPLICA.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -541,7 +542,7 @@ async def get_backup_information(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_BACKUPS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_BACKUPS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -557,7 +558,7 @@ async def restore_from_backup(database_id: str, data: database.RestoreDatabaseFr
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_RESTORE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_RESTORE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -575,7 +576,7 @@ async def fork_from_backup(database_id: str, data: database.ForkDatabaseFromBack
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_FORK.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_FORK.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -592,7 +593,7 @@ async def list_connection_pools(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_CONNECTION_POOLS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_CONNECTION_POOLS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -608,7 +609,7 @@ async def create_connection_pool(database_id: str, data: database.CreateDatabase
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_CONNECTION_POOLS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_CONNECTION_POOLS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -626,7 +627,7 @@ async def get_connection_pool(database_id: str, pool_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
+    return await composer.Request(_const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -643,7 +644,7 @@ async def update_connection_pool(database_id: str, pool_name: str, data: databas
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
+    return await composer.Request(_const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -661,7 +662,7 @@ async def delete_connection_pool(database_id: str, pool_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
+    return await composer.Request(_const.URL_DATABASE_CONNECTION_POOL.assign("database-id", database_id).assign("pool-name", pool_name)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -676,7 +677,7 @@ async def list_advanced_options(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_ADVANCED_OPTIONS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_ADVANCED_OPTIONS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -693,7 +694,7 @@ async def update_advanced_option(database_id: str, option_name: str, value: str)
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_ADVANCED_OPTIONS.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_ADVANCED_OPTIONS.assign("database-id", database_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -712,7 +713,7 @@ async def list_version_upgrades(database_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_VERSION_UPGRADE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_VERSION_UPGRADE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -728,7 +729,7 @@ async def start_version_upgrade(database_id: str, data: database.StartDatabaseMa
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DATABASE_VERSION_UPGRADE.assign("database-id", database_id)) \
+    return await composer.Request(_const.URL_DATABASE_VERSION_UPGRADE.assign("database-id", database_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \

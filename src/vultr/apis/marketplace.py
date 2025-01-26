@@ -1,7 +1,8 @@
 from http import HTTPMethod
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 
 
 async def get_marketplace_app_variables(image_id: str):
@@ -14,7 +15,7 @@ async def get_marketplace_app_variables(image_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_MARKETPLACE_APP_VARIABLES.assign("image-id", image_id)) \
+    return await composer.Request(_const.URL_MARKETPLACE_APP_VARIABLES.assign("image-id", image_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

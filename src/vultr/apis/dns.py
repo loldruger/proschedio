@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import dns
 
 async def list_domains(per_page: Optional[int], cursor: Optional[str]):
@@ -16,7 +17,7 @@ async def list_domains(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_DOMAIN_LIST) \
+    request = composer.Request(_const.URL_DOMAIN_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -37,7 +38,7 @@ async def create_domain(data: dns.CreateDomainData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_LIST) \
+    return await composer.Request(_const.URL_DOMAIN_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -54,7 +55,7 @@ async def get_domain(dns_domain: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -70,7 +71,7 @@ async def update_domain(dns_domain: str, data: dns.UpdateDomainData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -87,7 +88,7 @@ async def delete_domain(dns_domain: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -102,7 +103,7 @@ async def get_domain_soa(dns_domain: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_SOA.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN_SOA.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -118,7 +119,7 @@ async def update_domain_soa(dns_domain: str, data: dns.UpdateDomainSOAData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_SOA.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN_SOA.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -135,7 +136,7 @@ async def get_domain_dnssec(dns_domain: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_DNSSEC.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN_DNSSEC.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -152,7 +153,7 @@ async def list_domain_records(dns_domain: str, per_page: Optional[int], cursor: 
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_DOMAIN_RECORDS.assign("dns-domain", dns_domain)) \
+    request = composer.Request(_const.URL_DOMAIN_RECORDS.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -174,7 +175,7 @@ async def create_domain_record(dns_domain: str, data: dns.CreateDomainRecordData
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_RECORDS.assign("dns-domain", dns_domain)) \
+    return await composer.Request(_const.URL_DOMAIN_RECORDS.assign("dns-domain", dns_domain)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -192,7 +193,7 @@ async def get_domain_record(dns_domain: str, record_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
+    return await composer.Request(_const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -209,7 +210,7 @@ async def update_domain_record(dns_domain: str, record_id: str, data: dns.Update
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
+    return await composer.Request(_const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -227,7 +228,7 @@ async def delete_domain_record(dns_domain: str, record_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
+    return await composer.Request(_const.URL_DOMAIN_RECORD.assign("dns-domain", dns_domain).assign("record-id", record_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

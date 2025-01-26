@@ -2,7 +2,8 @@ from typing import Optional, Literal
 from http import HTTPMethod
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 
 class UpdateStartupScriptData:
     def __init__(self):
@@ -76,7 +77,7 @@ async def get_startup_script(startup_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -93,7 +94,7 @@ async def update_startup_script(startup_id: str, data: UpdateStartupScriptData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -111,7 +112,7 @@ async def delete_startup_script(startup_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
+    return await composer.Request(_const.URL_STARTUP_SCRIPT_ID.assign("startup-id", startup_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

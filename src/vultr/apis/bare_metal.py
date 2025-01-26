@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, List, Literal, Dict
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import bare_metal
 
 async def list_bare_metals(per_page: Optional[int], cursor: Optional[str]):
@@ -16,7 +17,7 @@ async def list_bare_metals(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_BARE_METAL) \
+    request = composer.Request(_const.URL_BARE_METAL) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -37,7 +38,7 @@ async def create_bare_metal(data: bare_metal.CreateBareMetalData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL) \
+    return await composer.Request(_const.URL_BARE_METAL) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -54,7 +55,7 @@ async def get_bare_metal(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -70,7 +71,7 @@ async def update_bare_metal(baremetal_id: str, data: bare_metal.UpdateBareMetalD
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -87,7 +88,7 @@ async def delete_bare_metal(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_ID.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -102,7 +103,7 @@ async def get_bare_metal_ipv4(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV4.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV4.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -117,7 +118,7 @@ async def get_bare_metal_ipv6(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV6.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV6.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -133,7 +134,7 @@ async def create_bare_metal_reverse_ipv4(baremetal_id: str, data: bare_metal.Cre
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV4_REVERSE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV4_REVERSE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -151,7 +152,7 @@ async def create_bare_metal_reverse_ipv6(baremetal_id: str, data: bare_metal.Cre
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV6_REVERSE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV6_REVERSE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -169,7 +170,7 @@ async def set_bare_metal_reverse_ipv4(baremetal_id: str, ip: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV4_REVERSE_DEFAULT.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV4_REVERSE_DEFAULT.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -187,7 +188,7 @@ async def delete_bare_metal_reverse_ipv6(baremetal_id: str, ipv6: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_IPV6_REVERSE_IPV6.assign("baremetal-id", baremetal_id).assign("ipv6", ipv6)) \
+    return await composer.Request(_const.URL_BARE_METAL_IPV6_REVERSE_IPV6.assign("baremetal-id", baremetal_id).assign("ipv6", ipv6)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -202,7 +203,7 @@ async def start_bare_metal(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_START.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_START.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -217,7 +218,7 @@ async def reboot_bare_metal(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_REBOOT.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_REBOOT.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -233,7 +234,7 @@ async def reinstall_bare_metal(baremetal_id: str, hostname: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_BARE_METAL_REINSTALL.assign("baremetal-id", baremetal_id)) \
+    request = composer.Request(_const.URL_BARE_METAL_REINSTALL.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json")
@@ -253,7 +254,7 @@ async def halt_bare_metal(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_HALT.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_HALT.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -268,7 +269,7 @@ async def get_bare_metal_bandwidth(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METAL_BANDWIDTH.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METAL_BANDWIDTH.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -283,7 +284,7 @@ async def halt_bare_metals(baremetal_ids: List[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_HALT) \
+    return await composer.Request(_const.URL_BARE_METALS_HALT) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -300,7 +301,7 @@ async def reboot_bare_metals(baremetal_ids: List[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE.set_method(HTTPMethod.POST)) \
+    return await composer.Request(_const.URL_BARE.set_method(HTTPMethod.POST)) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
         .set_body({"baremetal_ids": baremetal_ids}) \
@@ -316,7 +317,7 @@ async def start_bare_metals(baremetal_ids: List[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_START) \
+    return await composer.Request(_const.URL_BARE_METALS_START) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -333,7 +334,7 @@ async def get_bare_metal_user_data(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_USER_DATA.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_USER_DATA.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -349,7 +350,7 @@ async def get_bare_metal_available_upgrades(baremetal_id: str, type: Optional[Li
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_BARE_METALS_ID_AVAILABLE_UPGRADES.assign("baremetal-id", baremetal_id)) \
+    request = composer.Request(_const.URL_BARE_METALS_ID_AVAILABLE_UPGRADES.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
     
@@ -368,7 +369,7 @@ async def get_bare_metal_vnc_url(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_ID_VNC.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_ID_VNC.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -384,7 +385,7 @@ async def attach_vpc_to_bare_metal(baremetal_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_ATTACH_VPC_TO_INSTANCE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_ATTACH_VPC_TO_INSTANCE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -402,7 +403,7 @@ async def detach_vpc_from_bare_metal(baremetal_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_DETACH_VPC_FROM_INSTANCE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -419,7 +420,7 @@ async def list_bare_metal_vpcs(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_VPCS.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_VPCS.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -444,7 +445,7 @@ async def attach_vpc2_to_bare_metal(baremetal_id: str, vpc_id: Optional[str], ip
     if ip_address is not None:
         body["ip_address"] = ip_address
     
-    return await composer.Request(const.URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_ATTACH_VPC2_TO_INSTANCE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -462,7 +463,7 @@ async def detach_vpc2_from_bare_metal(baremetal_id: str, vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_DETACH_VPC2_FROM_INSTANCE.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -479,7 +480,7 @@ async def list_bare_metal_vpc2s(baremetal_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_BARE_METALS_VPCS2.assign("baremetal-id", baremetal_id)) \
+    return await composer.Request(_const.URL_BARE_METALS_VPCS2.assign("baremetal-id", baremetal_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

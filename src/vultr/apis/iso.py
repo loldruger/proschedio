@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 
 
 async def list_isos(per_page: Optional[int], cursor: Optional[str]):
@@ -16,7 +17,7 @@ async def list_isos(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_ISO_LIST) \
+    request = composer.Request(_const.URL_ISO_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -38,7 +39,7 @@ async def create_iso(url: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_ISO_LIST) \
+    return await composer.Request(_const.URL_ISO_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -56,7 +57,7 @@ async def get_iso(iso_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_ISO_ID.assign("iso-id", iso_id)) \
+    return await composer.Request(_const.URL_ISO_ID.assign("iso-id", iso_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -72,7 +73,7 @@ async def delete_iso(iso_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_ISO_ID.assign("iso-id", iso_id)) \
+    return await composer.Request(_const.URL_ISO_ID.assign("iso-id", iso_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -85,7 +86,7 @@ async def list_public_isos():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_ISO_PUBLIC_LIST) \
+    return await composer.Request(_const.URL_ISO_PUBLIC_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

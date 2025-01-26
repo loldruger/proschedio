@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import reserved_ips
 
 
@@ -17,7 +18,7 @@ async def list_reserved_ips(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_RESERVED_IP) \
+    request = composer.Request(_const.URL_RESERVED_IP) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -39,7 +40,7 @@ async def create_reserved_ip(data: reserved_ips.CreateReservedIpData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP) \
+    return await composer.Request(_const.URL_RESERVED_IP) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -57,7 +58,7 @@ async def get_reserved_ip(reserved_ip: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
+    return await composer.Request(_const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -74,7 +75,7 @@ async def update_reserved_ip(reserved_ip: str, label: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
+    return await composer.Request(_const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -92,7 +93,7 @@ async def delete_reserved_ip(reserved_ip: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
+    return await composer.Request(_const.URL_RESERVED_IP_ID.assign("reserved-ip", reserved_ip)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -109,7 +110,7 @@ async def attach_reserved_ip(reserved_ip: str, instance_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_ATTACH.assign("reserved-ip", reserved_ip)) \
+    return await composer.Request(_const.URL_RESERVED_IP_ATTACH.assign("reserved-ip", reserved_ip)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -127,7 +128,7 @@ async def detach_reserved_ip(reserved_ip: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_DETACH.assign("reserved-ip", reserved_ip)) \
+    return await composer.Request(_const.URL_RESERVED_IP_DETACH.assign("reserved-ip", reserved_ip)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -143,7 +144,7 @@ async def convert_to_reserved_ip(data: reserved_ips.ConvertIpToReservedIpData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_RESERVED_IP_CONVERT) \
+    return await composer.Request(_const.URL_RESERVED_IP_CONVERT) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \

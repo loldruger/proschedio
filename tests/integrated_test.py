@@ -13,7 +13,7 @@ from vultr.structs.instance import CreateInstanceData
 
 logger = logging.getLogger(__name__)
 
-async def wait_for_deploy(instance_id: str, timeout: int = 300, interval: int = 5):
+async def wait_for_deploy(instance_id: str, timeout: int, interval: int):
     """
     Poll the instance status until it's fully deployed or until timeout.
     
@@ -44,7 +44,7 @@ async def wait_for_deploy(instance_id: str, timeout: int = 300, interval: int = 
 
 # 		if result.get("status") != 200:
 # 			raise Exception(result)
-		
+        
 # 		logger.info("\nResponse Data:\n%s", result)
 
 # 	except Exception as e:
@@ -58,7 +58,7 @@ async def wait_for_deploy(instance_id: str, timeout: int = 300, interval: int = 
 
 # 		if result.get("status") != 200:
 # 			raise Exception(result)
-		
+        
 # 		logger.info("\nResponse Data:\n%s", result)
 
 # 	except Exception as e:
@@ -72,39 +72,36 @@ async def wait_for_deploy(instance_id: str, timeout: int = 300, interval: int = 
 
 # 		if result.get("status") != 200:
 # 			raise Exception(result)
-		
+        
 # 		logger.info("\nResponse Data:\n%s", result)
 
 # 	except Exception as e:
 # 		logger.error("Error: %s", e)
 # 		pytest.fail(f"Test failed with error: {e}")
 
-instance_id: Optional[str] = None
-
 @pytest.mark.asyncio
 async def test_create_instance(api_key):
-	try:
-		data = CreateInstanceData(region="ewr", plan="vc2-1c-0.5gb-v6")\
-			.os_id(2136)\
-			.hostname("testhostname")\
-			.label("test_label")\
-			.ddos_protection(False)\
-			.backups("disabled")\
+    try:
+        instance_id: Optional[str] = None
+        data = CreateInstanceData(region="ewr", plan="vc2-1c-0.5gb-v6")\
+            .os_id(2136)\
+            .hostname("testhostname")\
+            .label("test_label")\
+            .ddos_protection(False)\
+            .backups("disabled")\
 
-		result = await create_instance(data)
+        result = await create_instance(data)
 
-		if result.get("status") != 202:
-			raise Exception(result)
-		
-		logger.info("\nResponse Data:\n%s", result)
+        if result.get("status") != 202:
+            raise Exception(result)
+        
+        logger.info("\nResponse Data:\n%s", result)
 
-		global instance_id
-		instance_id = result.get("instance").get("id")
+        instance_id = result.get("instance").get("id")
 
-		print(instance_id)
-	except Exception as e:
-		logger.error("Error: %s", e)
-		pytest.fail(f"Test failed with error: {e}")
+        await wait_for_deploy(instance_id, timeout=300, interval=5)
 
-# @pytest.mark.asyncio
-# async def test_
+        print("Instance is ready")
+    except Exception as e:
+        logger.error("Error: %s", e)
+        pytest.fail(f"Test failed with error: {e}")

@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 
 
 async def list_os_images(per_page: Optional[int], cursor: Optional[str]):
@@ -16,7 +17,7 @@ async def list_os_images(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_OS) \
+    request = composer.Request(_const.URL_OS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 

@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, List, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import load_balancer
 
 
@@ -17,7 +18,7 @@ async def list_load_balancers(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_LOAD_BALANCER_LIST) \
+    request = composer.Request(_const.URL_LOAD_BALANCER_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -39,7 +40,7 @@ async def create_load_balancer(data: load_balancer.CreateLoadBalancerData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_CREATE) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_CREATE) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -57,7 +58,7 @@ async def get_load_balancer(load_balancer_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -74,7 +75,7 @@ async def update_load_balancer(load_balancer_id: str, data: load_balancer.Update
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -92,7 +93,7 @@ async def delete_load_balancer(load_balancer_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_ID.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -108,7 +109,7 @@ async def delete_load_balancer_ssl(load_balancer_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_SSL.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_SSL.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -124,7 +125,7 @@ async def delete_load_balancer_auto_ssl(load_balancer_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_AUTO_SSL.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_AUTO_SSL.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -142,7 +143,7 @@ async def list_load_balancer_forwarding_rules(load_balancer_id: str, per_page: O
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_LOAD_BALANCER_FORWARDING_RULES.assign("load-balancer-id", load_balancer_id)) \
+    request = composer.Request(_const.URL_LOAD_BALANCER_FORWARDING_RULES.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -165,7 +166,7 @@ async def create_load_balancer_forwarding_rule(load_balancer_id: str, data: load
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_FORWARDING_RULES.assign("load-balancer-id", load_balancer_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_FORWARDING_RULES.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -184,7 +185,7 @@ async def get_load_balancer_forwarding_rule(load_balancer_id: str, forwarding_ru
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_FORWARDING_RULE.assign("load-balancer-id", load_balancer_id).assign("forwarding-rule-id", forwarding_rule_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_FORWARDING_RULE.assign("load-balancer-id", load_balancer_id).assign("forwarding-rule-id", forwarding_rule_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -201,7 +202,7 @@ async def delete_load_balancer_forwarding_rule(load_balancer_id: str, forwarding
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_FORWARDING_RULE.assign("load-balancer-id", load_balancer_id).assign("forwarding-rule-id", forwarding_rule_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_FORWARDING_RULE.assign("load-balancer-id", load_balancer_id).assign("forwarding-rule-id", forwarding_rule_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -219,7 +220,7 @@ async def list_load_balancer_firewall_rules(load_balancer_id: str, per_page: Opt
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_LOAD_BALANCER_FIREWALL_RULES.assign("load-balancer-id", load_balancer_id)) \
+    request = composer.Request(_const.URL_LOAD_BALANCER_FIREWALL_RULES.assign("load-balancer-id", load_balancer_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -242,7 +243,7 @@ async def get_load_balancer_firewall_rule(load_balancer_id: str, firewall_rule_i
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_LOAD_BALANCER_FIREWALL_RULE.assign("load-balancer-id", load_balancer_id).assign("firewall-rule-id", firewall_rule_id)) \
+    return await composer.Request(_const.URL_LOAD_BALANCER_FIREWALL_RULE.assign("load-balancer-id", load_balancer_id).assign("firewall-rule-id", firewall_rule_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

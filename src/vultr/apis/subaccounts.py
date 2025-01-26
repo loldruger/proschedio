@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import subaccount
 
 
@@ -17,7 +18,7 @@ async def list_subaccounts(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_SUBACCOUNT_LIST) \
+    request = composer.Request(_const.URL_SUBACCOUNT_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -39,7 +40,7 @@ async def create_subaccount(data: subaccount.CreateSubaccountData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_SUBACCOUNT_LIST) \
+    return await composer.Request(_const.URL_SUBACCOUNT_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \

@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional, Literal
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 
 
 async def list_applications(
@@ -21,7 +22,7 @@ async def list_applications(
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_APPLICATIONS) \
+    request = composer.Request(_const.URL_APPLICATIONS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 

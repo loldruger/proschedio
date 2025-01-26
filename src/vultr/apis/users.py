@@ -2,7 +2,8 @@ from http import HTTPMethod
 from typing import Optional
 
 from proschedio import composer
-from vultr import const, get_key
+from vultr import get_key
+from vultr.apis import _const
 from vultr.structs import users
 
 async def list_users(per_page: Optional[int], cursor: Optional[str]):
@@ -16,7 +17,7 @@ async def list_users(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(const.URL_USER_LIST) \
+    request = composer.Request(_const.URL_USER_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -37,7 +38,7 @@ async def create_user(data: users.CreateUserData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_USER_LIST) \
+    return await composer.Request(_const.URL_USER_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -54,7 +55,7 @@ async def get_user(user_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_USER_ID.assign("user-id", user_id)) \
+    return await composer.Request(_const.URL_USER_ID.assign("user-id", user_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -70,7 +71,7 @@ async def update_user(user_id: str, data: users.UpdateUserData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_USER_ID.assign("user-id", user_id)) \
+    return await composer.Request(_const.URL_USER_ID.assign("user-id", user_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -87,7 +88,7 @@ async def delete_user(user_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(const.URL_USER_ID.assign("user-id", user_id)) \
+    return await composer.Request(_const.URL_USER_ID.assign("user-id", user_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
