@@ -24,7 +24,7 @@ colorlog = "^6.9.0"
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
 testpaths = ["tests"]
-python_files = "test_*.py"
+python_files = ["test_*.py", "integrated_test.py"]
 python_functions = "test_*"
 log_cli = true
 log_cli_level = "INFO"
