@@ -4,9 +4,9 @@ from typing import Optional, List, Literal
 from proschedio import composer
 from vultr import get_key
 from vultr.apis import _const
-from vultr.structs import instance
+from vultr.structs import instances
 
-async def list_instances(filters: Optional[instance.ListInstancesData]):
+async def list_instances(filters: Optional[instances.ListInstancesData]):
     """
     List all VPS instances in your account.
 
@@ -42,7 +42,7 @@ async def list_instances(filters: Optional[instance.ListInstancesData]):
 
     return await request.request()
 
-async def create_instance(data: instance.CreateInstanceData):
+async def create_instance(data: instances.CreateInstanceData):
     """
     Create a new VPS Instance in a `region` with the desired `plan`. Choose one of the following to deploy the instance:
     - `os_id`
@@ -79,7 +79,7 @@ async def get_instance(instance_id: str):
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
 
-async def update_instance(instance_id: str, data: instance.UpdateInstanceData):
+async def update_instance(instance_id: str, data: instances.UpdateInstanceData):
     """
     Update information for an Instance. All attributes are optional. If not set, the attributes will retain their original values.
 
@@ -413,7 +413,7 @@ async def get_instance_backup_schedule(instance_id: str):
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
 
-async def set_instance_backup_schedule(instance_id: str, data: instance.SetInstanceBackupScheduleData):
+async def set_instance_backup_schedule(instance_id: str, data: instances.SetInstanceBackupScheduleData):
     """
     Set the backup schedule for an Instance in UTC.
 

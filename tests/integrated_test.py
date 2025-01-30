@@ -1,5 +1,5 @@
 import asyncio
-from typing import Optional
+from typing import List, Optional
 import pytest
 import logging
 
@@ -9,7 +9,8 @@ from vultr.apis.instances import create_instance, get_instance
 from vultr.apis.operating_systems import list_os_images
 from vultr.apis.plans import list_plans
 from vultr.apis.regions import get_available_plans_in_region
-from vultr.structs.instance import CreateInstanceData
+from vultr.structs.instances import CreateInstanceData
+from vultr.vultr import Vultr
 
 logger = logging.getLogger(__name__)
 
@@ -105,3 +106,23 @@ async def test_create_instance(api_key):
     except Exception as e:
         logger.error("Error: %s", e)
         pytest.fail(f"Test failed with error: {e}")
+
+def test_construct_instance():
+    asdf = Vultr()\
+        .set_failiure_policy("retry")\
+        .set_retry_policy(interval=300, attempts=3)\
+        .new_instance(
+            CreateInstanceData(
+                region="ewr",
+                plan="vc2-1c-1gb"
+            )
+            .os_id(2136)
+            .hostname("testhostname")
+            .label("test_label")
+            .ddos_protection(False)
+            .backups("disabled")
+        )\
+            .apply()
+        
+
+    print(asdf)

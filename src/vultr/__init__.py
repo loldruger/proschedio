@@ -1,4 +1,5 @@
 from .apis import _const
+from .structs import *
 
 API_KEY: str = ""
 

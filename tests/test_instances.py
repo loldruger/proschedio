@@ -18,7 +18,7 @@ async def test_list_instances(api_key):
         logger.info("\nTest Case 1 (list_instances - no params) - Response Data:\n%s", result)
 
         # Test case 2: List instances with per_page
-        result = await list_instances(filters=instance.ListInstancesData().per_page(50))
+        result = await list_instances(filters=instances.ListInstancesData().per_page(50))
         if result.get("status") != 200:
             raise Exception(f"list_instances(per_page=50) failed: {result}")
         logger.info("\nTest Case 2 (list_instances - per_page) - Response Data:\n%s", result)
@@ -31,19 +31,19 @@ async def test_list_instances(api_key):
         # logger.info("\nTest Case 3 (list_instances - cursor) - Response Data:\n%s", result)
 
         # Test case 4: List instances with region filter
-        result = await list_instances(filters=instance.ListInstancesData().region("ewr"))
+        result = await list_instances(filters=instances.ListInstancesData().region("ewr"))
         if result.get("status") != 200:
             raise Exception(f"list_instances(region='ewr') failed: {result}")
         logger.info("\nTest Case 4 (list_instances - region) - Response Data:\n%s", result)
 
         # Test case 5: List instances with label filter
-        result = await list_instances(filters=instance.ListInstancesData().label("your_instance_label")) # Replace with your label
+        result = await list_instances(filters=instances.ListInstancesData().label("your_instance_label")) # Replace with your label
         if result.get("status") != 200:
             raise Exception(f"list_instances(label='your_instance_label') failed: {result}")
         logger.info("\nTest Case 5 (list_instances - label) - Response Data:\n%s", result)
 
         # Test case 6: List instances with tag filter
-        result = await list_instances(filters=instance.ListInstancesData().tag("your_instance_tag")) # Replace with your tag
+        result = await list_instances(filters=instances.ListInstancesData().tag("your_instance_tag")) # Replace with your tag
         if result.get("status") != 200:
             raise Exception(f"list_instances(tag='your_instance_tag') failed: {result}")
         logger.info("\nTest Case 6 (list_instances - tag) - Response Data:\n%s", result)
@@ -59,7 +59,7 @@ async def test_create_instance(api_key):
     """
     try:
         # Test case: Create an instance (replace with your desired parameters)
-        create_data = instance.CreateInstanceData(region="ewr", plan="vc2-1c-1gb") \
+        create_data = instances.CreateInstanceData(region="ewr", plan="vc2-1c-1gb") \
             .label("test-instance") \
             .os_id(387) \
             .enable_ipv6(True)
@@ -100,7 +100,7 @@ async def test_update_instance(api_key):
     """
     try:
         # Test case: Update instance information (replace 'your_instance_id' with a real instance ID)
-        update_data = instance.UpdateInstanceData().label("updated-instance-label").enable_ipv6(False)
+        update_data = instances.UpdateInstanceData().label("updated-instance-label").enable_ipv6(False)
         result = await update_instance(instance_id="your_instance_id", data=update_data)  # Replace 'your_instance_id' with a real instance ID
 
         if result.get("status") != 204:
@@ -425,7 +425,7 @@ async def test_set_instance_backup_schedule(api_key):
     """
     try:
         # Test case: Set instance backup schedule (replace with your desired parameters)
-        backup_schedule_data = instance.SetInstanceBackupScheduleData(type="daily")
+        backup_schedule_data = instances.SetInstanceBackupScheduleData(type="daily")
         result = await set_instance_backup_schedule(instance_id="your_instance_id", data=backup_schedule_data)  # Replace 'your_instance_id' with a real instance ID
 
         if result.get("status") != 204:

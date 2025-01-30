@@ -436,7 +436,7 @@ class UpdateBareMetalData:
 
     def detach_vpc2(self, detach_vpc2: List[str]) -> "UpdateBareMetalData":
         """
-Set an array of [VPC IDs](#operation/list-vpc2) to detach from this Bare Metal Instance. This parameter takes precedence over enable_vpc2.
+        Set an array of [VPC IDs](#operation/list-vpc2) to detach from this Bare Metal Instance. This parameter takes precedence over enable_vpc2.
 
         Args:
             detach_vpc2 (List[str]): The VPC IDs to detach.
