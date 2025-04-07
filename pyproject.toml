@@ -5,21 +5,21 @@ description = ""
 authors = [
     {name = "Siyoung September",email = "loldruger@gmail.com"}
 ]
-packages = [
-    { include = "proschedio", from = "src" },
-    { include = "vultr", from = "src" },
-    { include = "aws", from = "src" }
-]
+# The 'packages' key is typically not needed with setuptools in [project]
+# setuptools auto-discovery or [tool.setuptools.packages.find] can be used if needed.
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "aiohttp (>=3.11.11,<4.0.0)"
+    "aiohttp>=3.11.11,<4.0.0", # Adjusted syntax slightly for broader compatibility
+    "python-dotenv>=1.0.0" # Add python-dotenv
 ]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.4"
-pytest-asyncio = "^0.25.2"
-colorlog = "^6.9.0"
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.3.4",
+    "pytest-asyncio>=0.25.2",
+    "colorlog>=6.9.0",
+]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
@@ -31,5 +31,5 @@ log_cli_level = "INFO"
 log_cli_format = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 
 [build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"

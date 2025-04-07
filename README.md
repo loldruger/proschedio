@@ -1,2 +1,9 @@
 # vultr_py
-[WIP] Vultr API v2 Fully Documented, Typed and Async Wrapper for Infrastructre as Code 
+
+## Installation
+on ubuntu
+```
+curl -LsSf https://astral.sh/uv/install.sh | sh
+source $HOME/.local/bin/env
+```
+

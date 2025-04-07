@@ -1,10 +1,14 @@
-from http import HTTPMethod
-import asyncio
 import os
+import asyncio
 
+from http import HTTPMethod
+
+from dotenv import load_dotenv
 from proschedio import composer
 from vultr import set_key, get_key
 from vultr.apis import _const
+
+load_dotenv()
 
 async def main():
     set_key(os.environ.get("VULTR_API_KEY"))
@@ -24,5 +28,6 @@ async def main():
         .request()
     
     print(a)
-    
-asyncio.run(main())
+
+if __name__ == "__main__":
+    asyncio.run(main())
