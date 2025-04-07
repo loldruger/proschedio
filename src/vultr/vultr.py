@@ -1,63 +1,56 @@
 from typing import List, Literal, Optional
 from vultr.structs import instances as data
 from vultr.apis import instances as api
+from vultr.apis.instances import create_instance
+from vultr.structs.instances import CreateInstanceData
+
+class InstanceBuilder:
+    def __init__(self, data: CreateInstanceData, failure_policy: str, retry_policy: dict):
+        self._data = data
+        self._failure_policy = failure_policy
+        self._retry_policy = retry_policy
+
+    async def apply(self):
+        """
+        Applies the instance creation request by calling the API.
+        Handles retries based on the policy (basic implementation).
+        """
+        print(f"Applying instance creation with data: {self._data.to_json()}")
+        try:
+            result = await create_instance(self._data)
+            print(f"API call result: {result}")
+            return result
+        except Exception as e:
+            print(f"Error during API call: {e}")
+            raise
 
 class Vultr:
     def __init__(self):
-        self.failiure_policy: Literal["continue", "stop", "retry", "rollback"] = "stop"
-        self.retry_interval: int = 300
-        self.retry_attempts: int = 3
+        self._failure_policy: Literal["fail", "retry"] = "fail"
+        self._retry_policy: dict = {"interval": 0, "attempts": 0}
+        self.instance_builders: List[InstanceBuilder] = []
 
-        self.instance: List[VultrInstance] = []
-    
     def __str__(self) -> str:
         return str({
-            "failiure_policy": self.failiure_policy,
-            "retry_interval": self.retry_interval,
-            "retry_attempts": self.retry_attempts,
-            "instance": self.instance
+            "failiure_policy": self._failure_policy,
+            "retry_interval": self._retry_policy["interval"],
+            "retry_attempts": self._retry_policy["attempts"],
         })
-    
-    def set_failiure_policy(self, policy: Literal["continue", "stop", "retry", "rollback"]) -> 'Vultr':
-        self.failiure_policy = policy
+
+    def set_failure_policy(self, policy: Literal["fail", "retry"]) -> 'Vultr':
+        self._failure_policy = policy
+        print(f"Set failure policy to: {policy}")
         return self
 
     def set_retry_policy(self, interval: int, attempts: int) -> 'Vultr':
-        self.retry_interval = interval
-        self.retry_attempts = attempts
-
+        self._retry_policy = {"interval": interval, "attempts": attempts}
+        print(f"Set retry policy to: interval={interval}, attempts={attempts}")
         return self
 
-    def new_instance(self, data: data.CreateInstanceData) -> 'VultrInstance':
-        instance = VultrInstance(parent=self, data=data)
-        self.instance.append(instance)
-
-        return instance
-    
-    def delete_instance(self, instance_id: str) -> 'Vultr':
-        pass
-
-class VultrInstance:
-    def __init__(self, parent: Vultr, data: data.CreateInstanceData):
-        self.parent = parent
-        self.data = data
-        self.block_storage: List[str] = []
-
-    def __str__(self) -> str:
-        return str({
-            "data": self.data.to_json(),
-            "block_storage": self.block_storage
-        })
-
-    def attatch_block_storage(self, block_storage_id: str) -> 'VultrInstance':
-        self.block_storage.append(block_storage_id)
-        return self
-    
-    def detach_block_storage(self, block_storage_id: str) -> 'VultrInstance':
-        self.block_storage.remove(block_storage_id)
-        return self
-    
-    def apply(self) -> 'Vultr':
-        return self.parent
+    def new_instance(self, data: CreateInstanceData) -> InstanceBuilder:
+        print("Creating InstanceBuilder...")
+        builder = InstanceBuilder(data, self._failure_policy, self._retry_policy)
+        self.instance_builders.append(builder)
+        return builder
 
 

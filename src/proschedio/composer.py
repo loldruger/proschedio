@@ -72,9 +72,27 @@ class Request:
                 json=self._body
             ) as response:
                 status = response.status
-                data = await response.json()
-                return {
-                    "status": status,
-                    "data": data
-                }
-    
+
+                # Handle 204 No Content specifically
+                if status == 204:
+                    # Return success status with empty data for No Content responses
+                    return {"status": status, "data": {}}
+
+                # For other status codes, try to parse JSON
+                try:
+                    data = await response.json()
+                except aiohttp.ContentTypeError:
+                    # Handle cases where response is not JSON (and not 204)
+                    # Log the actual response text if possible for debugging
+                    try:
+                        text_response = await response.text()
+                        error_detail = f"Non-JSON response: {text_response[:100]}..." # Log snippet
+                    except Exception:
+                        error_detail = "Non-JSON response, unable to read text."
+                    data = {"error": f"{error_detail}", "status": status}
+                except json.JSONDecodeError:
+                    data = {"error": f"Failed to decode JSON response with status {status}", "status": status}
+
+                # Return a consistent dictionary format
+                return {"status": status, "data": data}
+

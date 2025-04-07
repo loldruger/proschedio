@@ -107,9 +107,10 @@ async def test_create_instance(api_key):
         logger.error("Error: %s", e)
         pytest.fail(f"Test failed with error: {e}")
 
-def test_construct_instance():
-    asdf = Vultr()\
-        .set_failiure_policy("retry")\
+@pytest.mark.asyncio
+async def test_construct_instance(api_key):
+    asdf = await Vultr()\
+        .set_failure_policy("retry")\
         .set_retry_policy(interval=300, attempts=3)\
         .new_instance(
             CreateInstanceData(

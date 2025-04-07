@@ -38,7 +38,8 @@ async def test_list_instances(vultr_client): # Use vultr_client fixture
     Tests list_instances function.
     """
     try:
-        response_dict = await list_instances()
+        # Call list_instances with filters=None
+        response_dict = await list_instances(filters=None)
         assert response_dict.get("status") == 200, f"API returned status {response_dict.get('status')}"
         result = response_dict.get("data", {})
         logger.info(f"\nResponse Data (list_instances):\n{result}")

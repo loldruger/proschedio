@@ -48,7 +48,7 @@ async def vultr_client(api_key):
     yield client
     # No cleanup needed here as Vultr class doesn't manage sessions directly
 
-@pytest_asyncio.fixture # Function scope (default)
+@pytest_asyncio.fixture # Function scope
 async def managed_baremetal_instance(api_key):
     """
     Creates a bare metal instance using the cheapest plan and a compatible OS
@@ -189,50 +189,23 @@ async def managed_baremetal_instance(api_key):
 @pytest_asyncio.fixture # Function scope (default)
 async def managed_instance(api_key):
     """
-    Creates a VPS instance using the cheapest vc2 plan and Ubuntu 22.04
-    for the test function, and deletes it afterwards. Yields the instance ID.
+    Creates a VPS instance using the cheapest non-free vc2 plan and a compatible OS
+    (prioritizing os_id 2136) for the test function, and deletes it afterwards.
+    Yields the instance ID.
     WARNING: This will be slow as it runs for every test function using it.
     """
     cheapest_plan_id = None
     region = None
     os_id_to_use = None
     instance_id = None
-    min_cost = float('inf')
-    compatible_plan_found = False
+    min_cost = float('inf') # Keep track of min_cost for logging/selection
+    compatible_os_found = False
+    preferred_os_id = 2136 # OS ID to try first
 
     try:
-        # 1. Find Target OS ID (Ubuntu 22.04 x64, fallback to any Ubuntu x64)
-        logger.info("Finding target OS ID (Ubuntu 22.04 x64)...")
-        os_response = await list_os_images(per_page=500, cursor=None)
-        if os_response.get("status") != 200:
-             pytest.fail(f"Failed to list operating systems: {os_response.get('data')}")
-
-        oses = os_response.get("data", {}).get("os", [])
-        # Look for Ubuntu 22.04 x64 first
-        for os_info in oses:
-            name_lower = os_info.get("name", "").lower()
-            arch_lower = os_info.get("arch", "").lower()
-            family_lower = os_info.get("family", "").lower()
-            if "ubuntu" in family_lower and "22.04" in name_lower and "x64" in arch_lower:
-                 target_os_id = os_info.get("id")
-                 break
-        # Fallback if specific version not found
-        if not target_os_id:
-             for os_info in oses:
-                  arch_lower = os_info.get("arch", "").lower()
-                  family_lower = os_info.get("family", "").lower()
-                  if "ubuntu" in family_lower and "x64" in arch_lower:
-                       target_os_id = os_info.get("id")
-                       logger.warning(f"Ubuntu 22.04 x64 not found, falling back to OS ID: {target_os_id}")
-                       break
-
-        if not target_os_id:
-            pytest.skip("Could not find a suitable Ubuntu x64 OS ID.")
-        logger.info(f"Selected target OS ID: {target_os_id}")
-
-        # 2. Get all vc2 plans and find the cheapest compatible one
-        logger.info("Finding cheapest compatible vc2 plan...")
-        plans_response = await list_plans(type="vc2", per_page=500, cursor=None) # Filter for vc2 plans
+        # 1. Find the cheapest vc2 plan (excluding free tier) and a valid region
+        logger.info("Finding cheapest compatible non-free vc2 plan...")
+        plans_response = await list_plans(type="vc2", per_page=500, cursor=None, os=None) # Corrected: Added os=None
         if plans_response.get("status") != 200:
             pytest.fail(f"Failed to list vc2 plans: {plans_response.get('data')}")
 
@@ -240,49 +213,94 @@ async def managed_instance(api_key):
         if not plans:
             pytest.skip("No vc2 plans found.")
 
-        # Sort plans by monthly cost
-        sorted_plans = sorted(
-            [p for p in plans if p.get("monthly_cost") is not None and p.get("locations")],
-            key=lambda p: p["monthly_cost"]
-        )
+        # Filter out the free tier plan and sort by monthly cost
+        non_free_plans = [
+            p for p in plans
+            if p.get("id") != "vc2-1c-0.5gb-free" and p.get("monthly_cost") is not None and p.get("locations")
+        ]
+        sorted_plans = sorted(non_free_plans, key=lambda p: p["monthly_cost"])
 
-        # 3. Iterate through sorted plans and try creating instance with target OS
-        for plan in sorted_plans:
-            current_plan_id = plan.get("id")
-            locations = plan.get("locations")
-            if not locations:
-                continue
+        if not sorted_plans:
+             pytest.skip("Could not determine a suitable cheap non-free vc2 plan or region.")
 
-            region_to_try = locations[0] # Try the first available region
+        # Select the cheapest non-free plan
+        cheapest_plan = sorted_plans[0]
+        cheapest_plan_id = cheapest_plan.get("id")
+        region = cheapest_plan.get("locations")[0]
+        min_cost = cheapest_plan.get("monthly_cost") # Get the actual min cost
+        logger.info(f"Selected cheapest non-free plan: {cheapest_plan_id} in region {region} (${min_cost}/mo)")
 
-            logger.info(f"Attempting instance creation with Plan ID: {current_plan_id}, Region: {region_to_try}, OS ID: {target_os_id}...")
-            create_data = CreateInstanceData(region=region_to_try, plan=current_plan_id)
-            create_data.os_id = target_os_id
-            create_data.label = f"pytest-managed-vps-{current_plan_id}"
+        # 2. Try creating with preferred OS ID first (using the selected non-free plan)
+        logger.info(f"Attempting instance creation with preferred OS ID: {preferred_os_id}...")
+        # Use method chaining for CreateInstanceData
+        create_data = CreateInstanceData(region=region, plan=cheapest_plan_id)\
+            .os_id(preferred_os_id)\
+            .label(f"pytest-managed-vps-{preferred_os_id}")
 
-            create_response = await create_instance(data=create_data)
-            status = create_response.get("status")
-            data = create_response.get("data", {})
+        create_response = await create_instance(data=create_data)
+        status = create_response.get("status")
+        data = create_response.get("data", {})
 
-            if status == 202: # Success (Accepted)
-                instance_info = data.get("instance", {})
-                instance_id = instance_info.get("id")
-                if not instance_id:
-                     pytest.fail(f"Created instance with Plan {current_plan_id} but could not get ID.")
-                plan_id_to_use = current_plan_id
-                region_to_use = region_to_try
-                compatible_plan_found = True
-                logger.info(f"Successfully requested creation with Plan ID: {plan_id_to_use}, OS ID: {target_os_id}. Instance ID: {instance_id}")
-                break
-            elif status == 400 and ("Invalid operating system" in data.get("error", "") or "Invalid plan" in data.get("error", "") or "Invalid region" in data.get("error", "")):
-                 logger.warning(f"Plan {current_plan_id} in region {region_to_try} is not compatible with OS {target_os_id}. Trying next plan/region.")
-                 continue
-            else:
-                # Fail for any other error
-                pytest.fail(f"Failed to create instance with Plan {current_plan_id}. Status: {status}, Data: {data}")
+        if status == 202: # Success
+            instance_info = data.get("instance", {})
+            instance_id = instance_info.get("id")
+            if not instance_id:
+                 pytest.fail(f"Created instance with OS {preferred_os_id} but could not get ID.")
+            os_id_to_use = preferred_os_id
+            compatible_os_found = True
+            logger.info(f"Successfully requested creation with preferred OS ID: {os_id_to_use}. Instance ID: {instance_id}")
+        elif status == 400 and ("Invalid operating system" in data.get("error", "") or "Invalid plan" in data.get("error", "") or "Invalid region" in data.get("error", "")):
+            logger.warning(f"Preferred OS ID {preferred_os_id} is not compatible with plan {cheapest_plan_id}. Finding other compatible OS...")
+            # Proceed to find other compatible OS if preferred one fails
+        else:
+            # Fail for any other unexpected error
+            pytest.fail(f"Failed to create instance with preferred OS {preferred_os_id}. Status: {status}, Data: {data}")
 
-        if not compatible_plan_found:
-            pytest.skip(f"Could not find a compatible plan/region for OS {target_os_id} after trying candidates.")
+        # 3. If preferred OS failed, find and try other compatible OS IDs
+        if not compatible_os_found:
+            logger.info("Finding other compatible OS IDs...")
+            os_response = await list_os_images(per_page=500, cursor=None)
+            if os_response.get("status") != 200:
+                 pytest.fail(f"Failed to list operating systems: {os_response.get('data')}")
+
+            oses = os_response.get("data", {}).get("os", [])
+            candidate_oses = [
+                os_info.get("id")
+                for os_info in oses
+                if "x64" in os_info.get("arch", "").lower() and os_info.get("id") and os_info.get("id") != preferred_os_id # Exclude the preferred one we already tried
+            ]
+
+            if not candidate_oses:
+                pytest.skip("Could not find any suitable alternative x64 OS IDs.")
+
+            for current_os_id in candidate_oses:
+                logger.info(f"Attempting creation with alternative OS ID: {current_os_id}...")
+                # Use method chaining here as well
+                create_data = CreateInstanceData(region=region, plan=cheapest_plan_id)\
+                    .os_id(current_os_id)\
+                    .label(f"pytest-managed-vps-{current_os_id}")
+
+                create_response = await create_instance(data=create_data)
+                status = create_response.get("status")
+                data = create_response.get("data", {})
+
+                if status == 202:
+                    instance_info = data.get("instance", {})
+                    instance_id = instance_info.get("id")
+                    if not instance_id:
+                         pytest.fail(f"Created instance with OS {current_os_id} but could not get ID.")
+                    os_id_to_use = current_os_id
+                    compatible_os_found = True
+                    logger.info(f"Successfully requested creation with alternative OS ID: {os_id_to_use}. Instance ID: {instance_id}")
+                    break
+                elif status == 400 and ("Invalid operating system" in data.get("error", "") or "Invalid plan" in data.get("error", "") or "Invalid region" in data.get("error", "")):
+                    logger.warning(f"Alternative OS ID {current_os_id} is not compatible with plan {cheapest_plan_id}. Trying next OS.")
+                    continue
+                else:
+                    pytest.fail(f"Failed to create instance with alternative OS {current_os_id}. Status: {status}, Data: {data}")
+
+            if not compatible_os_found:
+                pytest.skip(f"Could not find any compatible OS for plan {cheapest_plan_id} after trying candidates.")
 
         # 4. Wait for the instance to become active
         logger.info(f"Waiting for instance {instance_id} to become active...")
@@ -291,41 +309,94 @@ async def managed_instance(api_key):
         elapsed_wait = 0
         instance_status = "pending"
         while instance_status != "active" and elapsed_wait < max_wait_seconds:
-            logger.info(f"Waiting for instance {instance_id} to become active (current: {instance_status})... ({elapsed_wait}/{max_wait_seconds}s)")
-            await asyncio.sleep(wait_interval)
-            elapsed_wait += wait_interval
-            try:
-                get_resp = await get_instance(instance_id=instance_id)
-                if get_resp.get("status") == 200:
-                    instance_status = get_resp.get("data", {}).get("instance", {}).get("status", "unknown")
-                else:
-                    logger.warning(f"Could not get instance status for {instance_id} during setup wait. Status: {get_resp.get('status')}")
-                    break
-            except Exception as get_e:
-                logger.error(f"Exception getting instance status for {instance_id} during setup wait: {get_e}")
-                break
+             logger.info(f"Waiting for instance {instance_id} to become active (current: {instance_status})... ({elapsed_wait}/{max_wait_seconds}s)")
+             await asyncio.sleep(wait_interval)
+             elapsed_wait += wait_interval
+             try:
+                 get_resp = await get_instance(instance_id=instance_id)
+                 if get_resp.get("status") == 200:
+                     instance_status = get_resp.get("data", {}).get("instance", {}).get("status", "unknown")
+                 else:
+                     logger.warning(f"Could not get instance status for {instance_id} during setup wait. Status: {get_resp.get('status')}")
+                     break
+             except Exception as get_e:
+                 logger.error(f"Exception getting instance status for {instance_id} during setup wait: {get_e}")
+                 break
 
         if instance_status != "active":
              pytest.fail(f"Instance {instance_id} did not become active within {max_wait_seconds}s.")
-
         logger.info(f"Instance {instance_id} is active.")
+
 
         # 5. Yield the ID to the tests
         yield instance_id
 
     finally:
-        # 6. Teardown: Delete the instance after tests run
+        # 6. Teardown: Delete the instance and wait for deletion
         if instance_id:
             logger.info(f"Tearing down: Deleting instance {instance_id}...")
+            delete_failed = False
             try:
+                # Wait loop for instance to become active before deleting
+                max_wait_seconds_active = 300
+                wait_interval_active = 15
+                elapsed_wait_active = 0
+                instance_status = "pending"
+                while instance_status != "active" and elapsed_wait_active < max_wait_seconds_active:
+                    logger.info(f"Waiting for instance {instance_id} to become active (current: {instance_status})... ({elapsed_wait_active}/{max_wait_seconds_active}s)")
+                    await asyncio.sleep(wait_interval_active)
+                    elapsed_wait_active += wait_interval_active
+                    try:
+                        get_resp = await get_instance(instance_id=instance_id)
+                        if get_resp.get("status") == 200:
+                            instance_status = get_resp.get("data", {}).get("instance", {}).get("status", "unknown")
+                        else:
+                            logger.warning(f"Could not get instance status for {instance_id} during teardown wait. Status: {get_resp.get('status')}")
+                            break
+                    except Exception as get_e:
+                        logger.error(f"Exception getting instance status for {instance_id} during teardown wait: {get_e}")
+                        break
+
+                if instance_status != "active":
+                    logger.warning(f"Instance {instance_id} did not become active within {max_wait_seconds_active}s. Attempting deletion anyway.")
+
                 delete_response = await delete_instance(instance_id=instance_id)
                 if delete_response.get("status") == 204:
-                    logger.info(f"Successfully deleted instance {instance_id}.")
+                    logger.info(f"Instance {instance_id} deletion request successful. Waiting for confirmation...")
                 else:
-                    logger.error(f"Failed to delete instance {instance_id}. Status: {delete_response.get('status')}, Data: {delete_response.get('data')}")
+                    logger.error(f"Failed to initiate deletion for instance {instance_id}. Status: {delete_response.get('status')}, Data: {delete_response.get('data')}")
+                    delete_failed = True
+
+                # Wait for the instance to be actually deleted (status 404)
+                max_wait_seconds_delete = 180
+                wait_interval_delete = 10
+                elapsed_wait_delete = 0
+                instance_exists = True
+
+                while instance_exists and elapsed_wait_delete < max_wait_seconds_delete:
+                    logger.info(f"Waiting for instance {instance_id} to be deleted... ({elapsed_wait_delete}/{max_wait_seconds_delete}s)")
+                    await asyncio.sleep(wait_interval_delete)
+                    elapsed_wait_delete += wait_interval_delete
+                    try:
+                        get_resp = await get_instance(instance_id=instance_id)
+                        if get_resp.get("status") == 404:
+                            instance_exists = False
+                            logger.info(f"Instance {instance_id} successfully deleted (confirmed by 404).")
+                        elif get_resp.get("status") == 200:
+                            current_status = get_resp.get("data", {}).get("instance", {}).get("status", "unknown")
+                            logger.info(f"Instance {instance_id} still exists with status: {current_status}")
+                        else:
+                            logger.warning(f"Unexpected status {get_resp.get('status')} while checking deletion for {instance_id}.")
+                    except Exception as get_e:
+                        logger.error(f"Exception checking instance status during deletion wait for {instance_id}: {get_e}")
+                        break
+
+                if instance_exists:
+                    logger.error(f"Instance {instance_id} was not confirmed deleted within {max_wait_seconds_delete}s.")
+
             except Exception as e:
-                 logger.error(f"Exception during instance deletion ({instance_id}): {e}", exc_info=True)
+                logger.error(f"Exception during instance deletion process ({instance_id}): {e}", exc_info=True)
         else:
-             logger.info("No instance ID to delete in teardown.")
+            logger.info("No instance ID to delete in teardown.")
 
 # No custom event_loop fixture needed
