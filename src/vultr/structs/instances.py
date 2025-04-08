@@ -1,6 +1,4 @@
-from typing import Optional, List, Literal
-
-from typing import Optional
+from typing import Optional, List, Literal, Dict, Any
 
 class ListInstancesData:
     def __init__(self):
@@ -1353,3 +1351,145 @@ class SetInstanceReverseIPv4Data:
         return {
             "ip": self._ip
         }
+
+from proschedio.resources.instance import BaseInstance
+
+class Instance(BaseInstance):
+    """Represents a Vultr VPS Instance resource, implementing the BaseInstance interface."""
+    def __init__(self, data: dict):
+        """
+        Initializes the Instance object from a dictionary (typically from API response).
+
+        Args:
+            data (dict): The dictionary containing instance data.
+        """
+        instance_data = data.get("instance", data) # Handle nested or flat dict
+        self._raw_data = instance_data # Store raw data
+
+        # Map Vultr fields to internal attributes (can keep existing ones)
+        self._id: Optional[str] = instance_data.get("id")
+        self._os: Optional[str] = instance_data.get("os")
+        self._ram: Optional[int] = instance_data.get("ram")
+        self._disk: Optional[int] = instance_data.get("disk")
+        self._main_ip: Optional[str] = instance_data.get("main_ip")
+        self._vcpu_count: Optional[int] = instance_data.get("vcpu_count")
+        self._region: Optional[str] = instance_data.get("region")
+        self._plan: Optional[str] = instance_data.get("plan")
+        self._date_created: Optional[str] = instance_data.get("date_created")
+        self._status: Optional[str] = instance_data.get("status")
+        self._power_status: Optional[str] = instance_data.get("power_status")
+        self._server_status: Optional[str] = instance_data.get("server_status")
+        self._allowed_bandwidth: Optional[int] = instance_data.get("allowed_bandwidth")
+        self._netmask_v4: Optional[str] = instance_data.get("netmask_v4")
+        self._gateway_v4: Optional[str] = instance_data.get("gateway_v4")
+        self._hostname: Optional[str] = instance_data.get("hostname")
+        self._label: Optional[str] = instance_data.get("label")
+        self._tags: Optional[List[str]] = instance_data.get("tags", [])
+        self._os_id: Optional[int] = instance_data.get("os_id")
+        self._app_id: Optional[int] = instance_data.get("app_id")
+        self._image_id: Optional[str] = instance_data.get("image_id")
+        self._firewall_group_id: Optional[str] = instance_data.get("firewall_group_id")
+        self._features: Optional[List[str]] = instance_data.get("features", [])
+        self._plan_ipv4: Optional[int] = instance_data.get("plan_ipv4")
+        self._kvm: Optional[str] = instance_data.get("kvm")
+
+    # --- Implementation of BaseInstance properties --- 
+
+    @property
+    def id(self) -> Optional[str]:
+        return self._id
+
+    @property
+    def status(self) -> Optional[str]:
+        # Vultr has multiple status fields, combine or choose the most relevant one
+        # For simplicity, returning the main 'status' field
+        return self._status
+
+    @property
+    def region(self) -> Optional[str]:
+        return self._region
+
+    @property
+    def main_ip(self) -> Optional[str]:
+        return self._main_ip
+
+    @property
+    def hostname(self) -> Optional[str]:
+        return self._hostname
+
+    @property
+    def label(self) -> Optional[str]:
+        return self._label
+
+    @property
+    def plan(self) -> Optional[str]:
+        return self._plan
+
+    @property
+    def date_created(self) -> Optional[str]:
+        return self._date_created
+
+    @property
+    def tags(self) -> Optional[List[str]]:
+        return self._tags
+
+    @property
+    def provider_specific_data(self) -> Dict[str, Any]:
+        return self._raw_data
+
+    # --- End of BaseInstance implementation --- 
+
+    # Keep Vultr-specific properties accessible if needed
+    @property
+    def os(self) -> Optional[str]:
+        return self._os
+
+    @property
+    def ram(self) -> Optional[int]:
+        return self._ram
+
+    @property
+    def disk(self) -> Optional[int]:
+        return self._disk
+
+    @property
+    def vcpu_count(self) -> Optional[int]:
+        return self._vcpu_count
+
+    @property
+    def power_status(self) -> Optional[str]:
+        return self._power_status
+
+    @property
+    def server_status(self) -> Optional[str]:
+        return self._server_status
+
+    # ... other Vultr-specific properties ...
+
+    @classmethod
+    def from_dict(cls, data: dict) -> "Instance":
+        """Creates an Instance object from a dictionary."""
+        return cls(data)
+
+    def __str__(self) -> str:
+        """String representation for easy printing."""
+        # Use implemented properties for a consistent view
+        attributes = {
+            "id": self.id,
+            "status": self.status,
+            "region": self.region,
+            "main_ip": self.main_ip,
+            "hostname": self.hostname,
+            "label": self.label,
+            "plan": self.plan,
+            "date_created": self.date_created,
+            "tags": self.tags,
+            # Add other relevant BaseInstance properties
+        }
+        # Filter out None values for cleaner output
+        attributes = {k: v for k, v in attributes.items() if v is not None}
+        return f"VultrInstance({attributes})"
+
+    def __repr__(self) -> str:
+        """Detailed representation."""
+        return self.__str__()

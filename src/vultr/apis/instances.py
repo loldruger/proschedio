@@ -1,3 +1,7 @@
+import asyncio
+import time
+import logging
+
 from http import HTTPMethod
 from typing import Optional, List, Literal
 
@@ -5,6 +9,8 @@ from proschedio import composer
 from vultr import get_key
 from vultr.apis import _const
 from vultr.structs import instances
+
+logger = logging.getLogger(__name__)
 
 async def list_instances(filters: Optional[instances.ListInstancesData]):
     """
@@ -653,3 +659,37 @@ async def get_instance_upgrades(instance_id: str, type: Optional[Literal["all", 
         request.add_param("type", type)
 
     return await request.request()
+
+async def reboot_instances(instance_ids: List[str]):
+    """Reboot multiple Instances.
+
+    Args:
+        instance_ids (List[str]): A list of Instance IDs to reboot.
+
+    Returns:
+        dict: The response from the API (usually empty on success with status 204).
+    """
+    # Assuming _const.URL_INSTANCE_REBOOT is defined as "/instances/reboot"
+    return await composer.Request(_const.URL_INSTANCE_REBOOT) \
+        .set_method(HTTPMethod.POST) \
+        .add_header("Authorization", f"Bearer {get_key()}") \
+        .add_header("Content-Type", "application/json") \
+        .set_body({"instance_ids": instance_ids}) \
+        .request()
+
+async def start_instances(instance_ids: List[str]):
+    """Start multiple Instances.
+
+    Args:
+        instance_ids (List[str]): A list of Instance IDs to start.
+
+    Returns:
+        dict: The response from the API (usually empty on success with status 204).
+    """
+    # Assuming _const.URL_INSTANCE_START is defined as "/instances/start"
+    return await composer.Request(_const.URL_INSTANCE_START) \
+        .set_method(HTTPMethod.POST) \
+        .add_header("Authorization", f"Bearer {get_key()}") \
+        .add_header("Content-Type", "application/json") \
+        .set_body({"instance_ids": instance_ids}) \
+        .request()

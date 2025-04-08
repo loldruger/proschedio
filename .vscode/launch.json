@@ -9,7 +9,14 @@
 			"name": "Python Debugger: Module",
 			"type": "debugpy",
 			"request": "launch",
-			"module": "vultr"
+			"module": "pytest",
+			"justMyCode": false,
+			"cwd": "${workspaceFolder}",
+			"env": {
+                // Add required environment variables if any
+                // "VULTR_API_KEY": "YOUR_API_KEY",
+                "PYTHONPATH": "${workspaceFolder}/src:${env:PYTHONPATH}" // Add this line
+            }
 		}
 	]
 }

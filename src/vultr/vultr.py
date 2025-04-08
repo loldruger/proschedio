@@ -1,8 +1,12 @@
+import asyncio
+import time
+import logging
 from typing import List, Literal, Optional
-from vultr.structs import instances as data
-from vultr.apis import instances as api
-from vultr.apis.instances import create_instance
-from vultr.structs.instances import CreateInstanceData
+from vultr.structs.instances import CreateInstanceData, Instance
+from vultr.apis.instances import create_instance, get_instance
+from proschedio.resources.instance import BaseInstance
+
+logger = logging.getLogger(__name__)
 
 class InstanceBuilder:
     def __init__(self, data: CreateInstanceData, failure_policy: str, retry_policy: dict):
@@ -10,18 +14,79 @@ class InstanceBuilder:
         self._failure_policy = failure_policy
         self._retry_policy = retry_policy
 
-    async def apply(self):
+    async def _wait_for_ready(self, instance_id: str, timeout: int, interval: int) -> Instance:
+        """Polls the instance status until it's active and ok, or until timeout.
+
+        Returns:
+            Instance: The final Instance object upon success.
         """
-        Applies the instance creation request by calling the API.
-        Handles retries based on the policy (basic implementation).
+        start_time = time.monotonic()
+        logger.info(f"Waiting for instance {instance_id} to become ready (timeout={timeout}s, interval={interval}s)...")
+        while time.monotonic() - start_time < timeout:
+            try:
+                response = await get_instance(instance_id=instance_id)
+                if response.get("status") != 200:
+                    logger.warning(f"Polling instance {instance_id}: Received status {response.get('status')}. Retrying...")
+                    await asyncio.sleep(interval)
+                    continue
+
+                instance_data = response.get("data", {}).get("instance", {})
+                if not instance_data:
+                    logger.warning(f"Polling instance {instance_id}: 'instance' data not found in response. Retrying...")
+                    await asyncio.sleep(interval)
+                    continue
+
+                current_instance = Instance.from_dict(instance_data)
+                logger.debug(f"Polling instance {instance_id}: status='{current_instance.status}', server_status='{current_instance.server_status}'")
+
+                if current_instance.status == "active" and current_instance.server_status == "ok":
+                    logger.info(f"Instance {instance_id} is ready.")
+                    return current_instance
+
+            except Exception as e:
+                logger.error(f"Error polling instance {instance_id}: {e}", exc_info=True)
+
+            await asyncio.sleep(interval)
+
+        raise TimeoutError(f"Instance {instance_id} did not become ready within {timeout} seconds.")
+
+    async def apply(self, wait: bool = False, timeout: int = 300, interval: int = 10) -> BaseInstance:
         """
-        print(f"Applying instance creation with data: {self._data.to_json()}")
+        Applies the instance creation request.
+
+        Args:
+            wait: If True, waits for the instance to become fully active before returning.
+            timeout: Maximum time in seconds to wait if wait=True.
+            interval: Interval in seconds between status checks if wait=True.
+
+        Returns:
+            BaseInstance: An object implementing the BaseInstance interface, representing the created resource.
+        """
+        logger.info(f"Applying instance creation with data: {self._data.to_json()}, wait={wait}")
         try:
-            result = await create_instance(self._data)
-            print(f"API call result: {result}")
-            return result
+            create_response = await create_instance(self._data)
+            logger.debug(f"Initial API call result: {create_response}")
+
+            if create_response.get("status") != 202:
+                raise Exception(f"Instance creation failed with status {create_response.get('status')}: {create_response.get('data')}")
+
+            instance_data = create_response.get("data", {}).get("instance", {})
+            if not instance_data:
+                raise Exception("Could not get instance data from creation response.")
+
+            initial_instance = Instance.from_dict(instance_data)
+            if not initial_instance.id:
+                 raise Exception("Could not get instance ID from creation response.")
+
+            if wait:
+                final_instance = await self._wait_for_ready(initial_instance.id, timeout, interval)
+                return final_instance
+            else:
+                logger.info(f"Instance creation initiated (apply called with wait=False): {initial_instance}")
+                return initial_instance
+
         except Exception as e:
-            print(f"Error during API call: {e}")
+            logger.error(f"Error during instance apply: {e}", exc_info=True)
             raise
 
 class Vultr:
@@ -48,7 +113,7 @@ class Vultr:
         return self
 
     def new_instance(self, data: CreateInstanceData) -> InstanceBuilder:
-        print("Creating InstanceBuilder...")
+        logger.info("Creating InstanceBuilder...")
         builder = InstanceBuilder(data, self._failure_policy, self._retry_policy)
         self.instance_builders.append(builder)
         return builder

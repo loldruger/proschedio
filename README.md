@@ -8,5 +8,6 @@ source $HOME/.local/bin/env
 
 uv venv
 uv pip install .
+uv pip install .[dev]
 ```
 

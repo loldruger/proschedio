@@ -2,128 +2,74 @@ import asyncio
 from typing import List, Optional
 import pytest
 import logging
+import time
 
 from vultr.apis import *
 from vultr.apis.container_registry import list_regions
-from vultr.apis.instances import create_instance, get_instance
-from vultr.apis.operating_systems import list_os_images
-from vultr.apis.plans import list_plans
-from vultr.apis.regions import get_available_plans_in_region
-from vultr.structs.instances import CreateInstanceData
+# Import only necessary functions
+from vultr.apis.instances import delete_instance
+# Import the Instance struct
+from vultr.structs.instances import CreateInstanceData, Instance
 from vultr.vultr import Vultr
 
 logger = logging.getLogger(__name__)
 
-async def wait_for_deploy(instance_id: str, timeout: int, interval: int):
-    """
-    Poll the instance status until it's fully deployed or until timeout.
+@pytest.mark.asyncio
+async def test_create_wait_delete_instance(api_key):
+    """Tests the basic flow: create instance, wait until ready, then delete."""
+    instance_id: Optional[str] = None
     
-    Args:
-        instance_id (str): ID of the newly created instance.
-        timeout (int): Maximum wait time in seconds.
-        interval (int): Seconds to wait between each poll.
-
-    Raises:
-        RuntimeError: If the instance doesn't become ready within the timeout.
-    """
-    elapsed = 0
-    while elapsed < timeout:
-        status_info = await get_instance(instance_id)  # API 호출 또는 함수 구현 필요
-        # 예: response.get("instance").get("status") == "complete"
-        if status_info.get("status") == "complete":
-            return
-        await asyncio.sleep(interval)
-        elapsed += interval
-
-    raise RuntimeError(f"Instance {instance_id} did not become 'complete' within {timeout} seconds.")
-
-
-# @pytest.mark.asyncio
-# async def test_list_regions(api_key):
-# 	try:
-# 		result = await list_regions()
-
-# 		if result.get("status") != 200:
-# 			raise Exception(result)
-        
-# 		logger.info("\nResponse Data:\n%s", result)
-
-# 	except Exception as e:
-# 		logger.error("Error: %s", e)
-# 		pytest.fail(f"Test failed with error: {e}")
-
-# @pytest.mark.asyncio
-# async def test_get_available_plans_in_region(api_key):
-# 	try:
-# 		result = await get_available_plans_in_region(region_id="ewr", type="vc2")
-
-# 		if result.get("status") != 200:
-# 			raise Exception(result)
-        
-# 		logger.info("\nResponse Data:\n%s", result)
-
-# 	except Exception as e:
-# 		logger.error("Error: %s", e)
-# 		pytest.fail(f"Test failed with error: {e}")
-
-# @pytest.mark.asyncio
-# async def test_list_os_images(api_key):
-# 	try:
-# 		result = await list_os_images(per_page=10, cursor="bmV4dF9fMjA3Nw==")
-
-# 		if result.get("status") != 200:
-# 			raise Exception(result)
-        
-# 		logger.info("\nResponse Data:\n%s", result)
-
-# 	except Exception as e:
-# 		logger.error("Error: %s", e)
-# 		pytest.fail(f"Test failed with error: {e}")
-
-@pytest.mark.asyncio
-async def test_create_instance(api_key):
     try:
-        instance_id: Optional[str] = None
-        data = CreateInstanceData(region="ewr", plan="vc2-1c-0.5gb-v6")\
-            .os_id(2136)\
-            .hostname("testhostname")\
-            .label("test_label")\
-            .ddos_protection(False)\
-            .backups("disabled")\
+        # 1. Create Instance using the builder and wait
+        # Logging is now handled within Vultr/InstanceBuilder methods
+        instance_object: Instance = await Vultr()\
+            .new_instance(
+                CreateInstanceData(
+                    region="ewr",
+                    plan="vc2-1c-1gb"
+                )\
+                .os_id(2136)
+                .hostname("test-create-wait-del")\
+                .label("test-create-wait-del")\
+                .ddos_protection(False)\
+                .backups("disabled")
+            )\
+            .apply(wait=True, timeout=400, interval=5)
 
-        result = await create_instance(data)
+        # 2. Assertions on the returned Instance object
+        assert instance_object is not None, "apply(wait=True) should return an Instance object"
+        assert instance_object.id is not None, "Instance object should have an ID"
+        instance_id = instance_object.id # Store ID for cleanup
 
-        if result.get("status") != 202:
-            raise Exception(result)
-        
-        logger.info("\nResponse Data:\n%s", result)
+        assert instance_object.status == "active", f"Instance status should be active, but was {instance_object.status}"
+        assert instance_object.server_status == "ok", f"Instance server_status should be ok, but was {instance_object.server_status}"
+        assert instance_object.hostname == "test-create-wait-del"
+        assert instance_object.label == "test-create-wait-del"
 
-        instance_id = result.get("instance").get("id")
+        # 3. (Optional) Do something with the instance here if needed
+        await asyncio.sleep(5) # Simulate doing work
 
-        await wait_for_deploy(instance_id, timeout=300, interval=5)
-
-        print("Instance is ready")
+    except TimeoutError as e:
+        # Keep logging for errors
+        logger.error(f"Timeout waiting for instance {instance_id}: {e}")
+        pytest.fail(f"Timeout waiting for instance {instance_id}")
     except Exception as e:
-        logger.error("Error: %s", e)
+        # Keep logging for errors
+        logger.error(f"Error during instance test flow: {e}", exc_info=True)
         pytest.fail(f"Test failed with error: {e}")
+    finally:
+        # Keep logging for cleanup
+        if instance_id:
+            try:
+                logger.warning(f"Cleaning up instance {instance_id}...")
+                delete_resp = await delete_instance(instance_id=instance_id)
+                if delete_resp.get("status") == 204:
+                    logger.info(f"Successfully initiated deletion of instance {instance_id}.")
+                else:
+                    logger.error(f"Failed to delete instance {instance_id}. Status: {delete_resp.get('status')}, Response: {delete_resp.get('data')}")
+            except Exception as cleanup_e:
+                logger.error(f"Error during instance cleanup ({instance_id}): {cleanup_e}", exc_info=True)
 
-@pytest.mark.asyncio
-async def test_construct_instance(api_key):
-    asdf = await Vultr()\
-        .set_failure_policy("retry")\
-        .set_retry_policy(interval=300, attempts=3)\
-        .new_instance(
-            CreateInstanceData(
-                region="ewr",
-                plan="vc2-1c-1gb"
-            )
-            .os_id(2136)
-            .hostname("testhostname")
-            .label("test_label")
-            .ddos_protection(False)
-            .backups("disabled")
-        )\
-            .apply()
-        
-
-    print(asdf)
+# Remove or adapt previous test cases like test_construct_instance_and_wait
+# and test_create_instance_and_wait_manual as they are now covered by
+# test_create_wait_delete_instance

@@ -18,7 +18,7 @@ from vultr.apis.instances import (
     get_instance_ipv6, create_instance_reverse_ipv4, list_instance_reverse_ipv6,
     create_instance_reverse_ipv6, set_instance_reverse_ipv4,
     delete_instance_reverse_ipv6, halt_instance, get_instance_user_data,
-    get_instance_upgrades
+    get_instance_upgrades, reboot_instances, start_instances
 )
 # Import data classes if needed for specific tests (e.g., update, backup schedule)
 from vultr.structs import instances as instance_structs
@@ -501,6 +501,50 @@ async def test_halt_instance(vultr_client, managed_instance):
         # Add verification if needed (e.g., check power_status after delay)
     except Exception as e:
         logger.error(f"Error during test_halt_instance: {e}", exc_info=True)
+        pytest.fail(f"Test failed with error: {e}")
+
+@pytest.mark.asyncio
+async def test_reboot_instances(vultr_client, managed_instance):
+    """Tests reboot_instances function using the managed instance."""
+    instance_id = managed_instance
+    try:
+        logger.info(f"Rebooting instance {instance_id} via reboot_instances")
+        # Call the function with a list containing the instance ID
+        response_dict = await reboot_instances(instance_ids=[instance_id])
+        # Expect 204 No Content for successful reboot initiation
+        assert response_dict.get("status") == 204, f"Reboot instances failed: {response_dict.get('data')}"
+        logger.info(f"Instance {instance_id} reboot initiated successfully.")
+        # Note: Reboot takes time, verifying status change immediately might fail.
+        # You could add a wait and check status if necessary.
+    except Exception as e:
+        logger.error(f"Error during test_reboot_instances: {e}", exc_info=True)
+        pytest.fail(f"Test failed with error: {e}")
+
+@pytest.mark.asyncio
+async def test_start_instances(vultr_client, managed_instance):
+    """Tests start_instances function using the managed instance."""
+    instance_id = managed_instance
+    try:
+        # Ensure the instance is stopped first (best effort)
+        logger.info(f"Attempting to halt instance {instance_id} before starting...")
+        halt_response = await halt_instance(instance_id=instance_id)
+        # Halt returns 204 on success, but we proceed even if it fails (might already be stopped)
+        if halt_response.get("status") == 204:
+            logger.info(f"Instance {instance_id} halt initiated. Waiting briefly...")
+            await asyncio.sleep(10) # Give some time for halt to process
+        else:
+            logger.warning(f"Halt command for {instance_id} did not return 204 (status: {halt_response.get('status')}). Instance might already be stopped.")
+
+        logger.info(f"Starting instance {instance_id} via start_instances")
+        # Call the function with a list containing the instance ID
+        response_dict = await start_instances(instance_ids=[instance_id])
+        # Expect 204 No Content for successful start initiation
+        assert response_dict.get("status") == 204, f"Start instances failed: {response_dict.get('data')}"
+        logger.info(f"Instance {instance_id} start initiated successfully.")
+        # Note: Starting takes time, verifying status change immediately might fail.
+        # You could add a wait and check status if necessary.
+    except Exception as e:
+        logger.error(f"Error during test_start_instances: {e}", exc_info=True)
         pytest.fail(f"Test failed with error: {e}")
 
 # Reverse DNS tests (require specific IPs and domain)
