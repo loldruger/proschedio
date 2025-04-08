@@ -1,11 +1,7 @@
-# src/proschedio/apiV2/structs/instance.py
-# Data structures related to Vultr instance operations.
-# Moved from src/vultr/structs/instances.py
-
 from typing import Optional, List, Literal, Dict, Any
+from typing_extensions import deprecated
 
-# Note: These classes are primarily for data holding and validation.
-# They might be replaced or augmented by provider-agnostic structures later.
+from src import Request
 
 class ListInstancesData:
     """
@@ -31,6 +27,7 @@ class ListInstancesData:
         self._cursor = cursor
         return self
 
+    @deprecated("The 'tag' parameter is deprecated, use 'label' instead.")
     def tag(self, tag: str) -> "ListInstancesData": # Deprecated
         self._tag = tag
         return self
@@ -60,12 +57,12 @@ class ListInstancesData:
         return self
     
     # --- Parameter application --- 
-    def apply_params(self, request):
+    def apply_params(self, request: Request):
         """
         Applies the parameters from this data structure to a given request object.
         (Assumes request object has an add_param method)
         """
-        if self._per_page is not None: request.add_param("per_page", self._per_page)
+        if self._per_page is not None: request.add_param("per_page", str(self._per_page))
         if self._cursor is not None: request.add_param("cursor", self._cursor)
         if self._tag is not None: request.add_param("tag", self._tag)
         if self._label is not None: request.add_param("label", self._label)
@@ -73,7 +70,7 @@ class ListInstancesData:
         if self._region is not None: request.add_param("region", self._region)
         if self._firewall_group_id is not None: request.add_param("firewall_group_id", self._firewall_group_id)
         if self._hostname is not None: request.add_param("hostname", self._hostname)
-        if self._show_pending_charges is not None: request.add_param("show_pending_charges", self._show_pending_charges)
+        if self._show_pending_charges is not None: request.add_param("show_pending_charges", str(self._show_pending_charges))
         return request
     
 class CreateInstanceData:
@@ -107,7 +104,7 @@ class CreateInstanceData:
         # Deprecated fields omitted: attach_private_network, attach_vpc2, tag, enable_private_network, enable_vpc2
         # Fields potentially added by user request: user_scheme, app_variables
         self._user_scheme: Optional[Literal["root", "limited"]] = None
-        self._app_variables: Optional[dict] = None
+        # self._app_variables: Optional[dict] = None
 
     # --- Builder methods --- 
     def os_id(self, os_id: int) -> "CreateInstanceData":
@@ -176,12 +173,12 @@ class CreateInstanceData:
     def user_scheme(self, user_scheme: Literal["root", "limited"]) -> "CreateInstanceData":
         self._user_scheme = user_scheme
         return self
-    def app_variables(self, app_variables: dict) -> "CreateInstanceData":
-        self._app_variables = app_variables
-        return self
+    # def app_variables(self, app_variables: dict) -> "CreateInstanceData":
+    #     self._app_variables = app_variables
+    #     return self
 
     # --- JSON conversion --- 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> Dict[str, str]:
         """
         Convert the data structure to a JSON format for Vultr API requests.
         """
@@ -210,7 +207,7 @@ class CreateInstanceData:
             "enable_vpc": self._enable_vpc,
             "tags": self._tags,
             "user_scheme": self._user_scheme,
-            "app_variables": self._app_variables,
+            # "app_variables": self._app_variables,
         }
         # Return only non-None values
         return {k: v for k, v in data.items() if v is not None}
