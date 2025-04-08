@@ -1,20 +1,10 @@
 import aiohttp
 
-from enum import IntEnum, auto
 from http import HTTPMethod
 
-class Provider(IntEnum):
-    VULTR = auto()
-    CUSTOM = auto()
+from apiV2.const import Provider
 
-    def __str__(self) -> str:
-        match self:
-            case Provider.VULTR:
-                return "https://api.vultr.com/v2/"
-            case Provider.CUSTOM:
-                return "https://api.custom.com/v2/"
-            case _:
-                raise ValueError("Invalid provider")
+
 
 class Url:
     def __init__(self, provider: Provider):
