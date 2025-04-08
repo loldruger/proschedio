@@ -11,6 +11,7 @@ you to define your infrastructure in a simple and intuitive way, making it easy 
 
 ## Example Usage
 ```python
+import asyncio
 from proschedio import (Resource, Action, Schedule)
 
 load_dotenv()
@@ -27,10 +28,11 @@ async def main():
             "label": "test-proschedio",
             "tags": "test-proschedio",
             "backups": "disabled",
-            "ddos_protection": False,
-            "enable_ipv6": False,
+            "ddos_protection": "disabled",
+            "enable_ipv6": "disabled",
         }
-    ).create()
+    )
+    .create()
 
     await Resource.server_instance.delete()
 

@@ -1,10 +1,9 @@
 import aiohttp
 
 from http import HTTPMethod
+from typing import Optional
 
 from apiV2.const import Provider
-
-
 
 class Url:
     def __init__(self, provider: Provider):
@@ -27,13 +26,13 @@ class Url:
 class Request:
     def __init__(self, url: Url):
         self._url = url.to_str()
-        self._method = None
-        self._headers = {}
-        self._params = {}
-        self._body = None
+        self._method: Optional[HTTPMethod] = None
+        self._headers: dict[str, str] = {}
+        self._params: dict[str, str] = {}
+        self._body: Optional[dict[str, str]] = None
 
     def set_method(self, method: HTTPMethod) -> 'Request':
-        self._method = str(method)
+        self._method = method
 
         return self
     
@@ -47,12 +46,12 @@ class Request:
 
         return self
     
-    def set_body(self, body: dict) -> 'Request':
+    def set_body(self, body: dict[str, str]) -> 'Request':
         self._body = body
 
         return self
     
-    async def request(self) -> dict:
+    async def request(self) -> dict[str, str | int | dict[str, int]]:
         async with aiohttp.ClientSession() as session:
             async with session.request(
                 method=self._method,

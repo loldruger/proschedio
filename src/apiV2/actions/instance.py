@@ -7,7 +7,7 @@ from http import HTTPMethod
 from typing import Optional, List, Literal
 
 from const import ProviderUrl
-from request import Provider, Url, Request
+from request import Request
 
 from ..dataclass import instance as instance_structs
 

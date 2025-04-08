@@ -3,9 +3,9 @@
 # Note: Imports are adjusted assuming this file is part of the proschedio package
 # and needs access to the original vultr implementation details for now.
 
+import os
 import logging
 from http import HTTPMethod
-import os
 from typing import Optional
 
 # Assuming composer, get_key, Consts are accessible or refactored later
@@ -16,18 +16,20 @@ from ..dataclass import instance as instance_structs
 
 logger = logging.getLogger(__name__)
 
-
-
 class Resource:
     @staticmethod
-    def instance(provider=Provider)-> 'Resource':
-        return Resource()
+    def instance(provider_url: ProviderUrl)-> 'ResourceInstance':
+        return ResourceInstance(provider_url)
 
-    async def list_instances(self, filters: Optional[instance_structs.ListInstancesData]):
+class ResourceInstance:
+    def __init__(self, provider_url: ProviderUrl):
+        self.provider_url = provider_url
+
+    async def list(self, filters: Optional[instance_structs.ListInstancesData]):
         """
         List all VPS instances in your account. (Vultr specific)
         """
-        request = Request(ProviderUrl.get_url_instances()) \
+        request = Request(ProviderUrl.get_url_instances(self.provider_url)) \
             .set_method(HTTPMethod.GET) \
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}")
 
@@ -37,18 +39,18 @@ class Resource:
 
         return await request.request()
 
-    async def create_instance(self, data: instance_structs.CreateInstanceData):
+    async def create(self, data: instance_structs.CreateInstanceData):
         """
         Create a new Vultr VPS Instance. (Vultr specific)
         """
-        return await Request(ProviderUrl.get_url_instance_CREATE) \
+        return await Request(ProviderUrl.get_url_instances_base(self.provider_url)) \
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .add_header("Content-Type", "application/json") \
             .set_body(data.to_json()) \
             .request()
 
-    async def get_instance(self, instance_id: str):
+    async def get(self, instance_id: str):
         """
         Get information about a Vultr Instance. (Vultr specific)
         """
@@ -57,7 +59,7 @@ class Resource:
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .request()
 
-    async def update_instance(self, instance_id: str, data: instance_structs.UpdateInstanceData):
+    async def update(self, instance_id: str, data: instance_structs.UpdateInstanceData):
         """
         Update information for a Vultr Instance. (Vultr specific)
         """
@@ -68,7 +70,7 @@ class Resource:
             .set_body(data.to_json()) \
             .request()
 
-    async def delete_instance(self, instance_id: str):
+    async def delete(self, instance_id: str):
         """
         Delete a Vultr Instance. (Vultr specific)
         """
