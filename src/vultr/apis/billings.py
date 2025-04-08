@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 
 async def get_billing_history(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def get_billing_history(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_BILLING_LIST_HISTORY) \
+    request = composer.Request(Consts.URL_BILLING_LIST_HISTORY) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -40,7 +40,7 @@ async def get_billing_invoices(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_BILLING_INVOICES) \
+    request = composer.Request(Consts.URL_BILLING_INVOICES) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -62,7 +62,7 @@ async def get_billing_invoice_by_id(invoice_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_BILLING_INVOICE_ID.assign("invoice-id", invoice_id)) \
+    return await composer.Request(Consts.URL_BILLING_INVOICE_ID.assign("invoice-id", invoice_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -80,7 +80,7 @@ async def get_billing_invoice_items(invoice_id: str, per_page: Optional[int], cu
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_BILLING_INVOICE_ID_ITEMS.assign("invoice-id", invoice_id)) \
+    request = composer.Request(Consts.URL_BILLING_INVOICE_ID_ITEMS.assign("invoice-id", invoice_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -99,7 +99,7 @@ async def get_pending_charges():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_BILLING_LIST_PENDING_CHARGES) \
+    return await composer.Request(Consts.URL_BILLING_LIST_PENDING_CHARGES) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

@@ -1,17 +1,21 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, List
+from typing import Optional, List, Dict, Any
 
-class BaseInstance(ABC):
+from .base import BaseResource
+
+class BaseInstance(BaseResource):
     """
-    Abstract base class representing a generic cloud instance resource.
-    All provider-specific instance classes should inherit from this.
+    Abstract base class for compute instance resources.
+    Inherits from BaseResource and adds instance-specific abstract properties.
     """
+
+    def __init__(self, provider: Any, id: Optional[str] = None, **kwargs: Any):
+        super().__init__(provider=provider, id=id, **kwargs)
 
     @property
-    @abstractmethod
-    def id(self) -> Optional[str]:
-        """Unique identifier for the instance."""
-        pass
+    def resource_type(self) -> str:
+        # Concrete implementation for instance type
+        return "instance"
 
     @property
     @abstractmethod
@@ -61,19 +65,9 @@ class BaseInstance(ABC):
         """List of tags associated with the instance."""
         pass
 
-    # Add other common properties as needed, e.g., os, ram, disk, vcpu_count
+    # Add other common abstract properties as needed (os, ram, disk, etc.)
 
-    @property
-    @abstractmethod
-    def provider_specific_data(self) -> Dict[str, Any]:
-        """Access the raw data returned by the provider's API."""
-        pass
-
-    # Optional: Define common actions as abstract methods
-    # @abstractmethod
-    # async def delete(self) -> None:
-    #     pass
-    #
+    # Optional common actions specific to instances
     # @abstractmethod
     # async def stop(self) -> None:
     #     pass

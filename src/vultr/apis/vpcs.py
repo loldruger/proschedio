@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import vpcs
 
 
@@ -18,7 +18,7 @@ async def list_vpcs(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_VPC_LIST) \
+    request = composer.Request(Consts.URL_VPC_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -40,7 +40,7 @@ async def create_vpc(data: vpcs.CreateVpcData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VPC_LIST) \
+    return await composer.Request(Consts.URL_VPC_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -58,7 +58,7 @@ async def get_vpc(vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VPC_ID.assign("vpc-id", vpc_id)) \
+    return await composer.Request(Consts.URL_VPC_ID.assign("vpc-id", vpc_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -75,7 +75,7 @@ async def update_vpc(vpc_id: str, description: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VPC_ID.assign("vpc-id", vpc_id)) \
+    return await composer.Request(Consts.URL_VPC_ID.assign("vpc-id", vpc_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -93,7 +93,7 @@ async def delete_vpc(vpc_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VPC_ID.assign("vpc-id", vpc_id)) \
+    return await composer.Request(Consts.URL_VPC_ID.assign("vpc-id", vpc_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

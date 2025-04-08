@@ -1,4 +1,4 @@
-from .apis import _const
+from ..apiV2 import const
 from .structs import *
 
 API_KEY: str = ""
@@ -10,4 +10,4 @@ def set_key(key: str):
 def get_key() -> str:
 	return API_KEY
 
-__all__ = ['set_key', 'get_key', '_const']
+__all__ = ['set_key', 'get_key', 'const']

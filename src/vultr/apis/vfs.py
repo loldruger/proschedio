@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import vfs
 
 
@@ -14,7 +14,7 @@ async def list_vfs_regions():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_REGIONS) \
+    return await composer.Request(Consts.URL_VFS_REGIONS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -31,7 +31,7 @@ async def list_vfs_subscriptions(per_page: Optional[int], cursor: Optional[str])
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_VFS_LIST) \
+    request = composer.Request(Consts.URL_VFS_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -53,7 +53,7 @@ async def create_vfs_subscription(data: vfs.CreateVfsData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_LIST) \
+    return await composer.Request(Consts.URL_VFS_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -71,7 +71,7 @@ async def get_vfs_subscription(vfs_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ID.assign("vfs-id", vfs_id)) \
+    return await composer.Request(Consts.URL_VFS_ID.assign("vfs-id", vfs_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -88,7 +88,7 @@ async def update_vfs_subscription(vfs_id: str, data: vfs.UpdateVfsData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ID.assign("vfs-id", vfs_id)) \
+    return await composer.Request(Consts.URL_VFS_ID.assign("vfs-id", vfs_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -106,7 +106,7 @@ async def delete_vfs_subscription(vfs_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ID.assign("vfs-id", vfs_id)) \
+    return await composer.Request(Consts.URL_VFS_ID.assign("vfs-id", vfs_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -122,7 +122,7 @@ async def list_vfs_attachments(vfs_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ATTACHMENTS.assign("vfs-id", vfs_id)) \
+    return await composer.Request(Consts.URL_VFS_ATTACHMENTS.assign("vfs-id", vfs_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -139,7 +139,7 @@ async def attach_vps_to_vfs(vfs_id: str, vps_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
+    return await composer.Request(Consts.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -156,7 +156,7 @@ async def get_vfs_vps_attachment(vfs_id: str, vps_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
+    return await composer.Request(Consts.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -173,7 +173,7 @@ async def detach_vps_from_vfs(vfs_id: str, vps_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
+    return await composer.Request(Consts.URL_VFS_ATTACHMENT.assign("vfs-id", vfs_id).assign("vps-id", vps_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

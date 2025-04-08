@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 
 async def list_inferences():
@@ -13,7 +13,7 @@ async def list_inferences():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_LIST) \
+    return await composer.Request(Consts.URL_INFERENCE_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -29,7 +29,7 @@ async def create_inference(label: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_LIST) \
+    return await composer.Request(Consts.URL_INFERENCE_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -47,7 +47,7 @@ async def get_inference(inference_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
+    return await composer.Request(Consts.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -64,7 +64,7 @@ async def update_inference(inference_id: str, label: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
+    return await composer.Request(Consts.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -82,7 +82,7 @@ async def delete_inference(inference_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
+    return await composer.Request(Consts.URL_INFERENCE_ID.assign("inference-id", inference_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -98,7 +98,7 @@ async def get_inference_usage(inference_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_INFERENCE_USAGE.assign("inference-id", inference_id)) \
+    return await composer.Request(Consts.URL_INFERENCE_USAGE.assign("inference-id", inference_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

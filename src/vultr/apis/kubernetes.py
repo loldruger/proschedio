@@ -3,7 +3,7 @@ from typing import Optional, List
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import kubenetes
 
 
@@ -14,7 +14,7 @@ async def list_kubernetes_clusters():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_LIST) \
+    return await composer.Request(Consts.URL_KUBERNETES_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -43,7 +43,7 @@ async def create_kubernetes_cluster(label: str, region: str, version: str, node_
         "enable_firewall": enable_firewall,
         "node_pools": [node_pool.to_json() for node_pool in node_pools],
     }
-    return await composer.Request(_const.URL_KUBERNETES_LIST) \
+    return await composer.Request(Consts.URL_KUBERNETES_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -61,7 +61,7 @@ async def get_kubernetes_cluster(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -79,7 +79,7 @@ async def update_kubernetes_cluster(vke_id: str, label: Optional[str]):
         requests.Response: The response from the API.
     """
     body = {"label": label}
-    return await composer.Request(_const.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -97,7 +97,7 @@ async def delete_kubernetes_cluster(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_ID.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -113,7 +113,7 @@ async def delete_kubernetes_cluster_and_resources(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_DELETE_WITH_LINKED_RESOURCES.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -129,7 +129,7 @@ async def get_kubernetes_resources(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_RESOURCES.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_RESOURCES.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -145,7 +145,7 @@ async def get_available_kubernetes_upgrades(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_AVAILABLE_UPGRADES.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_AVAILABLE_UPGRADES.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -162,7 +162,7 @@ async def start_kubernetes_upgrade(vke_id: str, upgrade_version: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_UPGRADES.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_UPGRADES.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -180,7 +180,7 @@ async def list_kubernetes_nodepools(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOLS.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOLS.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -197,7 +197,7 @@ async def create_kubernetes_nodepool(vke_id: str, data: kubenetes.NodePoolData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOLS.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOLS.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -216,7 +216,7 @@ async def get_kubernetes_nodepool(vke_id: str, nodepool_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -247,7 +247,7 @@ async def update_kubernetes_nodepool(vke_id: str, nodepool_id: str, node_quantit
         "max_nodes": max_nodes,
         "labels": labels,
     }
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -266,7 +266,7 @@ async def delete_kubernetes_nodepool(vke_id: str, nodepool_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOL.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -284,7 +284,7 @@ async def delete_kubernetes_nodepool_instance(vke_id: str, nodepool_id: str, nod
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOL_INSTANCE.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id).assign("node-id", node_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOL_INSTANCE.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id).assign("node-id", node_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -302,7 +302,7 @@ async def recycle_kubernetes_nodepool_instance(vke_id: str, nodepool_id: str, no
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id).assign("node-id", node_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_NODEPOOL_INSTANCE_RECYCLE.assign("vke-id", vke_id).assign("nodepool-id", nodepool_id).assign("node-id", node_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -318,7 +318,7 @@ async def get_kubernetes_config(vke_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_CONFIG.assign("vke-id", vke_id)) \
+    return await composer.Request(Consts.URL_KUBERNETES_CONFIG.assign("vke-id", vke_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -331,7 +331,7 @@ async def get_kubernetes_versions():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_KUBERNETES_VERSIONS) \
+    return await composer.Request(Consts.URL_KUBERNETES_VERSIONS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

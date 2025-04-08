@@ -1,6 +1,6 @@
 from typing import Final
 
-from proschedio.composer import Provider, Url
+from request import Provider, Url
 
 URL_ACCOUNT: Final[Url] = Url(Provider.VULTR).uri("account")
 """

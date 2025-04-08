@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import cdns
 
 async def list_cdn_pull_zones():
@@ -13,7 +13,7 @@ async def list_cdn_pull_zones():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_LIST_PULL_ZONES) \
+    return await composer.Request(Consts.URL_CDN_LIST_PULL_ZONES) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -29,7 +29,7 @@ async def create_cdn_pull_zone(data: cdns.CreatePullZoneData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_LIST_PULL_ZONES) \
+    return await composer.Request(Consts.URL_CDN_LIST_PULL_ZONES) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -47,7 +47,7 @@ async def get_cdn_pull_zone(pullzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -64,7 +64,7 @@ async def update_cdn_pull_zone(pullzone_id: str, data: cdns.UpdatePullZoneData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -82,7 +82,7 @@ async def delete_cdn_pull_zone(pullzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PULL_ZONE_ID.assign("pullzone-id", pullzone_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -98,7 +98,7 @@ async def purge_cdn_pull_zone_cache(pullzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PULL_ZONE_PURGE.assign("pullzone-id", pullzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PULL_ZONE_PURGE.assign("pullzone-id", pullzone_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -111,7 +111,7 @@ async def list_cdn_push_zones():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONES) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONES) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -127,7 +127,7 @@ async def create_cdn_push_zone(data: cdns.CreatePushZoneData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONES) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONES) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -145,7 +145,7 @@ async def get_cdn_push_zone(pushzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -162,7 +162,7 @@ async def update_cdn_push_zone(pushzone_id: str, data: cdns.UpdatePushZoneData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -180,7 +180,7 @@ async def delete_cdn_push_zone(pushzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_ID.assign("pushzone-id", pushzone_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -196,7 +196,7 @@ async def list_cdn_push_zone_files(pushzone_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_FILES.assign("pushzone-id", pushzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_FILES.assign("pushzone-id", pushzone_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -212,7 +212,7 @@ async def create_cdn_push_zone_file(pushzone_id: str, data: cdns.CreatePushZoneF
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_FILES.assign("pushzone-id", pushzone_id)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_FILES.assign("pushzone-id", pushzone_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -230,7 +230,7 @@ async def get_cdn_push_zone_file(pushzone_id: str, file_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_FILE.assign("pushzone-id", pushzone_id).assign("file-name", file_name)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_FILE.assign("pushzone-id", pushzone_id).assign("file-name", file_name)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -246,7 +246,7 @@ async def delete_cdn_push_zone_file(pushzone_id: str, file_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CDN_PUSH_ZONE_FILE.assign("pushzone-id", pushzone_id).assign("file-name", file_name)) \
+    return await composer.Request(Consts.URL_CDN_PUSH_ZONE_FILE.assign("pushzone-id", pushzone_id).assign("file-name", file_name)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

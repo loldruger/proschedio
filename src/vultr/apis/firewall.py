@@ -3,7 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import firewall
 
 async def list_firewall_groups(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def list_firewall_groups(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_FIREWALL_GROUP_LIST) \
+    request = composer.Request(Consts.URL_FIREWALL_GROUP_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -38,7 +38,7 @@ async def create_firewall_group(data: firewall.CreateFirewallGroupData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_LIST) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -55,7 +55,7 @@ async def get_firewall_group(firewall_group_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -71,7 +71,7 @@ async def update_firewall_group(firewall_group_id: str, data: firewall.UpdateFir
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -88,7 +88,7 @@ async def delete_firewall_group(firewall_group_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_ID.assign("firewall-group-id", firewall_group_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -105,7 +105,7 @@ async def list_firewall_group_rules(firewall_group_id: str, per_page: Optional[i
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_FIREWALL_GROUP_RULES.assign("firewall-group-id", firewall_group_id)) \
+    request = composer.Request(Consts.URL_FIREWALL_GROUP_RULES.assign("firewall-group-id", firewall_group_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -127,7 +127,7 @@ async def create_firewall_group_rule(firewall_group_id: str, data: firewall.Crea
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_RULES.assign("firewall-group-id", firewall_group_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_RULES.assign("firewall-group-id", firewall_group_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -145,7 +145,7 @@ async def get_firewall_group_rule(firewall_group_id: str, firewall_rule_id: str)
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_RULE.assign("firewall-group-id", firewall_group_id).assign("firewall-rule-id", firewall_rule_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_RULE.assign("firewall-group-id", firewall_group_id).assign("firewall-rule-id", firewall_rule_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -161,7 +161,7 @@ async def delete_firewall_group_rule(firewall_group_id: str, firewall_rule_id: s
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_FIREWALL_GROUP_RULE.assign("firewall-group-id", firewall_group_id).assign("firewall-rule-id", firewall_rule_id)) \
+    return await composer.Request(Consts.URL_FIREWALL_GROUP_RULE.assign("firewall-group-id", firewall_group_id).assign("firewall-rule-id", firewall_rule_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

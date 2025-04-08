@@ -6,7 +6,7 @@ from http import HTTPMethod
 from dotenv import load_dotenv
 from proschedio import composer
 from vultr import set_key, get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 load_dotenv()
 
@@ -22,7 +22,7 @@ async def main():
     #     })\
     #     .request()
 
-    a = await composer.Request(_const.URL_ACCOUNT)\
+    a = await composer.Request(Consts.URL_ACCOUNT)\
         .set_method(HTTPMethod.GET)\
         .add_header("Authorization", f"Bearer {get_key()}")\
         .request()

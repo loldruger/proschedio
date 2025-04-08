@@ -3,7 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import snapshots
 
 
@@ -23,7 +23,7 @@ async def list_snapshots(
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_SNAPSHOT_LIST) \
+    request = composer.Request(Consts.URL_SNAPSHOT_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -47,7 +47,7 @@ async def create_snapshot(data: snapshots.CreateSnapshotData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SNAPSHOT_LIST) \
+    return await composer.Request(Consts.URL_SNAPSHOT_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -65,7 +65,7 @@ async def get_snapshot(snapshot_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
+    return await composer.Request(Consts.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -82,7 +82,7 @@ async def update_snapshot(snapshot_id: str, description: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
+    return await composer.Request(Consts.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -100,7 +100,7 @@ async def delete_snapshot(snapshot_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
+    return await composer.Request(Consts.URL_SNAPSHOT_ID.assign("snapshot-id", snapshot_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -116,7 +116,7 @@ async def create_snapshot_from_url(data: snapshots.CreateSnapshotFromUrlData):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SNAPSHOT_CREATE_FROM_URL) \
+    return await composer.Request(Consts.URL_SNAPSHOT_CREATE_FROM_URL) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \

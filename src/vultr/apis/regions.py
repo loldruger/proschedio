@@ -3,7 +3,7 @@ from typing import Optional, Literal
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 
 async def list_regions(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def list_regions(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_REGION) \
+    request = composer.Request(Consts.URL_REGION) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -58,7 +58,7 @@ async def get_available_plans_in_region(
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_REGION_ID_AVAILABLE.assign("region-id", region_id)) \
+    request = composer.Request(Consts.URL_REGION_ID_AVAILABLE.assign("region-id", region_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 

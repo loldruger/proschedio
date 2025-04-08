@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 
 async def list_ssh_keys(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def list_ssh_keys(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_SSH_KEY_LIST) \
+    request = composer.Request(Consts.URL_SSH_KEY_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -40,7 +40,7 @@ async def create_ssh_key(name: str, ssh_key: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SSH_KEY_LIST) \
+    return await composer.Request(Consts.URL_SSH_KEY_LIST) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -57,7 +57,7 @@ async def get_ssh_key(ssh_key_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
+    return await composer.Request(Consts.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -81,7 +81,7 @@ async def update_ssh_key(ssh_key_id: str, name: Optional[str], ssh_key: Optional
     if ssh_key is not None:
         body["ssh_key"] = ssh_key
 
-    return await composer.Request(_const.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
+    return await composer.Request(Consts.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -99,7 +99,7 @@ async def delete_ssh_key(ssh_key_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
+    return await composer.Request(Consts.URL_SSH_KEY_ID.assign("ssh-key-id", ssh_key_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

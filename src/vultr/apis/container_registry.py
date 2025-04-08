@@ -3,7 +3,7 @@ from typing import Optional, List
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 from vultr.structs import container
 
 async def list_container_registries(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def list_container_registries(per_page: Optional[int], cursor: Optional[st
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_CONTAINER_LIST) \
+    request = composer.Request(Consts.URL_CONTAINER_LIST) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -38,7 +38,7 @@ async def create_container_registry(data: container.CreateContainerRegistryData)
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER) \
+    return await composer.Request(Consts.URL_CONTAINER) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -55,7 +55,7 @@ async def get_container_registry(registry_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
+    return await composer.Request(Consts.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -71,7 +71,7 @@ async def update_container_registry(registry_id: str, data: container.UpdateCont
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
+    return await composer.Request(Consts.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -88,7 +88,7 @@ async def delete_container_registry(registry_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
+    return await composer.Request(Consts.URL_CONTAINER_ID.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -103,7 +103,7 @@ async def list_container_repositories(registry_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_REPOSITORY.assign("registry-id", registry_id)) \
+    return await composer.Request(Consts.URL_CONTAINER_REPOSITORY.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -119,7 +119,7 @@ async def get_container_repository(registry_id: str, repository_image: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
+    return await composer.Request(Consts.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -136,7 +136,7 @@ async def update_container_repository(registry_id: str, repository_image: str, d
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
+    return await composer.Request(Consts.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -154,7 +154,7 @@ async def delete_container_repository(registry_id: str, repository_image: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
+    return await composer.Request(Consts.URL_CONTAINER_REPOSITORY_IMAGE.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -171,7 +171,7 @@ async def get_docker_credentials(registry_id: str, expiry_seconds: Optional[int]
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_CONTAINER_DOCKER_CREDENTIALS.assign("registry-id", registry_id)) \
+    request = composer.Request(Consts.URL_CONTAINER_DOCKER_CREDENTIALS.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.OPTIONS) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -195,7 +195,7 @@ async def get_kubernetes_docker_credentials(registry_id: str, expiry_seconds: Op
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_CONTAINER_KUBERNETES_DOCKER_CREDENTIALS.assign("registry-id", registry_id)) \
+    request = composer.Request(Consts.URL_CONTAINER_KUBERNETES_DOCKER_CREDENTIALS.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.OPTIONS) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -218,7 +218,7 @@ async def list_robots(registry_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ROBOTS.assign("registry-id", registry_id)) \
+    return await composer.Request(Consts.URL_CONTAINER_ROBOTS.assign("registry-id", registry_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -234,7 +234,7 @@ async def get_robot(registry_id: str, robot_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
+    return await composer.Request(Consts.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -251,7 +251,7 @@ async def update_robot(registry_id: str, robot_name: str, data: container.Update
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
+    return await composer.Request(Consts.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
         .set_method(HTTPMethod.PUT) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -269,7 +269,7 @@ async def delete_robot(registry_id: str, robot_name: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
+    return await composer.Request(Consts.URL_CONTAINER_ROBOT.assign("registry-id", registry_id).assign("robot-name", robot_name)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -285,7 +285,7 @@ async def list_artifacts(registry_id: str, repository_image: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ARTIFACTS.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
+    return await composer.Request(Consts.URL_CONTAINER_ARTIFACTS.assign("registry-id", registry_id).assign("repository-image", repository_image)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -302,7 +302,7 @@ async def get_artifact(registry_id: str, repository_image: str, artifact_digest:
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ARTIFACT.assign("registry-id", registry_id).assign("repository-image", repository_image).assign("artifact-digest", artifact_digest)) \
+    return await composer.Request(Consts.URL_CONTAINER_ARTIFACT.assign("registry-id", registry_id).assign("repository-image", repository_image).assign("artifact-digest", artifact_digest)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -319,7 +319,7 @@ async def delete_artifact(registry_id: str, repository_image: str, artifact_dige
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_ARTIFACT.assign("registry-id", registry_id).assign("repository-image", repository_image).assign("artifact-digest", artifact_digest)) \
+    return await composer.Request(Consts.URL_CONTAINER_ARTIFACT.assign("registry-id", registry_id).assign("repository-image", repository_image).assign("artifact-digest", artifact_digest)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -331,7 +331,7 @@ async def list_regions():
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_CONTAINER_LIST_REGIONS) \
+    return await composer.Request(Consts.URL_CONTAINER_LIST_REGIONS) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()

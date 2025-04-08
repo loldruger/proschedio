@@ -3,7 +3,7 @@ from typing import Optional
 
 from proschedio import composer
 from vultr import get_key
-from vultr.apis import _const
+from vultr.apis import Consts
 
 
 async def list_block_storage(per_page: Optional[int], cursor: Optional[str]):
@@ -17,7 +17,7 @@ async def list_block_storage(per_page: Optional[int], cursor: Optional[str]):
     Returns:
         requests.Response: The response from the API.
     """
-    request = composer.Request(_const.URL_BLOCK_STORAGE) \
+    request = composer.Request(Consts.URL_BLOCK_STORAGE) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}")
 
@@ -51,7 +51,7 @@ async def create_block_storage(region: str, size_gb: int, label: Optional[str], 
     if block_type is not None:
         body["block_type"] = block_type
 
-    return await composer.Request(_const.URL_BLOCK_STORAGE) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -69,7 +69,7 @@ async def get_block_storage_by_id(block_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
         .set_method(HTTPMethod.GET) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -93,7 +93,7 @@ async def update_block_storage_by_id(block_id: str, label: Optional[str], size_g
     if size_gb is not None:
         body["size_gb"] = size_gb
 
-    return await composer.Request(_const.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
         .set_method(HTTPMethod.PATCH) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -111,7 +111,7 @@ async def delete_block_storage_by_id(block_id: str):
     Returns:
         requests.Response: The response from the API.
     """
-    return await composer.Request(_const.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE_ID.assign("block-id", block_id)) \
         .set_method(HTTPMethod.DELETE) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .request()
@@ -135,7 +135,7 @@ async def attach_block_storage(block_id: str, instance_id: str, live: Optional[b
     if live is not None:
         body["live"] = live
 
-    return await composer.Request(_const.URL_BLOCK_STORAGE_ATTACH.assign("block-id", block_id)) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE_ATTACH.assign("block-id", block_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
@@ -158,7 +158,7 @@ async def detach_block_storage(block_id: str, live: Optional[bool]):
     if live is not None:
         body["live"] = live
 
-    return await composer.Request(_const.URL_BLOCK_STORAGE_DETACH.assign("block-id", block_id)) \
+    return await composer.Request(Consts.URL_BLOCK_STORAGE_DETACH.assign("block-id", block_id)) \
         .set_method(HTTPMethod.POST) \
         .add_header("Authorization", f"Bearer {get_key()}") \
         .add_header("Content-Type", "application/json") \
