@@ -22,9 +22,9 @@ working on dividing the project into three modules Resource, Action, and Schedul
 ## Example Usage (Currently unavailable this example due to entirely refactoring the code)
 ```python
 import asyncio
-from proschedio import (Resource, Action, Schedule)
 
-Resource.register("vultr")
+from proschedio-Vultr import Vultr
+from proschedio import (Resource, Action, Schedule)
 
 async def main():
 
@@ -42,8 +42,6 @@ async def main():
         }
     )
     .create()
-
-    await Resource.server_instance.delete()
 
 if __name__ == "__main__":
     asyncio.run(main())
