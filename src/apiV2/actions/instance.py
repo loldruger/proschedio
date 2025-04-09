@@ -1,6 +1,7 @@
 # src/proschedio/apiV2/actions/instance.py
 # Functions related to specific actions performed on Vultr instances.
 
+import json
 import logging
 import os
 from http import HTTPMethod
@@ -33,7 +34,7 @@ class ActionInstance:
             .add_header("Content-Type", "application/json")
 
         if hostname is not None:
-            request.set_body({"hostname": hostname})
+            request.set_body(json.dumps({"hostname": hostname}))
         
         return await request.request()
 
@@ -91,7 +92,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"iso_id": iso_id}) \
+            .set_body(json.dumps({"iso_id": iso_id})) \
             .request()
 
     async def detach_instance_iso(self, instance_id: str) -> RequestReturnType:
@@ -101,6 +102,7 @@ class ActionInstance:
         return await Request(ProviderUrl.get_url_instance_iso_detach(self.provider_url).assign("instance-id", instance_id)) \
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+            .set_body(json.dumps({})) \
             .request()
 
     async def attach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
@@ -111,7 +113,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"vpc_id": vpc_id}) \
+            .set_body(json.dumps({"vpc_id": vpc_id})) \
             .request()
 
     async def detach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
@@ -122,7 +124,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"vpc_id": vpc_id}) \
+            .set_body(json.dumps({"vpc_id": vpc_id})) \
             .request()
 
     async def get_instance_backup_schedule(self, instance_id: str) -> RequestReturnType:
@@ -155,9 +157,9 @@ class ActionInstance:
             .add_header("Content-Type", "application/json")
 
         if backup_id is not None:
-            request.set_body({"backup_id": backup_id})
+            request.set_body(json.dumps({"backup_id": backup_id}))
         elif snapshot_id is not None:
-            request.set_body({"snapshot_id": snapshot_id})
+            request.set_body(json.dumps({"snapshot_id": snapshot_id}))
         # else: # Consider raising an error if neither is provided
         #     raise ValueError("Either backup_id or snapshot_id must be provided for restore.")
 
@@ -190,7 +192,7 @@ class ActionInstance:
             .add_header("Content-Type", "application/json")
         
         if reboot is not None:
-            request.set_body({"reboot": reboot})
+            request.set_body(json.dumps({"reboot": reboot}))
 
         return await request.request()
 
@@ -211,7 +213,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"ip": ip, "reverse": reverse}) \
+            .set_body(json.dumps({"ip": ip, "reverse": reverse})) \
             .request()
 
     async def list_instance_reverse_ipv6(self, instance_id: str) -> RequestReturnType:
@@ -231,7 +233,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"ip": ip, "reverse": reverse}) \
+            .set_body(json.dumps({"ip": ip, "reverse": reverse})) \
             .request()
 
     async def set_instance_reverse_ipv4(self, instance_id: str, ip: str) -> RequestReturnType:
@@ -242,14 +244,14 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"ip": ip}) \
+            .set_body(json.dumps({"ip": ip})) \
             .request()
 
     async def delete_instance_reverse_ipv6(self, instance_id: str, ipv6: str) -> RequestReturnType:
         """
         Delete the reverse IPv6 for a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderUrl.get_url_instance_ipv6_reverse_ipv6(self.provider_url).assign("instance-id", instance_id).assign("ipv6", ipv6)) \
+        return await Request(ProviderUrl.get_url_instance_ipv6_reverse_by_ipv6(self.provider_url).assign("instance-id", instance_id).assign("ipv6", ipv6)) \
             .set_method(HTTPMethod.DELETE) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
@@ -293,7 +295,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"instance_ids": instance_ids}) \
+            .set_body(json.dumps({"instance_ids": instance_ids})) \
             .request()
 
     async def start_instances(self, instance_ids: List[str]) -> RequestReturnType:
@@ -304,7 +306,7 @@ class ActionInstance:
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .add_header("Content-Type", "application/json") \
-            .set_body({"instance_ids": instance_ids}) \
+            .set_body(json.dumps({"instance_ids": instance_ids})) \
             .request()
 
 # Note: Deprecated functions related to private networks and vpc2 are omitted.

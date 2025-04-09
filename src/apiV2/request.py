@@ -44,8 +44,8 @@ class Request:
         self._url = url.to_str()
         self._method: Optional[HTTPMethod] = None
         self._headers: Dict[str, str] = {}
-        self._params: Dict[str, str] = {}
-        self._body: Optional[Dict[str, object]] = None
+        self._params: Dict[str, Union[ str, int ]] = {}
+        self._body: Optional[str] = None
 
     def set_method(self, method: HTTPMethod) -> 'Request':
         self._method = method
@@ -55,11 +55,11 @@ class Request:
         self._headers[key] = value
         return self
     
-    def add_param(self, key: str, value: str) -> 'Request':
+    def add_param(self, key: str, value: Union[ str, int ]) -> 'Request':
         self._params[key] = value
         return self
     
-    def set_body(self, body: Dict[str, object]) -> 'Request':
+    def set_body(self, body: str) -> 'Request':
         self._body = body
         return self
     

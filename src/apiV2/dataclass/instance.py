@@ -1,7 +1,8 @@
-from typing import Optional, List, Literal, Dict, Any
+import json
+from typing import Optional, List, Literal
 from typing_extensions import deprecated
 
-from src import Request
+from src.apiV2.request import Request
 
 class ListInstancesData:
     """
@@ -178,11 +179,11 @@ class CreateInstanceData:
     #     return self
 
     # --- JSON conversion --- 
-    def to_json(self) -> Dict[str, str]:
+    def to_json(self) -> 'str':
         """
         Convert the data structure to a JSON format for Vultr API requests.
         """
-        data = {
+        return json.dumps({
             "region": self._region,
             "plan": self._plan,
             "os_id": self._os_id,
@@ -208,9 +209,7 @@ class CreateInstanceData:
             "tags": self._tags,
             "user_scheme": self._user_scheme,
             # "app_variables": self._app_variables,
-        }
-        # Return only non-None values
-        return {k: v for k, v in data.items() if v is not None}
+        })
 
 class UpdateInstanceData:
     """
@@ -276,11 +275,11 @@ class UpdateInstanceData:
         return self
 
     # --- JSON conversion --- 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> str:
         """
         Convert the data structure to a JSON format for Vultr API requests.
         """
-        data = {
+        return json.dumps({
             "label": self._label,
             "user_scheme": self._user_scheme,
             "enable_ipv6": self._enable_ipv6,
@@ -294,39 +293,75 @@ class UpdateInstanceData:
             "tags": self._tags,
             "backups": self._backups,
             "hostname": self._hostname,
-        }
-        # Return only non-None values
-        return {k: v for k, v in data.items() if v is not None}
+        })
 
 class SetInstanceBackupScheduleData:
-    """
-    Data structure used for setting the backup schedule for a Vultr Instance.
-    """
-    def __init__(self, type: Literal["", "daily", "weekly", "monthly"], 
-                 hour: Optional[int] = None, 
-                 dow: Optional[int] = None, 
-                 dom: Optional[int] = None):
-        # Type is required, others depend on type
-        self._type = type
+    def __init__(self, type: Literal["daily", "weekly", "monthly", "daily_alt_even", "daily_alt_odd"]):
+        """
+        Data structure used for setting the backup schedule for a Vultr VPS Instance.
+
+        Args:
+            type (Literal["daily", "weekly", "monthly", "daily_alt_even", "daily_alt_odd"]): Type of backup schedule.
+        """
+        self._type: Literal["daily", "weekly", "monthly", "daily_alt_even", "daily_alt_odd"] = type
+        self._hour: Optional[int] = None
+        self._dow: Optional[int] = None
+        self._dom: Optional[int] = None
+
+    def hour(self, hour: int) -> "SetInstanceBackupScheduleData":
+        """
+        Set the hour of day to run in UTC.
+
+        Args:
+            hour (int): The hour of the day.
+
+        Returns:
+            SetInstanceBackupScheduleData: The current object with the hour set.
+        """
         self._hour = hour
-        self._dow = dow # Day of week (1-7, Sunday=1)
-        self._dom = dom # Day of month (1-28)
+        return self
 
-    # No builder methods needed if initialized directly
+    def dow(self, dow: int) -> "SetInstanceBackupScheduleData":
+        """
+        Set the day of week to run (1-7).
 
-    # --- JSON conversion --- 
-    def to_json(self) -> Dict[str, Any]:
+        Args:
+            dow (int): The day of the week.
+
+        Returns:
+            SetInstanceBackupScheduleData: The current object with the day of week set.
         """
-        Convert the data structure to a JSON format for Vultr API requests.
+        self._dow = dow
+        return self
+
+    def dom(self, dom: int) -> "SetInstanceBackupScheduleData":
         """
-        data = {
+        Set the day of month to run (1-28).
+
+        Args:
+            dom (int): The day of the month.
+
+        Returns:
+            SetInstanceBackupScheduleData: The current object with the day of month set.
+        """
+        self._dom = dom
+        return self
+
+    def to_json(self) -> str:
+        """
+        Convert the data structure to a JSON format that can be used for Vultr API requests,
+        including only non-None optional fields.
+
+        Returns:
+            Dict[str, Union[str, int]]: The data in JSON format.
+        """
+
+        return json.dumps({
             "type": self._type,
             "hour": self._hour,
             "dow": self._dow,
-            "dom": self._dom,
-        }
-        # Return only non-None values (type is always included)
-        return {k: v for k, v in data.items() if v is not None or k == 'type'}
+            "dom": self._dom
+        })
 
 # Add other data structures if needed, e.g., for reverse DNS
 class SetInstanceReverseIPv4Data:
@@ -336,5 +371,5 @@ class SetInstanceReverseIPv4Data:
     def __init__(self, ip: str):
         self._ip = ip
 
-    def to_json(self) -> Dict[str, Any]:
-        return {"ip": self._ip}
+    def to_json(self) -> str:
+        return json.dumps({"ip": self._ip})
