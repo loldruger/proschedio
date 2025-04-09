@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 class Resource:
     @staticmethod
     def instance(provider: Provider) -> 'ResourceInstance':
-        ri = ResourceInstance(provider)
-        return ri
-
+        return ResourceInstance(provider)
+    
 class ResourceInstance:
     def __init__(self, provider: Provider):
+        self.provider = provider
         self.provider_url = provider.into()
 
     async def list(self, filters: Optional[instance_structs.ListInstancesData]) -> RequestReturnType:

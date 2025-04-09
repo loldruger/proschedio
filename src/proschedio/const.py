@@ -1,43 +1,51 @@
-from enum import StrEnum
 from typing import Optional
 import typing
 
 from request import Url
 
-class Provider(StrEnum):
-    VULTR = "vultr"
-    CUSTOM = "custom"
+class ProviderRegistry:
+    """
+    Registry for provider URLs.
+    """
+    _providers: list[str] = []
+    _base_url: dict[str, str] = {}
 
-    provider: 'Provider'
+    @staticmethod
+    def register(provider: str, base_url: str) -> None:
+        """
+        Register a new provider URL.
+        """
+        if provider not in ProviderRegistry._providers:
+            ProviderRegistry._providers.append(provider)
+            ProviderRegistry._base_url[provider] = base_url
+    
+    @staticmethod
+    def list_providers() -> list[str]:
+        """
+        List all registered providers.
+        """
+        return ProviderRegistry._providers
 
-    def __init__(self, provider: str) -> None:
-        if provider == "vultr":
-            self.provider = Provider.VULTR
-        elif provider == "custom":
-            self.provider = Provider.CUSTOM
-        else:
-            raise ValueError(f"Unknown provider string: {provider}")
-        
-    def __repr__(self) -> str:
-        match self:
-            case Provider.VULTR:
-                return "https://api.vultr.com/v2/"
-            case Provider.CUSTOM:
-                return "https://api.custom.com/v2/"
-            case _:
-                raise ValueError("Invalid provider") 
+    @staticmethod
+    def get_base_url(provider: str) -> Optional[str]:
+        """
+        Get the base URL of the current provider.
+        """
+        return ProviderRegistry._base_url.get(provider)
 
-    def into(self) -> 'ProviderUrl':
-        return ProviderUrl(self.provider)
+
     
 class ProviderUrl:
-    provider: Optional[Provider] = None
+    provider: str
     
-    def __init__(self, provider: Provider):
+    def __init__(self, provider: str):
+        if not self.provider in ProviderRegistry.list_providers():
+            raise ValueError(f"Provider '{self.provider}' is not registered.")
+        
         self.provider = provider
 
-    def _get_base_url(self) -> Url:
-        return Url(typing.cast(Provider, self.provider))
+    def _get_base_url(self) -> Url:        
+        return Url(self.provider)
 
     def get_url_account(self) -> Url:
         """

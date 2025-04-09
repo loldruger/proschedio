@@ -4,8 +4,6 @@ import logging
 from http import HTTPMethod
 from typing import Optional, TypedDict, Union, Dict, List, cast
 
-from proschedio.const import Provider
-
 logger = logging.getLogger(__name__)
 
 class MetaInfo(TypedDict, total=False):
@@ -24,7 +22,7 @@ class ErrorResponse(TypedDict):
 RequestReturnType = Union[SuccessResponse, ErrorResponse]
 
 class Url:
-    def __init__(self, provider: Provider):
+    def __init__(self, provider: str):
         self._provider = provider
         self._uri = ""
     
