@@ -3,7 +3,7 @@ import logging
 from http import HTTPMethod
 from typing import Optional
 
-from const import ProviderUrl
+from const import Provider, ProviderUrl
 from request import Request, RequestReturnType
 from ..dataclass import instance as instance_structs
 
@@ -11,12 +11,13 @@ logger = logging.getLogger(__name__)
 
 class Resource:
     @staticmethod
-    def instance(provider_url: ProviderUrl)-> 'ResourceInstance':
-        return ResourceInstance(provider_url)
+    def instance(provider: Provider) -> 'ResourceInstance':
+        ri = ResourceInstance(provider)
+        return ri
 
 class ResourceInstance:
-    def __init__(self, provider_url: ProviderUrl):
-        self.provider_url = provider_url
+    def __init__(self, provider: Provider):
+        self.provider_url = provider.into()
 
     async def list(self, filters: Optional[instance_structs.ListInstancesData]) -> RequestReturnType:
         """
@@ -32,7 +33,7 @@ class ResourceInstance:
 
         return await request.request()
 
-    async def create(self, data: instance_structs.CreateInstanceData) -> RequestReturnType:
+    async def create(self) -> RequestReturnType:
         """
         Create a new Vultr VPS Instance.
         """

@@ -2,7 +2,7 @@ import json
 from typing import Optional, List, Literal
 from typing_extensions import deprecated
 
-from src.apiV2.request import Request
+from src.proschedio.request import Request
 
 class ListInstancesData:
     """

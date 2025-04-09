@@ -8,24 +8,28 @@ class Provider(StrEnum):
     VULTR = "vultr"
     CUSTOM = "custom"
 
-    def __str__(self) -> str:
+    provider: 'Provider'
+
+    def __init__(self, provider: str) -> None:
+        if provider == "vultr":
+            self.provider = Provider.VULTR
+        elif provider == "custom":
+            self.provider = Provider.CUSTOM
+        else:
+            raise ValueError(f"Unknown provider string: {provider}")
+        
+    def __repr__(self) -> str:
         match self:
             case Provider.VULTR:
                 return "https://api.vultr.com/v2/"
             case Provider.CUSTOM:
                 return "https://api.custom.com/v2/"
             case _:
-                raise ValueError("Invalid provider")
-    
-    @staticmethod
-    def from_str(provider_str: str) -> 'Provider':
-        if provider_str == "vultr":
-            return Provider.VULTR
-        elif provider_str == "custom":
-            return Provider.CUSTOM
-        else:
-            raise ValueError(f"Unknown provider string: {provider_str}")
+                raise ValueError("Invalid provider") 
 
+    def into(self) -> 'ProviderUrl':
+        return ProviderUrl(self.provider)
+    
 class ProviderUrl:
     provider: Optional[Provider] = None
     

@@ -4,7 +4,7 @@ import logging
 from http import HTTPMethod
 from typing import Optional, TypedDict, Union, Dict, List, cast
 
-from apiV2.const import Provider
+from proschedio.const import Provider
 
 logger = logging.getLogger(__name__)
 

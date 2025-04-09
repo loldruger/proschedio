@@ -24,13 +24,12 @@ working on dividing the project into three modules Resource, Action, and Schedul
 import asyncio
 from proschedio import (Resource, Action, Schedule)
 
-load_dotenv()
+Resource.register("vultr")
 
 async def main():
-    set_key(os.environ.get("VULTR_API_KEY"))
 
     server_instance = await Resource.instance(
-        provider="vultr",
+        provider=Provider("vultr"),
         plan="vc2-1c-1gb",
         region="ewr",
         hostname="test-create-and-delete",
@@ -88,5 +87,7 @@ PROVIDER_API_KEY=your_provider_api_key
 - [ ] Add support for GCP
 
 ### Support for Features
+- [ ] fetch products, regions, and plans from the provider
+- [ ] Retry mechanism
 - [ ] Add support for scheduling jobs for each provider's resources
 - [ ] Add More features for orchestrating resources
