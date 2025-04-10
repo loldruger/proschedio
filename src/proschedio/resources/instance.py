@@ -1,25 +1,27 @@
 import os
 import logging
 from http import HTTPMethod
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
-from build.lib.vultr.vultr import BaseInstance
 from const import ProviderUrl
 from request import Request, RequestReturnType
-from .instance_config import VultrInstanceConfig
+from src.proschedio.resources.instance_base import BaseInstance
+from .instance_config import InstanceConfig
 from ..dataclass import instance as instance_structs
 
 logger = logging.getLogger(__name__)
 
 class Resource:
     @staticmethod
-    def instance(provider: str, region: str, plan: str, config: VultrInstanceConfig) -> 'ResourceInstance':
+    def instance(provider: str, region: str, plan: str, config: InstanceConfig) -> 'ResourceInstance':
         return ResourceInstance(provider=provider, region=region, plan=plan, config=config)
         
-    
 class ResourceInstance(BaseInstance):
-    def __init__(self, provider: str, region: str, plan: str, config: VultrInstanceConfig):
+    def __init__(self, provider: str, region: str, plan: str, config: InstanceConfig):
         self.provider = provider
+        self.region = region
+        self.plan = plan
+        self.config = config
 
     async def list(self, filters: Optional[instance_structs.ListInstancesData]) -> RequestReturnType:
         """
@@ -43,7 +45,7 @@ class ResourceInstance(BaseInstance):
             .set_method(HTTPMethod.POST) \
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .add_header("Content-Type", "application/json") \
-            .set_body(data.to_json()) \
+            .set_body(self.config) \
             .request()
 
     async def get(self, instance_id: str) -> RequestReturnType:
@@ -63,7 +65,7 @@ class ResourceInstance(BaseInstance):
             .set_method(HTTPMethod.PATCH) \
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .add_header("Content-Type", "application/json") \
-            .set_body(data.to_json()) \
+            .set_body(self.config) \
             .request()
 
     async def delete(self, instance_id: str) -> RequestReturnType:
@@ -74,7 +76,19 @@ class ResourceInstance(BaseInstance):
             .set_method(HTTPMethod.DELETE) \
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .request()
+    
+    async def reboot(self) -> str | None:
+        raise NotImplementedError
 
+    async def start(self) -> str | None:
+        raise NotImplementedError
+
+    async def halt(self) -> str | None:
+        raise NotImplementedError
+
+    async def execute_action(self, action_name: str, **kwargs: Any) -> Any:
+        raise NotImplementedError
+    
     @property
     def id(self) -> str | None:
         raise NotImplementedError
@@ -114,4 +128,3 @@ class ResourceInstance(BaseInstance):
     @property
     def provider_specific_data(self) -> Dict[str, Any]:
         raise NotImplementedError
-

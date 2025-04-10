@@ -6,7 +6,7 @@ class BaseInstance(ABC):
     Abstract base class for resources.
     """
 
-    def __init__(self, provider: str, id: Optional[str] = None, **kwargs: Any):
+    def __init__(self, provider: str, **kwargs: Any):
         self._provider = provider
         self._id = id
         self._config_kwargs = kwargs
