@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Optional, Any, Dict
+from collections.abc import Callable
+from typing import Any
 
 class BaseInstance(ABC):
     """
@@ -10,11 +11,11 @@ class BaseInstance(ABC):
         self._provider = provider
         self._id = id
         self._config_kwargs = kwargs
-        self._properties: Dict[str, Any] = {}
-        self._raw_data: Dict[str, Any] = {}
+        self._properties: dict[str, Any] = {}
+        self._raw_data: dict[str, Any] = {}
 
     @property
-    def id(self) -> Optional[str]:
+    def id(self) -> Callable[[object], int]:
         return self._id
 
     @property
@@ -23,22 +24,22 @@ class BaseInstance(ABC):
     
     @property
     @abstractmethod
-    def status(self) -> Optional[str]:
+    def status(self) -> str | None:
         pass
 
     @property
     @abstractmethod
-    def region(self) -> Optional[str]:
+    def region(self) -> str | None:
         pass
 
     @property
     @abstractmethod
-    def main_ip(self) -> Optional[str]:
+    def main_ip(self) -> str | None:
         pass
 
     @property
     @abstractmethod
-    def provider_specific_data(self) -> Dict[str, Any]:
+    def provider_specific_data(self) -> dict[str, Any]:
         pass
 
     @abstractmethod
@@ -46,23 +47,23 @@ class BaseInstance(ABC):
         pass
 
     @abstractmethod
-    async def delete(self) -> Optional[str]:
+    async def delete(self) -> str | None:
         pass
 
     @abstractmethod
-    async def get(self) -> Optional['BaseInstance']:
+    async def get(self) -> 'BaseInstance | None':
         pass
 
     @abstractmethod
-    async def reboot(self) -> Optional[str]:
+    async def reboot(self) -> str | None:
         pass
 
     @abstractmethod
-    async def start(self) -> Optional[str]:
+    async def start(self) -> str | None:
         pass
 
     @abstractmethod
-    async def halt(self) -> Optional[str]:
+    async def halt(self) -> str | None:
         pass
 
     @abstractmethod

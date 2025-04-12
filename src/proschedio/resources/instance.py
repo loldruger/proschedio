@@ -1,10 +1,10 @@
 import os
 import logging
 from http import HTTPMethod
-from typing import Any, Dict, Optional
+from typing import Any
 
-from const import ProviderUrl
-from request import Request, RequestReturnType
+from ..const import ProviderUrl
+from ..request import Request, RequestReturnType
 from src.proschedio.resources.instance_base import BaseInstance
 from .instance_config import InstanceConfig
 from ..dataclass import instance as instance_structs
@@ -23,7 +23,7 @@ class ResourceInstance(BaseInstance):
         self.plan = plan
         self.config = config
 
-    async def list(self, filters: Optional[instance_structs.ListInstancesData]) -> RequestReturnType:
+    async def list(self, filters: instance_structs.ListInstancesData | None) -> RequestReturnType:
         """
         List all VPS instances in your account.
         """
@@ -126,5 +126,5 @@ class ResourceInstance(BaseInstance):
         raise NotImplementedError
 
     @property
-    def provider_specific_data(self) -> Dict[str, Any]:
+    def provider_specific_data(self) -> dict[str, Any]:
         raise NotImplementedError

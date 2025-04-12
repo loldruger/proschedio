@@ -1,37 +1,37 @@
-from typing import Literal, Optional, TypedDict, List
+from typing import Literal, TypedDict
 
 class InstanceConfig(TypedDict, total=False):
     """
     Data structure used for creating a Vultr VPS Instance.
     """
-    os_id: Optional[int]
-    ipxe_chain_url: Optional[str]
-    iso_id: Optional[str]
-    script_id: Optional[str]
-    snapshot_id: Optional[str]
-    enable_ipv6: Optional[bool]
-    disable_public_ipv4: Optional[bool]
-    attach_vpc: Optional[List[str]]
-    label: Optional[str]
-    sshkey_id: Optional[List[str]]
-    backups: Optional[Literal["enabled", "disabled"]]
-    app_id: Optional[int]
-    image_id: Optional[str]
-    user_data: Optional[str]
-    ddos_protection: Optional[bool]
-    activation_email: Optional[bool]
-    hostname: Optional[str]
-    firewall_group_id: Optional[str]
-    reserved_ipv4: Optional[str]
-    enable_vpc: Optional[bool]
-    tags: Optional[List[str]]
+    os_id: int | None
+    ipxe_chain_url: str | None
+    iso_id: str | None
+    script_id: str | None
+    snapshot_id: str | None
+    enable_ipv6: bool | None
+    disable_public_ipv4: bool | None
+    attach_vpc: list[str] | None
+    label: str | None
+    sshkey_id: list[str] | None
+    backups: Literal["enabled", "disabled"] | None
+    app_id: int | None
+    image_id: str | None
+    user_data: str | None
+    ddos_protection: bool | None
+    activation_email: bool | None
+    hostname: str | None
+    firewall_group_id: str | None
+    reserved_ipv4: str | None
+    enable_vpc: bool | None
+    tags: list[str] | None
     # Deprecated fields omitted: attach_private_network, attach_vpc2, tag, enable_private_network, enable_vpc2
     # Fields potentially added by user request: user_scheme, app_variables
-    user_scheme: Optional[Literal["root", "limited"]]
-    # self._app_variables: Optional[dict] = None
-    wait_for_ready: Optional[bool]
-    wait_timeout: Optional[int]
-    wait_interval: Optional[int]
+    user_scheme: Literal["root", "limited"] | None
+    # self._app_variables: dict] = None
+    wait_for_ready: bool | None
+    wait_timeout: int | None
+    wait_interval: int | None
 
 class InstanceRequestBody(TypedDict):
     """
@@ -39,28 +39,28 @@ class InstanceRequestBody(TypedDict):
     """
     region: str
     plan: str
-    os_id: Optional[int]
-    ipxe_chain_url: Optional[str]
-    iso_id: Optional[str]
-    script_id: Optional[str]
-    snapshot_id: Optional[str]
-    enable_ipv6: Optional[bool]
-    disable_public_ipv4: Optional[bool]
-    attach_vpc: Optional[List[str]]
-    label: Optional[str]
-    sshkey_id: Optional[List[str]]
-    backups: Optional[Literal["enabled", "disabled"]]
-    app_id: Optional[int]
-    image_id: Optional[str]
-    user_data: Optional[str]
-    ddos_protection: Optional[bool]
-    activation_email: Optional[bool]
-    hostname: Optional[str]
-    firewall_group_id: Optional[str]
-    reserved_ipv4: Optional[str]
-    enable_vpc: Optional[bool]
-    tags: Optional[List[str]]
+    os_id: int | None
+    ipxe_chain_url: str | None
+    iso_id: str | None
+    script_id: str | None
+    snapshot_id: str | None
+    enable_ipv6: bool | None
+    disable_public_ipv4: bool | None
+    attach_vpc: list[str] | None
+    label: str | None
+    sshkey_id: list[str] | None
+    backups: Literal["enabled", "disabled"] | None
+    app_id: int | None
+    image_id: str | None
+    user_data: str | None
+    ddos_protection: bool | None
+    activation_email: bool | None
+    hostname: str | None
+    firewall_group_id: str | None
+    reserved_ipv4: str | None
+    enable_vpc: bool | None
+    tags: list[str] | None
     # Deprecated fields omitted: attach_private_network, attach_vpc2, tag, enable_private_network, enable_vpc2
     # Fields potentially added by user request: user_scheme, app_variables
-    user_scheme: Optional[Literal["root", "limited"]]
-    # self._app_variables: Optional[dict] = None
+    user_scheme: Literal["root", "limited"] | None
+    # self._app_variables: dict] = None

@@ -1,5 +1,5 @@
 import json
-from typing import Optional, List, Literal
+from typing import Literal
 from typing_extensions import deprecated
 
 from src.proschedio.request import Request
@@ -9,15 +9,15 @@ class ListInstancesData:
     Data structure used for filtering the list of Vultr VPS Instances.
     """
     def __init__(self):
-        self._per_page: Optional[int] = None
-        self._cursor: Optional[str] = None
-        self._tag: Optional[str] = None # Deprecated
-        self._label: Optional[str] = None
-        self._main_ip: Optional[str] = None
-        self._region: Optional[str] = None
-        self._firewall_group_id: Optional[str] = None
-        self._hostname: Optional[str] = None
-        self._show_pending_charges: Optional[bool] = None
+        self._per_page: int | None = None
+        self._cursor: str | None = None
+        self._tag: str | None = None # Deprecated
+        self._label: str | None = None
+        self._main_ip: str | None = None
+        self._region: str | None = None
+        self._firewall_group_id: str | None = None
+        self._hostname: str | None = None
+        self._show_pending_charges: bool | None = None
 
     # --- Builder methods --- 
     def per_page(self, per_page: int) -> "ListInstancesData":
@@ -80,21 +80,21 @@ class UpdateInstanceData:
     All fields are optional.
     """
     def __init__(self):
-        self._label: Optional[str] = None
-        self._user_scheme: Optional[Literal["root", "limited"]] = None
-        self._enable_ipv6: Optional[bool] = None
-        self._attach_vpc: Optional[List[str]] = None
-        self._detach_vpc: Optional[List[str]] = None
-        self._attach_vpc2: Optional[List[str]] = None # Deprecated
-        self._detach_vpc2: Optional[List[str]] = None # Deprecated
-        self._os_id: Optional[int] = None
-        self._app_id: Optional[int] = None
-        self._image_id: Optional[str] = None
-        self._firewall_group_id: Optional[str] = None
-        self._plan: Optional[str] = None
-        self._tags: Optional[List[str]] = None
-        self._backups: Optional[Literal["enabled", "disabled"]] = None
-        self._hostname: Optional[str] = None
+        self._label: str | None = None
+        self._user_scheme: Literal["root", "limited"] | None = None
+        self._enable_ipv6: bool | None = None
+        self._attach_vpc: list[str] | None = None
+        self._detach_vpc: list[str] | None = None
+        self._attach_vpc2: list[str] | None = None # Deprecated
+        self._detach_vpc2: list[str] | None = None # Deprecated
+        self._os_id: int | None = None
+        self._app_id: int | None = None
+        self._image_id: str | None = None
+        self._firewall_group_id: str | None = None
+        self._plan: str | None = None
+        self._tags: list[str] | None = None
+        self._backups: Literal["enabled", "disabled"] | None = None
+        self._hostname: str | None = None
 
     # --- Builder methods --- 
     def label(self, label: str) -> "UpdateInstanceData":
@@ -106,10 +106,10 @@ class UpdateInstanceData:
     def enable_ipv6(self, enable_ipv6: bool) -> "UpdateInstanceData":
         self._enable_ipv6 = enable_ipv6
         return self
-    def attach_vpc(self, attach_vpc: List[str]) -> "UpdateInstanceData":
+    def attach_vpc(self, attach_vpc: list[str] | None) -> "UpdateInstanceData":
         self._attach_vpc = attach_vpc
         return self
-    def detach_vpc(self, detach_vpc: List[str]) -> "UpdateInstanceData":
+    def detach_vpc(self, detach_vpc: list[str] | None) -> "UpdateInstanceData":
         self._detach_vpc = detach_vpc
         return self
     def os_id(self, os_id: int) -> "UpdateInstanceData":
@@ -127,7 +127,7 @@ class UpdateInstanceData:
     def plan(self, plan: str) -> "UpdateInstanceData":
         self._plan = plan
         return self
-    def tags(self, tags: List[str]) -> "UpdateInstanceData":
+    def tags(self, tags: list[str]) -> "UpdateInstanceData":
         self._tags = tags
         return self
     def backups(self, backups: Literal["enabled", "disabled"]) -> "UpdateInstanceData":
@@ -167,9 +167,9 @@ class SetInstanceBackupScheduleData:
             type (Literal["daily", "weekly", "monthly", "daily_alt_even", "daily_alt_odd"]): Type of backup schedule.
         """
         self._type: Literal["daily", "weekly", "monthly", "daily_alt_even", "daily_alt_odd"] = type
-        self._hour: Optional[int] = None
-        self._dow: Optional[int] = None
-        self._dom: Optional[int] = None
+        self._hour: int | None = None
+        self._dow: int | None = None
+        self._dom: int | None = None
 
     def hour(self, hour: int) -> "SetInstanceBackupScheduleData":
         """

@@ -5,10 +5,10 @@ import json
 import logging
 import os
 from http import HTTPMethod
-from typing import Optional, List, Literal
+from typing import Literal
 
-from const import ProviderRegistry, ProviderUrl
-from request import Request, RequestReturnType
+from ..const import ProviderRegistry, ProviderUrl
+from ..request import Request, RequestReturnType
 
 from ..dataclass import instance as instance_structs
 
@@ -24,27 +24,30 @@ class ActionInstance:
     def __init__(self, provider_url: ProviderUrl):
         self.provider_url = provider_url
 
-    async def reinstall_instance(self, instance_id: str, hostname: Optional[str]) -> RequestReturnType:
+    async def reinstall_instance(self, instance_id: str, hostname: str | None) -> RequestReturnType:
         """
         Reinstall a Vultr Instance using an optional `hostname`. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_reinstall(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json")
-
+        request = (
+            Request(ProviderRegistry.get_url_instance_reinstall(self.provider_url).assign("instance-id", instance_id))
+                .set_method(HTTPMethod.POST)
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+                .add_header("Content-Type", "application/json")
+        )
         if hostname is not None:
             request.set_body(json.dumps({"hostname": hostname}))
         
         return await request.request()
 
-    async def get_instance_bandwidth(self, instance_id: str, date_range: Optional[int]) -> RequestReturnType:
+    async def get_instance_bandwidth(self, instance_id: str, date_range: int | None) -> RequestReturnType:
         """
         Get bandwidth information about a Vultr Instance. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_bandwidth(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+        request = (
+            Request(ProviderRegistry.get_url_instance_bandwidth(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+        )
 
         if date_range is not None:
             request.add_param("date_range", date_range)
@@ -55,19 +58,22 @@ class ActionInstance:
         """
         Get a list of other instances in the same location as this Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_neighbors(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_neighbors(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .request()
+        )
 
-    async def list_instance_vpcs(self, instance_id: str, per_page: Optional[int], cursor: Optional[str]) -> RequestReturnType:
+    async def list_instance_vpcs(self, instance_id: str, per_page: int | None, cursor: str | None) -> RequestReturnType:
         """
-        List the VPCs for a Vultr Instance. (Vultr specific)
+        list the VPCs for a Vultr Instance. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_vpcs(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
-
+        request = (
+            Request(ProviderRegistry.get_url_instance_vpcs(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+        )
         if per_page is not None:
             request.add_param("per_page", per_page)
         if cursor is not None:
@@ -79,83 +85,97 @@ class ActionInstance:
         """
         Get the ISO status for a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_iso(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_iso(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .request()
+        )
 
     async def attach_instance_iso(self, instance_id: str, iso_id: str) -> RequestReturnType:
         """
         Attach an ISO to a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_iso_attach(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json") \
-            .set_body(json.dumps({"iso_id": iso_id})) \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_iso_attach(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json") \
+                .set_body(json.dumps({"iso_id": iso_id})) \
+                .request()
+        )
 
     async def detach_instance_iso(self, instance_id: str) -> RequestReturnType:
         """
         Detach the ISO from a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_iso_detach(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .set_body(json.dumps({})) \
-            .request()
-
+        return (
+            await Request(ProviderRegistry.get_url_instance_iso_detach(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .set_body(json.dumps({})) \
+                .request()
+        )
     async def attach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
         """
         Attach a VPC to a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_vpcs_attach(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json") \
-            .set_body(json.dumps({"vpc_id": vpc_id})) \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_vpcs_attach(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json") \
+                .set_body(json.dumps({"vpc_id": vpc_id})) \
+                .request()
+        )
 
     async def detach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
         """
         Detach a VPC from a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_vpcs_detach(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json") \
-            .set_body(json.dumps({"vpc_id": vpc_id})) \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_vpcs_detach(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json") \
+                .set_body(json.dumps({"vpc_id": vpc_id})) \
+                .request()
+        )
 
     async def get_instance_backup_schedule(self, instance_id: str) -> RequestReturnType:
         """
         Get the backup schedule for a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_backup_schedule(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_backup_schedule(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .request()
+        )
 
     async def set_instance_backup_schedule(self, instance_id: str, data: instance_structs.SetInstanceBackupScheduleData) -> RequestReturnType:
         """
         Set the backup schedule for a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_backup_schedule(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json") \
-            .set_body(data.to_json()) \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_backup_schedule(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json") \
+                .set_body(data.to_json()) \
+                .request()
+        )
 
-    async def restore_instance(self, instance_id: str, backup_id: Optional[str], snapshot_id: Optional[str]) -> RequestReturnType:
+    async def restore_instance(self, instance_id: str, backup_id: str | None, snapshot_id: str | None) -> RequestReturnType:
         """
         Restore a Vultr Instance from a backup or snapshot. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_restore(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json")
-
+        request = (
+            Request(ProviderRegistry.get_url_instance_restore(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json")
+        )
         if backup_id is not None:
             request.set_body(json.dumps({"backup_id": backup_id}))
         elif snapshot_id is not None:
@@ -165,13 +185,15 @@ class ActionInstance:
 
         return await request.request()
 
-    async def list_instance_ipv4(self, instance_id: str, public_network: Optional[bool], per_page: Optional[int], cursor: Optional[str]) -> RequestReturnType:
+    async def list_instance_ipv4(self, instance_id: str, public_network: bool | None, per_page: int | None, cursor: str | None) -> RequestReturnType:
         """
-        List the IPv4 information for a Vultr Instance. (Vultr specific)
+        list the IPv4 information for a Vultr Instance. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_ipv4(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+        request = (
+            Request(ProviderRegistry.get_url_instance_ipv4(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}")
+        )
 
         if public_network is not None:
             request.add_param("public_network", public_network)
@@ -182,14 +204,16 @@ class ActionInstance:
 
         return await request.request()
 
-    async def create_instance_ipv4(self, instance_id: str, reboot: Optional[bool]) -> RequestReturnType:
+    async def create_instance_ipv4(self, instance_id: str, reboot: bool | None) -> RequestReturnType:
         """
         Create an IPv4 address for a Vultr Instance. (Vultr specific)
         """
-        request = Request(ProviderRegistry.get_url_instance_ipv4(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.POST) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .add_header("Content-Type", "application/json")
+        request = (
+            Request(ProviderRegistry.get_url_instance_ipv4(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.POST) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .add_header("Content-Type", "application/json")
+        )
         
         if reboot is not None:
             request.set_body(json.dumps({"reboot": reboot}))
@@ -200,10 +224,12 @@ class ActionInstance:
         """
         Get the IPv6 information for a Vultr Instance. (Vultr specific)
         """
-        return await Request(ProviderRegistry.get_url_instance_ipv6(self.provider_url).assign("instance-id", instance_id)) \
-            .set_method(HTTPMethod.GET) \
-            .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
-            .request()
+        return (
+            await Request(ProviderRegistry.get_url_instance_ipv6(self.provider_url).assign("instance-id", instance_id)) \
+                .set_method(HTTPMethod.GET) \
+                .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
+                .request()
+        )
 
     async def create_instance_reverse_ipv4(self, instance_id: str, ip: str, reverse: str) -> RequestReturnType:
         """
@@ -218,7 +244,7 @@ class ActionInstance:
 
     async def list_instance_reverse_ipv6(self, instance_id: str) -> RequestReturnType:
         """
-        List the reverse IPv6 information for a Vultr Instance. (Vultr specific)
+        list the reverse IPv6 information for a Vultr Instance. (Vultr specific)
         """
         return await Request(ProviderRegistry.get_url_instance_ipv6_reverse(self.provider_url).assign("instance-id", instance_id)) \
             .set_method(HTTPMethod.GET) \
@@ -274,7 +300,7 @@ class ActionInstance:
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
 
-    async def get_instance_upgrades(self, instance_id: str, type: Optional[Literal["all", "applications", "os", "plans"]]) -> RequestReturnType:
+    async def get_instance_upgrades(self, instance_id: str, type: Literal | None"all", "applications", "os", "plans"]]) -> RequestReturnType:
         """
         Get available upgrades for a Vultr Instance. (Vultr specific)
         """
@@ -287,7 +313,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def reboot_instances(self, instance_ids: List[str]) -> RequestReturnType:
+    async def reboot_instances(self, instance_ids: list[str]) -> RequestReturnType:
         """
         Reboot multiple Vultr Instances. (Vultr specific)
         """
@@ -298,7 +324,7 @@ class ActionInstance:
             .set_body(json.dumps({"instance_ids": instance_ids})) \
             .request()
 
-    async def start_instances(self, instance_ids: List[str]) -> RequestReturnType:
+    async def start_instances(self, instance_ids: list[str]) -> RequestReturnType:
         """
         Start multiple Vultr Instances. (Vultr specific)
         """

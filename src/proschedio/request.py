@@ -2,24 +2,26 @@ import json
 import aiohttp
 import logging
 from http import HTTPMethod
-from typing import Optional, TypedDict, Union, Dict, List, cast
+from typing import TypedDict, cast
+
+from rustipy import Err, Ok, Result
 
 logger = logging.getLogger(__name__)
 
 class MetaInfo(TypedDict, total=False):
     total: int
-    links: Dict[str, Optional[str]]
+    links: dict[str, str | None]
 
 class SuccessResponse(TypedDict):
     status_code: int
-    data: Optional[Union[Dict[str, object], List[object]]]
-    meta: Optional[MetaInfo]
+    data: dict[str, object] | list[object] | None
+    meta: MetaInfo | None
 
 class ErrorResponse(TypedDict):
     status_code: int
     error: str
 
-RequestReturnType = Union[SuccessResponse, ErrorResponse]
+RequestReturnType = SuccessResponse | ErrorResponse
 
 class Url:
     def __init__(self, provider: str):
@@ -40,10 +42,10 @@ class Url:
 class Request:
     def __init__(self, url: Url):
         self._url = url.to_str()
-        self._method: Optional[HTTPMethod] = None
-        self._headers: Dict[str, str] = {}
-        self._params: Dict[str, Union[ str, int ]] = {}
-        self._body: Optional[str] = None
+        self._method: HTTPMethod | None = None
+        self._headers: dict[str, str] = {}
+        self._params: dict[str, str | int] = {}
+        self._body: str | None = None
 
     def set_method(self, method: HTTPMethod) -> 'Request':
         self._method = method
@@ -53,7 +55,7 @@ class Request:
         self._headers[key] = value
         return self
     
-    def add_param(self, key: str, value: Union[ str, int ]) -> 'Request':
+    def add_param(self, key: str, value: str | int) -> 'Request':
         self._params[key] = value
         return self
     
@@ -61,10 +63,10 @@ class Request:
         self._body = body
         return self
     
-    async def request(self) -> RequestReturnType:
+    async def request(self) -> Result[SuccessResponse, ErrorResponse]:
         if self._method is None:
             logger.error(f"Request method not set for URL: {self._url}")
-            return ErrorResponse(status_code=0, error="Request method not set")
+            return Err(ErrorResponse(status_code=0, error="Request method not set"))
 
         async with aiohttp.ClientSession() as session:
             try:
@@ -81,10 +83,10 @@ class Request:
 
                     if status == 204:
                         logger.info(f"Request successful (204 No Content): {self._url}")
-                        return SuccessResponse(status_code=status, data=None, meta=None)
+                        return Ok(SuccessResponse(status_code=status, data=None, meta=None))
 
-                    raw_body: Optional[Union[Dict[str, object], List[object]]] = None
-                    parsing_error_message: Optional[str] = None
+                    raw_body: dict[str, object] | list[object] | None = None
+                    parsing_error_message: str | None = None
                     try:
                         raw_body = await response.json(content_type=None)
                         logger.debug(f"Raw API response body: {raw_body}")
@@ -107,10 +109,10 @@ class Request:
                     if 200 <= status < 300:
                         if parsing_error_message is not None:
                             logger.warning(f"Request to {self._url} had status {status} but failed body processing: {parsing_error_message}")
-                            return ErrorResponse(status_code=status, error=parsing_error_message)
+                            return Err(ErrorResponse(status_code=status, error=parsing_error_message))
 
-                        data_payload: Optional[Union[Dict[str, object], List[object]]] = None
-                        meta_payload: Optional[MetaInfo] = None
+                        data_payload: dict[str, object] | list[object] | None = None
+                        meta_payload: MetaInfo | None = None
 
                         if isinstance(raw_body, dict):
                             possible_data_keys = [k for k in raw_body if k != 'meta']
@@ -119,7 +121,7 @@ class Request:
                                 # Check if the payload is a dict or list before assigning
                                 if isinstance(potential_payload, (dict, list)):
                                     # Cast is safe here because we checked the type
-                                    data_payload = cast(Union[Dict[str, object], List[object]], potential_payload)
+                                    data_payload = cast(dict[str, object] | list[object], potential_payload)
                                 elif potential_payload is None:
                                      data_payload = None # Explicitly handle None case
                                 else:
@@ -129,7 +131,7 @@ class Request:
                                 # If multiple keys (or zero keys besides meta), treat the dict itself as payload (excluding meta)
                                 data_payload = {k: v for k, v in raw_body.items() if k != 'meta'}
                             # Safely get meta information
-                            meta_payload = cast(Optional[MetaInfo], raw_body.get("meta"))
+                            meta_payload = cast(MetaInfo | None, raw_body.get("meta"))
                         # Explicitly check if raw_body is a list
                         elif isinstance(raw_body, list):
                             data_payload = raw_body
@@ -141,7 +143,7 @@ class Request:
                             data_payload = None
 
                         logger.info(f"Request successful (Status {status}): {self._url}")
-                        return SuccessResponse(status_code=status, data=data_payload, meta=meta_payload)
+                        return Ok(SuccessResponse(status_code=status, data=data_payload, meta=meta_payload))
 
                     else:
                         error_message_to_return: str
@@ -154,12 +156,12 @@ class Request:
                             error_message_to_return = f"API request failed with status {status}"
 
                         logger.warning(f"Request failed (Status {status}): {self._url}. Error: {error_message_to_return}. Raw Body: {raw_body}")
-                        return ErrorResponse(status_code=status, error=error_message_to_return)
+                        return Err(ErrorResponse(status_code=status, error=error_message_to_return))
 
             except aiohttp.ClientError as client_err:
                 logger.error(f"Network or client error during request to {self._url}: {client_err}", exc_info=True)
-                return ErrorResponse(status_code=0, error=f"Network error: {client_err}")
+                return Err(ErrorResponse(status_code=0, error=f"Network error: {client_err}"))
             except Exception as general_err:
                 logger.error(f"Unexpected error during request execution for {self._url}: {general_err}", exc_info=True)
-                return ErrorResponse(status_code=0, error=f"Unexpected error: {general_err}")
+                return Err(ErrorResponse(status_code=0, error=f"Unexpected error: {general_err}"))
 

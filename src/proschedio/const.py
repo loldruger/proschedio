@@ -1,7 +1,6 @@
-from typing import Optional
 import typing
 
-from request import Url
+from .request import Url
 
 class ProviderRegistry:
     """
@@ -27,7 +26,7 @@ class ProviderRegistry:
         return ProviderRegistry._providers
 
     @staticmethod
-    def get_base_url(provider: str) -> Optional[str]:
+    def get_base_url(provider: str) -> str | None:
         """
         Get the base URL of the current provider.
         """
