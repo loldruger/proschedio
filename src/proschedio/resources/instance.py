@@ -4,7 +4,7 @@ from http import HTTPMethod
 from typing import Any
 
 from ..const import ProviderUrl
-from ..request import Request, RequestReturnType
+from ..request import ErrorResponse, Request, Result, SuccessResponse
 from src.proschedio.resources.instance_base import BaseInstance
 from .instance_config import InstanceConfig
 from ..dataclass import instance as instance_structs
@@ -23,7 +23,7 @@ class ResourceInstance(BaseInstance):
         self.plan = plan
         self.config = config
 
-    async def list(self, filters: instance_structs.ListInstancesData | None) -> RequestReturnType:
+    async def list(self, filters: instance_structs.ListInstancesData | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         List all VPS instances in your account.
         """
@@ -37,7 +37,7 @@ class ResourceInstance(BaseInstance):
 
         return await request.request()
 
-    async def create(self) -> RequestReturnType:
+    async def create(self) -> Result[SuccessResponse, ErrorResponse]:
         """
         Create a new Vultr VPS Instance.
         """
@@ -48,7 +48,7 @@ class ResourceInstance(BaseInstance):
             .set_body(self.config) \
             .request()
 
-    async def get(self, instance_id: str) -> RequestReturnType:
+    async def get(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get information about a Vultr Instance.
         """
@@ -57,7 +57,7 @@ class ResourceInstance(BaseInstance):
             .add_header("Authorization", f"Bearer {os.environ.get("VULTR_API_KEY")}") \
             .request()
 
-    async def update(self, instance_id: str, data: instance_structs.UpdateInstanceData) -> RequestReturnType:
+    async def update(self, instance_id: str, data: instance_structs.UpdateInstanceData) -> Result[SuccessResponse, ErrorResponse]:
         """
         Update information for a Vultr Instance.
         """
@@ -68,7 +68,7 @@ class ResourceInstance(BaseInstance):
             .set_body(self.config) \
             .request()
 
-    async def delete(self, instance_id: str) -> RequestReturnType:
+    async def delete(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Delete a Vultr Instance.
         """

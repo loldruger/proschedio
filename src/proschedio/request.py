@@ -4,7 +4,7 @@ import logging
 from http import HTTPMethod
 from typing import TypedDict, cast
 
-from rustipy import Err, Ok, Result
+from rustipy.result import Err, Ok, Result
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +20,6 @@ class SuccessResponse(TypedDict):
 class ErrorResponse(TypedDict):
     status_code: int
     error: str
-
-RequestReturnType = SuccessResponse | ErrorResponse
 
 class Url:
     def __init__(self, provider: str):

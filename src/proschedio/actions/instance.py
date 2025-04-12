@@ -7,13 +7,13 @@ import os
 from http import HTTPMethod
 from typing import Literal
 
-from ..const import ProviderRegistry, ProviderUrl
-from ..request import Request, RequestReturnType
+from rustipy.result import Result
 
+from ..const import ProviderRegistry, ProviderUrl
+from ..request import Request, SuccessResponse, ErrorResponse
 from ..dataclass import instance as instance_structs
 
 logger = logging.getLogger(__name__)
-
 
 class Action:
     @staticmethod
@@ -24,7 +24,7 @@ class ActionInstance:
     def __init__(self, provider_url: ProviderUrl):
         self.provider_url = provider_url
 
-    async def reinstall_instance(self, instance_id: str, hostname: str | None) -> RequestReturnType:
+    async def reinstall_instance(self, instance_id: str, hostname: str | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         Reinstall a Vultr Instance using an optional `hostname`. (Vultr specific)
         """
@@ -39,7 +39,7 @@ class ActionInstance:
         
         return await request.request()
 
-    async def get_instance_bandwidth(self, instance_id: str, date_range: int | None) -> RequestReturnType:
+    async def get_instance_bandwidth(self, instance_id: str, date_range: int | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get bandwidth information about a Vultr Instance. (Vultr specific)
         """
@@ -54,7 +54,7 @@ class ActionInstance:
         
         return await request.request()
 
-    async def get_instance_neighbors(self, instance_id: str) -> RequestReturnType:
+    async def get_instance_neighbors(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get a list of other instances in the same location as this Vultr Instance. (Vultr specific)
         """
@@ -65,7 +65,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def list_instance_vpcs(self, instance_id: str, per_page: int | None, cursor: str | None) -> RequestReturnType:
+    async def list_instance_vpcs(self, instance_id: str, per_page: int | None, cursor: str | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         list the VPCs for a Vultr Instance. (Vultr specific)
         """
@@ -81,7 +81,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def get_instance_iso_status(self, instance_id: str) -> RequestReturnType:
+    async def get_instance_iso_status(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get the ISO status for a Vultr Instance. (Vultr specific)
         """
@@ -92,7 +92,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def attach_instance_iso(self, instance_id: str, iso_id: str) -> RequestReturnType:
+    async def attach_instance_iso(self, instance_id: str, iso_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Attach an ISO to a Vultr Instance. (Vultr specific)
         """
@@ -105,7 +105,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def detach_instance_iso(self, instance_id: str) -> RequestReturnType:
+    async def detach_instance_iso(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Detach the ISO from a Vultr Instance. (Vultr specific)
         """
@@ -116,7 +116,7 @@ class ActionInstance:
                 .set_body(json.dumps({})) \
                 .request()
         )
-    async def attach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
+    async def attach_instance_vpc(self, instance_id: str, vpc_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Attach a VPC to a Vultr Instance. (Vultr specific)
         """
@@ -129,7 +129,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def detach_instance_vpc(self, instance_id: str, vpc_id: str) -> RequestReturnType:
+    async def detach_instance_vpc(self, instance_id: str, vpc_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Detach a VPC from a Vultr Instance. (Vultr specific)
         """
@@ -142,7 +142,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def get_instance_backup_schedule(self, instance_id: str) -> RequestReturnType:
+    async def get_instance_backup_schedule(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get the backup schedule for a Vultr Instance. (Vultr specific)
         """
@@ -153,7 +153,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def set_instance_backup_schedule(self, instance_id: str, data: instance_structs.SetInstanceBackupScheduleData) -> RequestReturnType:
+    async def set_instance_backup_schedule(self, instance_id: str, data: instance_structs.SetInstanceBackupScheduleData) -> Result[SuccessResponse, ErrorResponse]:
         """
         Set the backup schedule for a Vultr Instance. (Vultr specific)
         """
@@ -166,7 +166,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def restore_instance(self, instance_id: str, backup_id: str | None, snapshot_id: str | None) -> RequestReturnType:
+    async def restore_instance(self, instance_id: str, backup_id: str | None, snapshot_id: str | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         Restore a Vultr Instance from a backup or snapshot. (Vultr specific)
         """
@@ -185,7 +185,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def list_instance_ipv4(self, instance_id: str, public_network: bool | None, per_page: int | None, cursor: str | None) -> RequestReturnType:
+    async def list_instance_ipv4(self, instance_id: str, public_network: bool | None, per_page: int | None, cursor: str | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         list the IPv4 information for a Vultr Instance. (Vultr specific)
         """
@@ -204,7 +204,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def create_instance_ipv4(self, instance_id: str, reboot: bool | None) -> RequestReturnType:
+    async def create_instance_ipv4(self, instance_id: str, reboot: bool | None) -> Result[SuccessResponse, ErrorResponse]:
         """
         Create an IPv4 address for a Vultr Instance. (Vultr specific)
         """
@@ -220,7 +220,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def get_instance_ipv6(self, instance_id: str) -> RequestReturnType:
+    async def get_instance_ipv6(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get the IPv6 information for a Vultr Instance. (Vultr specific)
         """
@@ -231,7 +231,7 @@ class ActionInstance:
                 .request()
         )
 
-    async def create_instance_reverse_ipv4(self, instance_id: str, ip: str, reverse: str) -> RequestReturnType:
+    async def create_instance_reverse_ipv4(self, instance_id: str, ip: str, reverse: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Create a reverse IPv4 entry for a Vultr Instance. (Vultr specific)
         """
@@ -242,7 +242,7 @@ class ActionInstance:
             .set_body(json.dumps({"ip": ip, "reverse": reverse})) \
             .request()
 
-    async def list_instance_reverse_ipv6(self, instance_id: str) -> RequestReturnType:
+    async def list_instance_reverse_ipv6(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         list the reverse IPv6 information for a Vultr Instance. (Vultr specific)
         """
@@ -251,7 +251,7 @@ class ActionInstance:
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
 
-    async def create_instance_reverse_ipv6(self, instance_id: str, ip: str, reverse: str) -> RequestReturnType:
+    async def create_instance_reverse_ipv6(self, instance_id: str, ip: str, reverse: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Create a reverse IPv6 entry for a Vultr Instance. (Vultr specific)
         """
@@ -262,7 +262,7 @@ class ActionInstance:
             .set_body(json.dumps({"ip": ip, "reverse": reverse})) \
             .request()
 
-    async def set_instance_reverse_ipv4(self, instance_id: str, ip: str) -> RequestReturnType:
+    async def set_instance_reverse_ipv4(self, instance_id: str, ip: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Set a reverse DNS entry for an IPv4 address of a Vultr Instance. (Vultr specific)
         """
@@ -273,7 +273,7 @@ class ActionInstance:
             .set_body(json.dumps({"ip": ip})) \
             .request()
 
-    async def delete_instance_reverse_ipv6(self, instance_id: str, ipv6: str) -> RequestReturnType:
+    async def delete_instance_reverse_ipv6(self, instance_id: str, ipv6: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Delete the reverse IPv6 for a Vultr Instance. (Vultr specific)
         """
@@ -282,7 +282,7 @@ class ActionInstance:
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
 
-    async def halt_instance(self, instance_id: str) -> RequestReturnType:
+    async def halt_instance(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Halt a Vultr Instance. (Vultr specific)
         """
@@ -291,7 +291,7 @@ class ActionInstance:
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
 
-    async def get_instance_user_data(self, instance_id: str) -> RequestReturnType:
+    async def get_instance_user_data(self, instance_id: str) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get the user data for a Vultr Instance. (Vultr specific)
         """
@@ -300,7 +300,7 @@ class ActionInstance:
             .add_header("Authorization", f"Bearer {os.environ.get('VULTR_API_KEY')}") \
             .request()
 
-    async def get_instance_upgrades(self, instance_id: str, type: Literal | None"all", "applications", "os", "plans"]]) -> RequestReturnType:
+    async def get_instance_upgrades(self, instance_id: str, type: Literal | None"all", "applications", "os", "plans"]]) -> Result[SuccessResponse, ErrorResponse]:
         """
         Get available upgrades for a Vultr Instance. (Vultr specific)
         """
@@ -313,7 +313,7 @@ class ActionInstance:
 
         return await request.request()
 
-    async def reboot_instances(self, instance_ids: list[str]) -> RequestReturnType:
+    async def reboot_instances(self, instance_ids: list[str]) -> Result[SuccessResponse, ErrorResponse]:
         """
         Reboot multiple Vultr Instances. (Vultr specific)
         """
@@ -324,7 +324,7 @@ class ActionInstance:
             .set_body(json.dumps({"instance_ids": instance_ids})) \
             .request()
 
-    async def start_instances(self, instance_ids: list[str]) -> RequestReturnType:
+    async def start_instances(self, instance_ids: list[str]) -> Result[SuccessResponse, ErrorResponse]:
         """
         Start multiple Vultr Instances. (Vultr specific)
         """
